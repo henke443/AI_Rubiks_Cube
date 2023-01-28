@@ -89,8 +89,8 @@ for x in range(0, 300):
 print("Cube state at done:")
 base_env.cube.print()
 
-exit()
-
+# exit()
+""" 
 sys.modules["gym"] = gym
 
 
@@ -129,3 +129,4 @@ cube = Cube()
 cube.print()
 cube.print("both")
 exit()
+ """
