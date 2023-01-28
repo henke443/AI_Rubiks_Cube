@@ -11,29 +11,32 @@ class Cube:
 
     # Front
 
-    def _rot_face(self, layer):
+    def _rot_face(self, cube_face):
         self.total_moves += 1
-        old_left = self.get_strip(layer, "col", 0)
-        self.set_strip(layer, "col", 0, self.get_strip(layer, "row", 2))
-        self.set_strip(layer, "row", 2, list(
-            reversed(self.get_strip(layer, "col", 2))
+        old_left = self.get_strip(cube_face, "col", 0)
+        self.set_strip(cube_face, "col", 0,
+                       self.get_strip(cube_face, "row", 2))
+        self.set_strip(cube_face, "row", 2, list(
+            reversed(self.get_strip(cube_face, "col", 2))
         ))
-        self.set_strip(layer, "col", 2, self.get_strip(layer, "row", 0))
-        self.set_strip(layer, "row", 0, list(
+        self.set_strip(cube_face, "col", 2,
+                       self.get_strip(cube_face, "row", 0))
+        self.set_strip(cube_face, "row", 0, list(
             reversed(old_left)
         ))
 
-    def _rot_face_p(self, layer):
+    def _rot_face_p(self, cube_face):
         self.total_moves += 1
-        old_left = self.get_strip(layer, "col", 0)
-        self.set_strip(layer, "col", 0, list(
-            reversed(self.get_strip(layer, "row", 0))
+        old_left = self.get_strip(cube_face, "col", 0)
+        self.set_strip(cube_face, "col", 0, list(
+            reversed(self.get_strip(cube_face, "row", 0))
         ))
-        self.set_strip(layer, "row", 0, self.get_strip(layer, "col", 2))
-        self.set_strip(layer, "col", 2, list(
-            reversed(self.get_strip(layer, "row", 2))
+        self.set_strip(cube_face, "row", 0,
+                       self.get_strip(cube_face, "col", 2))
+        self.set_strip(cube_face, "col", 2, list(
+            reversed(self.get_strip(cube_face, "row", 2))
         ))
-        self.set_strip(layer, "row", 2, old_left)
+        self.set_strip(cube_face, "row", 2, old_left)
 
     def F(self) -> Cube:
         self._rot_face("front")
@@ -191,24 +194,24 @@ class Cube:
         if colors == True:
             space = 15
 
-        print(self._inset_fmt(self.format_layer(0, colors), space), end="")
+        print(self._inset_fmt(self.format_cube_face(0, colors), space), end="")
         print(
             self._stitch_fmt(
                 self._stitch_fmt(
-                    self._stitch_fmt(self.format_layer(1, colors),
-                                     self.format_layer(2, colors)),
-                    self.format_layer(3, colors)
+                    self._stitch_fmt(self.format_cube_face(1, colors),
+                                     self.format_cube_face(2, colors)),
+                    self.format_cube_face(3, colors)
                 ),
-                self.format_layer(4, colors)
+                self.format_cube_face(4, colors)
             ),
             end="")
 
-        print(self._inset_fmt(self.format_layer(5, colors), space))
+        print(self._inset_fmt(self.format_cube_face(5, colors), space))
 
-    def _layer_name_to_index(self, layer: str | int) -> int:
-        index = layer
-        if type(layer) == str:
-            match layer.strip().lower():
+    def _cube_face_name_to_index(self, cube_face: str | int) -> int:
+        index = cube_face
+        if type(cube_face) == str:
+            match cube_face.strip().lower():
                 case "top":
                     index = 0
                 case "up":
@@ -227,12 +230,12 @@ class Cube:
                     index = 5
         return index
 
-    def _layer_index_to_name(self, layer: int) -> str:
+    def _cube_face_index_to_name(self, cube_face: int) -> str:
         name = ""
-        if (type(layer) == int):
-            match layer:
+        if (type(cube_face) == int):
+            match cube_face:
                 case 0:
-                    name = "Top  "
+                    name = "Up   "
                 case 1:
                     name = "Left "
                 case 2:
@@ -257,12 +260,12 @@ class Cube:
 
         return nL
 
-    def format_layer(self, n: int | str, show_colors: bool | str = True) -> str:
+    def format_cube_face(self, n: int | str, show_colors: bool | str = True) -> str:
         show_both = False
         if show_colors == "both":
             show_both = True
             show_colors = False
-        L = self.layer(n)
+        L = self.cube_face(n)
         # len(str(max(L))) if not show_colors else 1
         maxL = 1 if show_colors else 2
 
@@ -273,7 +276,7 @@ class Cube:
         )
 
         ret = "║ " + \
-            self._layer_index_to_name(n) + \
+            self._cube_face_index_to_name(n) + \
             " ".join([""]*(6 if show_colors else 7))+spaces(maxL) + "║" + \
             "\n"+"┌"+"──".join([""]*(7 if show_colors else 8))+"┐"+"\n"
 
@@ -295,22 +298,22 @@ class Cube:
         ret += "└" + "──".join([""]*(7 if show_colors else 8)) + "┘\n"
         return ret
 
-    def layer(self, n: int | str) -> list[int]:
-        n = self._layer_name_to_index(n)
+    def cube_face(self, n: int | str) -> list[int]:
+        n = self._cube_face_name_to_index(n)
         ret = []
         for x in range((n+1)*9-9, (n+1)*9):
             ret.append(self._data[x])
         return ret
 
-    def set(self, layer: int | str, index: int, val: int) -> None:
-        layer = self._layer_name_to_index(layer)
+    def set(self, cube_face: int | str, index: int, val: int) -> None:
+        cube_face = self._cube_face_name_to_index(cube_face)
 
-        self._data[(layer+1)*9-9+index] = val
+        self._data[(cube_face+1)*9-9+index] = val
 
-    def get(self, layer: int | str, index: int) -> None:
-        layer = self._layer_name_to_index(layer)
+    def get(self, cube_face: int | str, index: int) -> None:
+        cube_face = self._cube_face_name_to_index(cube_face)
 
-        return self._data[(layer+1)*9-9+index]
+        return self._data[(cube_face+1)*9-9+index]
 
     def _column_to_bool(self, column: bool | str) -> bool:
         if type(column) == str:
@@ -324,22 +327,22 @@ class Cube:
                 column = False
         return column
 
-    def get_strip(self, layer: int | str, column: bool | str, index: int) -> list[int]:
+    def get_strip(self, cube_face: int | str, column: bool | str, index: int) -> list[int]:
         column = self._column_to_bool(column)
-        layer = self._layer_name_to_index(layer)
+        cube_face = self._cube_face_name_to_index(cube_face)
 
-        L_offset = (layer+1)*9-9
+        L_offset = (cube_face+1)*9-9
 
         if not column:
             return self._data[L_offset + 3*(index+1) - 3: L_offset + 3*(index+1)]
         else:
             return [self._data[L_offset+3*x+index] for x in range(0, 3)]
 
-    def set_strip(self, layer: int | str, column: bool | str, index: int, values: list[int]) -> None:
+    def set_strip(self, cube_face: int | str, column: bool | str, index: int, values: list[int]) -> None:
         column = self._column_to_bool(column)
-        layer = self._layer_name_to_index(layer)
+        cube_face = self._cube_face_name_to_index(cube_face)
 
-        L_offset = (layer+1)*9-9
+        L_offset = (cube_face+1)*9-9
 
         if not column:
             self._data[
