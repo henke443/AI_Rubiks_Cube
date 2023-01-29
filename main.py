@@ -46,7 +46,7 @@ class CustomCallback(BaseCallback):
         """
         This method is called before the first rollout starts.
         """
-        self.callback(self.num_timesteps, self.n_calls,
+        self.callback("training start", self.num_timesteps, self.n_calls,
                       self.locals["total_timesteps"], self.locals)
 
     def _on_rollout_start(self) -> None:
@@ -55,6 +55,9 @@ class CustomCallback(BaseCallback):
         using the current policy.
         This event is triggered before collecting new samples.
         """
+        self.callback("rollout start", self.num_timesteps, self.n_calls,
+                      self.locals["total_timesteps"], self.locals)
+
         pass
 
     def _on_step(self) -> bool:
