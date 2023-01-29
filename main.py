@@ -136,31 +136,3 @@ model.learn(total_timesteps=total_timesteps, log_interval=20,
             callback=CustomCallback(callback, verbose=0)
             )
 model.save("tqc_rubiks")
-
-del model  # remove to demonstrate saving and loading
-
-model = TQC.load("tqc_rubiks")
-
-successes = 0
-tries = 100
-for i in range(0, tries):
-    obs = base_env.reset({"steps": 1, "total_steps": 1})
-    print(i, "First cube state:")
-    base_env.render()
-    for x in range(0, 50):
-        action, _states = model.predict(obs, deterministic=False)
-        obs, reward, done, info = base_env.step(action)
-        if x % 20 == 0:
-            print(i, x,  "reward:", reward)
-            base_env.render()
-        if done:
-            successes += 1
-            print(i, x, "Done!")
-            time.sleep(2)
-            score = base_env._get_info()
-            print("score:", score)
-            print("Cube state at done:")
-            obs = base_env.reset({"steps": 1, "total_steps": 1})
-            continue
-
-print("Successes:", successes, "tries", tries)
