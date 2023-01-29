@@ -39,6 +39,8 @@ class RubiksEnv(gym.Env):
             0, 5, shape=(54,), dtype=np.int8
         )
 
+        self._has_reset_logged = False
+
     def _vector_action_to_action(self, vec):
         # val = next(([i, x] for i, x in enumerate(vec) if x), None)
         maxv = np.max(vec)
@@ -158,8 +160,11 @@ class RubiksEnv(gym.Env):
                 ) * self.n_scramble_moves
             )
 
-            if options["steps"] % 500 == 0:
-                print("reset() steps extra_scramble_moves:")
+            if not self._has_reset_logged and options["steps"] % 500 < 100:
+                self._has_reset_logged = True
+                print("reset() steps extra_scramble_moves:", options["steps"])
+            else:
+                self._has_reset_logged = False
 
         self.cube = Cube()
 
