@@ -66,3 +66,4 @@ for i in range(0, 10):
             print("score:", score)
             print("Cube state at done:")
             obs = base_env.reset()
+            exit()
