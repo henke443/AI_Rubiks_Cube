@@ -13,7 +13,7 @@ import torch as th
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=50)
+wrapped_env = TimeLimit(base_env, max_episode_steps=30)
 
 
 param_noise = None
@@ -42,18 +42,18 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=1e4+1e5, log_interval=10, progress_bar=True)
+model.learn(total_timesteps=1e4+1e5, log_interval=15, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
 
 model = TQC.load("tqc_rubiks")
 
-for i in range(0, 10):
+for i in range(0, 100):
     obs = base_env.reset()
     print(i, "First cube state:")
     base_env.render()
-    for x in range(0, 100000):
+    for x in range(0, 30):
         action, _states = model.predict(obs, deterministic=True)
         obs, reward, done, info = base_env.step(action)
         if x % 1000 == 0:
