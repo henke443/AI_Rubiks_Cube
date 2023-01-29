@@ -10,46 +10,19 @@ import numpy as np
 import time
 import torch as th
 
-
-# import gym
-# import numpy as np
-
-# from sb3_contrib import TQC
-
-# env = gym.make("Pendulum-v1")
-
-# policy_kwargs = dict(n_critics=2, n_quantiles=25)
-# model = TQC("MlpPolicy", env, top_quantiles_to_drop_per_net=2,
-#            verbose = 1, policy_kwargs = policy_kwargs)
-# model.learn(total_timesteps=3000, log_interval=1, progress_bar=True)
-# model.save("tqc_pendulum")
-
-# del model  # remove to demonstrate saving and loading
-
-# model = TQC.load("tqc_pendulum")
-
-# obs = env.reset()
-# while True:
-#    action, _states = model.predict(obs, deterministic=True)
-#    obs, reward, done, info = env.step(action)
-#    env.render()
-#    if done:
-#        obs = env.reset()
-# exit()
-# import gymnasium as gym
-# import sys
-# sys.modules["gym"] = gym
-
-
-# env = gym.make("Pendulum-v1")
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=100)
+wrapped_env = TimeLimit(base_env, max_episode_steps=200)
 
 
-policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
-                     # net_arch=dict(pi=[32, 32], vf=[32, 32], qf=[32, 32]))
+param_noise = None
+action_noise = None
+
+policy_kwargs = dict(n_critics=2, n_quantiles=25, param_noise=param_noise, action_noise=action_noise,  # activation_fn=th.nn.ReLU,
+                     # vf doesnt exist on TQC (?)
+                     # pi = actor network, qf = critic network, vf = value network
+                     net_arch=dict(pi=[256, 256], qf=[512, 512])
                      # net_arch=[32, 32]
                      )
 
