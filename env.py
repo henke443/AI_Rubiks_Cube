@@ -39,15 +39,27 @@ class RubiksEnv(gym.Env):
 
     def _vector_action_to_action(self, vec):
         # val = next(([i, x] for i, x in enumerate(vec) if x), None)
-        action_moves = []
-        for v in ([i, x] for i, x in enumerate(vec) if x):
-            _move = self.base_moves[v[0] % self.moves_per_step]
-            if v[1] < 0:
-                _move += "'"
-                action_moves.append(_move)
-            if v[1] > 0:
-                action_moves.append(_move)
-        return " ".join(action_moves)
+        maxv = np.max(vec)
+        minv = np.min(vec)
+
+        # print("minv loc:", np.where(vec == maxv)[0][0])
+        # print("action vec:", vec)
+        move = self.base_moves[
+            np.where(vec == maxv)[0][0]
+        ] if abs(maxv) >= abs(minv) else self.base_moves[
+            np.where(vec == minv)[0][0]
+        ] + "'"
+
+        # print("move:", move, "\n")
+        # action_moves = []
+        # for v in ([i, x] for i, x in enumerate(vec) if x):
+        #    _move = self.base_moves[v[0] % self.moves_per_step]
+        #    if v[1] < 0:
+        #        _move += "'"
+        #        action_moves.append(_move)
+        #    if v[1] > 0:
+        #        action_moves.append(_move)
+        return move  # " ".join(action_moves)
 
     def _get_obs(self):
         color_map = {
