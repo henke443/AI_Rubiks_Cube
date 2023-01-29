@@ -97,7 +97,7 @@ class RubiksEnv(gym.Env):
             # Remove scramble_distance from score
             # if scramble is solved (scramble_distance = 0)
             # and score is 1, then remove 1 and score is 0
-            score = score - (1-self._scramble_distance)
+            # score = score - (1-self._scramble_distance)
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
             # score = max(0, min(1, score))
 
@@ -143,8 +143,8 @@ class RubiksEnv(gym.Env):
 
         # print("reset options:", options)
 
-        if options == None:
-            print("reset called without options:", options)
+        # if options == None:
+        #    print("reset called without options:", options)
         # else:
         #    print("reset options:", options)
 
@@ -161,7 +161,6 @@ class RubiksEnv(gym.Env):
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
-        self._scramble_distance = 1
         self._scramble_distance = self._get_info()["distance"]
 
         observation = self._get_obs()
