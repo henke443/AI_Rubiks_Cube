@@ -42,7 +42,7 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=50000, log_interval=5, progress_bar=True)
+model.learn(total_timesteps=50000, log_interval=1, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
