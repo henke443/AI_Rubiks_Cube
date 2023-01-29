@@ -107,7 +107,7 @@ class RubiksEnv(gym.Env):
         return {
             "distance": distance,
             # "speed": speed,
-            "score": score
+            "score": 1 if score == 1 else 0
         }
 
     def step(self, action):
@@ -128,8 +128,8 @@ class RubiksEnv(gym.Env):
         # it works differently, where you return terminated, truncated, info instead of terminated, info.
         # I tried using TimeLimit which should theoretically be a better approach but then my model suicides and
         # makes a policy that is as shitty as possible, not sure why.
-        if self.terminate_after_n_moves != False and self.cube.total_moves >= self.terminate_after_n_moves+self.n_scramble_moves:
-            terminated = True
+        # if self.terminate_after_n_moves != False and self.cube.total_moves >= self.terminate_after_n_moves+self.n_scramble_moves:
+        #    terminated = True
 
         # if self.render_mode == "human":
         #    self._render_frame()
@@ -141,7 +141,7 @@ class RubiksEnv(gym.Env):
         # super().reset(seed=seed)
         # random.seed(seed)
 
-        print("reset options:", options)
+        # print("reset options:", options)
 
         self.cube = Cube()
 
@@ -149,7 +149,7 @@ class RubiksEnv(gym.Env):
 
         scramble_moves = " ".join(
             random.choices(
-                self.all_moves, k=self.n_scramble_moves
+                self.all_moves, k=np.random.randint(1, self.n_scramble_moves)
             )
         )
 
