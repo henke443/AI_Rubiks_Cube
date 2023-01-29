@@ -124,6 +124,9 @@ def callback(options):
     # wrapped_env.reset(options=options)
     if "episode" in options["infos"][0]:
         model.env.env_method("reset", options=options)
+        print("callback options:", options)
+    elif len(options["infos"][0]):
+        print("wtf?", options)
 
 
 model.learn(total_timesteps=2e4, log_interval=20,
