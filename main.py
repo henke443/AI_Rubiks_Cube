@@ -2,7 +2,7 @@ import env
 from c2 import Cube
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.ddpg.policies import MlpPolicy
-# from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
+from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
 from sb3_contrib import TQC
@@ -22,18 +22,23 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[256, 512, 256], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
+action_noise = OrnsteinUhlenbeckActionNoise(
+    mean=np.zeros(env.action_space.shape[-1]), sigma=float(0.5) * np.ones(env.action_space.shape[-1]))
+
+
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
 model = TQC("MlpPolicy", wrapped_env,
-            top_quantiles_to_drop_per_net=2,
+            top_quantiles_to_drop_per_net=3,
             ent_coef="auto",
             verbose=3,
+            action_noise=action_noise,
             policy_kwargs=policy_kwargs,
-            learning_rate=.0003,
-            learning_starts=50,
+            learning_rate=.0009,
+            learning_starts=1000,
             gamma=0.99,
             tau=0.005)
 
