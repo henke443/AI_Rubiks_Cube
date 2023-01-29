@@ -136,7 +136,7 @@ class RubiksEnv(gym.Env):
 
         return observation, score, terminated, {}  # truncated, {}
 
-    def reset(self, options):
+    def reset(self, options=None):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
