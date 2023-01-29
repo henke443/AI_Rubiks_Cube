@@ -89,7 +89,7 @@ class CustomCallback(BaseCallback):
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=10)
+wrapped_env = TimeLimit(base_env, max_episode_steps=3)
 
 
 param_noise = None
