@@ -88,7 +88,7 @@ class RubiksEnv(gym.Env):
         # if hasattr(self, "_scramble_score"):
         # score = score - self._scramble_score
 
-        score = np.clip(score, 0, 1)
+        score = min(1, max(0, score))
 
         return {
             "score": score
