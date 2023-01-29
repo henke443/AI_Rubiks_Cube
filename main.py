@@ -13,7 +13,7 @@ import torch as th
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=1e4)
+wrapped_env = TimeLimit(base_env, max_episode_steps=1e3)
 
 
 param_noise = None
