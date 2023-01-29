@@ -40,6 +40,7 @@ class RubiksEnv(gym.Env):
         )
 
         self._has_reset_logged = False
+        self._solved_before = 0
 
     def _vector_action_to_action(self, vec):
         # val = next(([i, x] for i, x in enumerate(vec) if x), None)
@@ -105,13 +106,14 @@ class RubiksEnv(gym.Env):
 
         if score == 1:
             print("Solved once!")
+            self._solved_before += 1
         if score < -1 or score > 1:
             print("WTF:", score, distance)
             exit()
         return {
             "distance": distance,
             # "speed": speed,
-            "score": 1 if score == 1 else 0
+            "score": self._solved_before
         }
 
     def step(self, action):
@@ -144,6 +146,8 @@ class RubiksEnv(gym.Env):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
+
+        self._solved_before = 0
 
         # print("reset options:", options)
         extra_scramble_moves = 0
