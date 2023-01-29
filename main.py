@@ -66,6 +66,8 @@ class CustomCallback(BaseCallback):
 
         :return: (bool) If the callback returns False, training is aborted early.
         """
+        print("_on_step:", self.locals, self.globals)
+
         return True
 
     def _on_rollout_end(self) -> None:
