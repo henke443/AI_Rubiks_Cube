@@ -2,7 +2,7 @@ import env
 from c2 import Cube
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.ddpg.policies import MlpPolicy
-from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
+from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
 from sb3_contrib import TQC
