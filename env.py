@@ -45,8 +45,6 @@ class RubiksEnv(gym.Env):
         maxv = np.max(vec)
         minv = np.min(vec)
 
-        # print("minv loc:", np.where(vec == maxv)[0][0])
-        # print("action vec:", vec)
         move = self.base_moves[
             np.where(vec == maxv)[0][0]
         ] if abs(maxv) >= abs(minv) else self.base_moves[

@@ -13,7 +13,7 @@ import torch as th
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=200)
+wrapped_env = TimeLimit(base_env, max_episode_steps=10)
 
 
 param_noise = None
@@ -52,13 +52,13 @@ model = TQC.load("tqc_rubiks")
 for i in range(0, 10):
     obs = base_env.reset()
     print(i, "First cube state:")
-    base_env.cube.print()
+    base_env.render()
     for x in range(0, 300):
         action, _states = model.predict(obs, deterministic=True)
         obs, reward, done, info = base_env.step(action)
+        print(i, x,  "reward:", reward)
         if x % 50 == 0:
-            print(i, x,  "reward:", reward)
-            base_env.cube.print()
+            base_env.render()
         if done:
             print(i, x, "Done!")
             time.sleep(2)
@@ -66,46 +66,3 @@ for i in range(0, 10):
             print("score:", score)
             print("Cube state at done:")
             obs = base_env.reset()
-
-
-# exit()
-""" 
-sys.modules["gym"] = gym
-
-
-env = env.RubiksEnv(moves_per_step=1)
-check_env(env)
-
-# Define and Train the agent
-model = A2C('CnnPolicy', env).learn(total_timesteps=1000)
-
-
-env = gym.make('MountainCarContinuous-v0')
-
-# the noise objects for DDPG
-n_actions = env.action_space.shape[-1]
-param_noise = None
-action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(n_actions), sigma=float(0.5) * np.ones(n_actions))
-
-model = DDPG(MlpPolicy, env, verbose=1,
-             param_noise=param_noise, action_noise=action_noise)
-model.learn(total_timesteps=400000)
-model.save("ddpg_mountain")
-
-del model  # remove to demonstrate saving and loading
-
-model = DDPG.load("ddpg_mountain")
-
-obs = env.reset()
-while True:
-    action, _states = model.predict(obs)
-    obs, rewards, dones, info = env.step(action)
-    env.render()
-
-
-cube = Cube()
-cube.print()
-cube.print("both")
-exit()
- """
