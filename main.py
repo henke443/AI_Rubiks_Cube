@@ -86,6 +86,8 @@ class CustomCallback(BaseCallback):
         pass
 
 
+total_timesteps = 1e5
+
 base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=10)
 check_env(base_env)
 
@@ -129,7 +131,7 @@ def callback(options):
         print("wtf?", options)
 
 
-model.learn(total_timesteps=1e4, log_interval=20,
+model.learn(total_timesteps=total_timesteps, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
