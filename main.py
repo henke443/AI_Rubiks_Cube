@@ -22,7 +22,7 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[256, 256, 128], qf=[512, 512, 512])
+                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
@@ -42,7 +42,15 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=1e4+1e5, log_interval=20, progress_bar=True)
+
+def callback(**kwargs):
+    print("callback kwargs:", kwargs)
+
+
+model.learn(total_timesteps=1e4+1e5, log_interval=20, progress_bar=True, callback={
+    "on_training_start": callback
+    "on_training_end": callback
+})
 model.save("tqc_rubiks")
 
 
