@@ -78,7 +78,7 @@ class RubiksEnv(gym.Env):
         current = self._get_obs()
         # print("Current:", current)
 
-        score = (
+        distance = 1-(
             sum([
                 1 if v == current[i] else 0
                 for i, v in enumerate(solved)
@@ -88,9 +88,15 @@ class RubiksEnv(gym.Env):
         # if hasattr(self, "_scramble_score"):
         # score = score - self._scramble_score
 
-        score = min(1, max(0, score))
+        # distance = min(1, max(0, distance))
+
+        speed = 1/self.cube.total_moves
+
+        score = (speed + (1-distance))/2
 
         return {
+            "distance": distance,
+            "speed": speed,
             "score": score
         }
 
@@ -104,7 +110,7 @@ class RubiksEnv(gym.Env):
         info = self._get_info()
 
         # An episode is done if cube is solved
-        terminated = info["score"] == 1  # - self._scramble_score
+        terminated = info["distance"] == 0  # - self._scramble_score
 
         score = info["score"]
 
