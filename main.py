@@ -61,7 +61,7 @@ class CustomCallback(BaseCallback):
             "steps": self.num_timesteps,
             "calls": self.n_calls,
             "total_steps": self.locals["total_timesteps"],
-            "learning_starts": self.locals["learning_starts"]
+            "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None
         })
 
         pass
