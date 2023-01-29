@@ -22,7 +22,7 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[512, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[256, 256, 128], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
@@ -42,7 +42,7 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=1e4+6e4, log_interval=10, progress_bar=True)
+model.learn(total_timesteps=1e4+1e5, log_interval=10, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
