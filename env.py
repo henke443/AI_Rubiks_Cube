@@ -85,15 +85,18 @@ class RubiksEnv(gym.Env):
             ])
         )**2 / len(solved)**2
 
-        # if hasattr(self, "_scramble_score"):
-        # score = score - self._scramble_score
-
         # distance = min(1, max(0, distance))
 
         speed = 1/self.cube.total_moves
 
         # score = speed * 0.1 + (1-distance) * 0.9
-        score = 1-distance
+        score = 1-distance  # score of 1 when distance is 0 = solved
+
+        if hasattr(self, "_scramble_distance"):
+            # Remove scramble_distance from score
+            # if scramble is solved (scramble_distance = 0)
+            # and score is 1, then remove 1 and score is 0
+            score = score - (1-self._scramble_distance)
 
         return {
             "distance": distance,
@@ -111,7 +114,7 @@ class RubiksEnv(gym.Env):
         info = self._get_info()
 
         # An episode is done if cube is solved
-        terminated = info["distance"] == 0  # - self._scramble_score
+        terminated = info["distance"] == 0 + self._scramble_distance
 
         score = info["score"]
 
@@ -144,8 +147,8 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(scramble_moves)
 
-        # self._scramble_score = 0
-        # self._scramble_score = self._get_info()["score"]
+        # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
+        self._scramble_distance = self._get_info()["distance"]
 
         observation = self._get_obs()
         # info = self._get_info()
