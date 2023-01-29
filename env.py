@@ -144,9 +144,10 @@ class RubiksEnv(gym.Env):
         # print("reset options:", options)
         extra_scramble_moves = 0
         if options == None:
-            print("reset called without options:", options)
+            pass
+            # print("reset called without options:", options)
         else:
-            print("reset options:", options)
+            # print("reset options:", options)
             progress_moves = np.floor((options["steps"] / options["total_steps"])
                                       * self.n_scramble_moves)
             if progress_moves > 2:
