@@ -86,7 +86,7 @@ class RubiksEnv(gym.Env):
                 1 if v == current[i] else 0
                 for i, v in enumerate(solved)
             ])
-        ) / len(solved)  # was ... **2 / ... **2
+        )**2 / len(solved)**2  # was ... **2 / ... **2
 
         if hasattr(self, "_scramble_score"):
             score = score - self._scramble_score
