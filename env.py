@@ -106,7 +106,7 @@ class RubiksEnv(gym.Env):
 
         if score == 1:
             print("Solved once!")
-            self._solved_before += 1
+            self._solved_before = 1
         if score < -1 or score > 1:
             print("WTF:", score, distance)
             exit()
