@@ -92,7 +92,8 @@ class RubiksEnv(gym.Env):
 
         speed = 1/self.cube.total_moves
 
-        score = speed * 0.1 + (1-distance) * 0.9
+        # score = speed * 0.1 + (1-distance) * 0.9
+        score = 1-distance
 
         return {
             "distance": distance,
