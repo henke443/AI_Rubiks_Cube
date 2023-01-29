@@ -53,6 +53,8 @@ class CustomCallback(BaseCallback):
             "calls": self.n_calls,
             "total_steps": self.locals["total_timesteps"],
             "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None
+            "rewards": self.locals["rewards"] if "rewards" in self.locals else None
+            "infos": self.locals["infos"] if "infos" in self.locals else None
         })
 
         pass
@@ -66,7 +68,7 @@ class CustomCallback(BaseCallback):
 
         :return: (bool) If the callback returns False, training is aborted early.
         """
-        print("_on_step:", self.locals, self.globals)
+        # print("_on_step:", self.locals, self.globals)
 
         return True
 
