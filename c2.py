@@ -211,41 +211,33 @@ class Cube:
     def _cube_face_name_to_index(self, cube_face: str | int) -> int:
         index = cube_face
         if type(cube_face) == str:
-            match cube_face.strip().lower():
-                case "top":
-                    index = 0
-                case "up":
-                    index = 0
-                case "left":
-                    index = 1
-                case "back":
-                    index = 2
-                case "right":
-                    index = 3
-                case "front":
-                    index = 4
-                case "down":
-                    index = 5
-                case "bottom":
-                    index = 5
+            matchDict = {
+                "top": 0,
+                "up": 0,
+                "left": 1,
+                "back": 2,
+                "right": 3,
+                "front": 4,
+                "down": 5,
+                "bottom": 5
+            }
+            index = matchDict[cube_face.strip().lower()]
+
         return index
 
     def _cube_face_index_to_name(self, cube_face: int) -> str:
         name = ""
         if (type(cube_face) == int):
-            match cube_face:
-                case 0:
-                    name = "Up   "
-                case 1:
-                    name = "Left "
-                case 2:
-                    name = "Back "
-                case 3:
-                    name = "Right"
-                case 4:
-                    name = "Front"
-                case 5:
-                    name = "Down "
+
+            matchDict = {
+                0: "Up   ",
+                1: "Left ",
+                2: "Back ",
+                3: "Right",
+                4: "Front",
+                5: "Down "
+            }
+            name = matchDict[cube_face]
         return name
 
     def _inset_fmt(self, L, amt) -> str:
@@ -354,56 +346,55 @@ class Cube:
 
     def moves(self, moveset: str) -> Cube:
         for m in moveset.split(" "):
-            match m.strip().lower():
+            m = m.strip().lower()
+            if m == "m'":
+                self.L().RP()
+            if m == "m":
+                self.LP().R()
+            elif m == "m2":
+                self.L().L().R().R()
 
-                case "m'":
-                    self.L().RP()
-                case "m":
-                    self.LP().R()
-                case "m2":
-                    self.L().L().R().R()
+            elif m == "u":
+                self.U()
+            elif m == "u'":
+                self.UP()
+            elif m == "u2":
+                self.U().U()
 
-                case "u":
-                    self.U()
-                case "u'":
-                    self.UP()
-                case "u2":
-                    self.U().U()
+            elif m == "l":
+                self.L()
+            elif m == "l'":
+                self.LP()
+            elif m == "l2":
+                self.L().L()
 
-                case "l":
-                    self.L()
-                case "l'":
-                    self.LP()
-                case "l2":
-                    self.L().L()
+            elif m == "b":
+                self.B()
+            elif m == "b'":
+                self.BP()
+            elif m == "b2":
+                self.B().B()
 
-                case "b":
-                    self.B()
-                case "b'":
-                    self.BP()
-                case "b2":
-                    self.B().B()
+            elif m == "r":
+                self.R()
+            elif m == "r'":
+                self.RP()
+            elif m == "r2":
+                self.R().R()
 
-                case "r":
-                    self.R()
-                case "r'":
-                    self.RP()
-                case "r2":
-                    self.R().R()
+            elif m == "f":
+                self.F()
+            elif m == "f'":
+                self.FP()
+            elif m == "f2":
+                self.F().F()
 
-                case "f":
-                    self.F()
-                case "f'":
-                    self.FP()
-                case "f2":
-                    self.F().F()
-
-                case "d":
-                    self.D()
-                case "d'":
-                    self.DP()
-                case "d2":
-                    self.D().D()
+            elif m == "d":
+                self.D()
+            elif m == "d'":
+                self.DP()
+            elif m == "d2":
+                self.D().D()
 
         return self
 

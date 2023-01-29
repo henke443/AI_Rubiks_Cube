@@ -1,3 +1,5 @@
+# THIS IS NOT USED FOR AI, JUST A REMNANT OF SOME RANDOM THING I DID
+
 from c2 import Cube
 from itertools import groupby, permutations, product
 import random
