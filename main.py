@@ -44,7 +44,7 @@ model = TQC("MlpPolicy", wrapped_env,
 
 
 def callback(arg1, arg2):
-    print("local self:", arg1.self)
+    print("local self:", arg1)
 
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20,
