@@ -27,7 +27,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(env.action_space.shape[-1]), sigma=float(0.5) * np.ones(env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.5) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
