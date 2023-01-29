@@ -48,7 +48,7 @@ def callback(**kwargs):
 
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20, progress_bar=True, callback={
-    "on_training_start": callback
+    "on_training_start": callback,
     "on_training_end": callback
 })
 model.save("tqc_rubiks")
