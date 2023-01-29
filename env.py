@@ -83,7 +83,7 @@ class RubiksEnv(gym.Env):
                 1 if v == current[i] else 0
                 for i, v in enumerate(solved)
             ])
-        )**2 / len(solved)**2
+        ) / len(solved)
 
         # distance = min(1, max(0, distance))
 
@@ -93,12 +93,13 @@ class RubiksEnv(gym.Env):
         score = 1-distance  # score of 1 when distance is 0 = solved
 
         if hasattr(self, "_scramble_distance"):
+            pass
             # Remove scramble_distance from score
             # if scramble is solved (scramble_distance = 0)
             # and score is 1, then remove 1 and score is 0
-            score = score - (1-self._scramble_distance)
+            # score = score - (1-self._scramble_distance)
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
-            score = max(0, min(1, score))
+            # score = max(0, min(1, score))
 
         if score < -1 or score > 1:
             print("WTF:", score, distance)
@@ -153,6 +154,7 @@ class RubiksEnv(gym.Env):
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
+        self._scramble_distance = 1
         self._scramble_distance = self._get_info()["distance"]
 
         observation = self._get_obs()
