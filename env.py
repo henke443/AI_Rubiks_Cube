@@ -141,6 +141,8 @@ class RubiksEnv(gym.Env):
         # super().reset(seed=seed)
         # random.seed(seed)
 
+        print("reset options:", options)
+
         self.cube = Cube()
 
         self._solved_obs = self._get_obs()
