@@ -129,15 +129,15 @@ def callback(options):
         print("wtf?", options)
 
 
-model.learn(total_timesteps=2e4, log_interval=20,
+model.learn(total_timesteps=2e3, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
 model.save("tqc_rubiks")
 
 
-print(env.get_attr("best_found"))
-print(max(env.get_attr("best_found")))
+print(wrapped_env.get_attr("best_found"))
+print(max(wrapped_env.get_attr("best_found")))
 
 
 del model  # remove to demonstrate saving and loading
