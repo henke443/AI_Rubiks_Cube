@@ -100,6 +100,9 @@ class RubiksEnv(gym.Env):
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
             # score = max(0, min(1, score))
 
+        if score < -1 or score > 1:
+            print("WTF:", score, distance)
+            exit()
         return {
             "distance": distance,
             # "speed": speed,
