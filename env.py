@@ -125,6 +125,7 @@ class RubiksEnv(gym.Env):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
+        self._scramble_score = 0
 
         self.cube = Cube()
 
