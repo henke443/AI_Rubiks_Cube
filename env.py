@@ -32,8 +32,7 @@ class RubiksEnv(gym.Env):
         actions_min = [-1]*len(self.base_moves)*moves_per_step
         actions_max = [1]*len(self.base_moves)*moves_per_step
         self.action_space = spaces.Box(
-            np.array(actions_min), np.array(actions_max),
-            dtype=np.float32
+            np.array(actions_min), np.array(actions_max)
         )
 
         self.observation_space = spaces.Box(
@@ -86,8 +85,8 @@ class RubiksEnv(gym.Env):
             ])
         )**2 / len(solved)**2
 
-        if hasattr(self, "_scramble_score"):
-            score = score - self._scramble_score
+        # if hasattr(self, "_scramble_score"):
+        # score = score - self._scramble_score
 
         score = np.clip(score, 0, 1)
 
@@ -105,7 +104,7 @@ class RubiksEnv(gym.Env):
         info = self._get_info()
 
         # An episode is done if cube is solved
-        terminated = info["score"] == 1 - self._scramble_score
+        terminated = info["score"] == 1  # - self._scramble_score
 
         score = info["score"]
 
@@ -138,8 +137,8 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(scramble_moves)
 
-        self._scramble_score = 0
-        self._scramble_score = self._get_info()["score"]
+        # self._scramble_score = 0
+        # self._scramble_score = self._get_info()["score"]
 
         observation = self._get_obs()
         # info = self._get_info()
