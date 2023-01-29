@@ -43,7 +43,7 @@ model = TQC("MlpPolicy", wrapped_env,
             tau=0.005)
 
 
-def callback(arg1):
+def callback(arg1, arg2):
     print("local self:", arg1.self)
 
 
