@@ -104,7 +104,7 @@ class RubiksEnv(gym.Env):
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
             # score = max(0, min(1, score))
 
-        toReturn = 0
+        toReturn = -1
         if distance == 0:
             toReturn = 1
             print("Solved once!")
