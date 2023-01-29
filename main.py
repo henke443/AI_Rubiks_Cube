@@ -52,9 +52,9 @@ class CustomCallback(BaseCallback):
             "steps": self.num_timesteps,
             "calls": self.n_calls,
             "total_steps": self.locals["total_timesteps"],
-            "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None
-            "rewards": self.locals["rewards"] if "rewards" in self.locals else None
-            "infos": self.locals["infos"] if "infos" in self.locals else None
+            "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None,
+            "rewards": self.locals["rewards"] if "rewards" in self.locals else None,
+            "infos": self.locals["infos"] if "infos" in self.locals else None,
         })
 
         pass
