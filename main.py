@@ -123,7 +123,7 @@ model = TQC("MlpPolicy", wrapped_env,
             tau=0.005)
 
 
-def callback(**options):
+def callback(options):
     print("got options:", options)
     model.env.reset(options)
 
