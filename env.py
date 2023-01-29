@@ -105,7 +105,7 @@ class RubiksEnv(gym.Env):
         info = self._get_info()
 
         # An episode is done if cube is solved
-        terminated = info["score"] == 1
+        terminated = info["score"] == 1 - self._scramble_score
 
         score = info["score"]
 

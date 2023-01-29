@@ -71,18 +71,18 @@ del model  # remove to demonstrate saving and loading
 
 model = TQC.load("tqc_rubiks")
 
-for _ in range(0, 5):
+for i in range(0, 10):
     obs = base_env.reset()
-    print("First cube state:")
+    print(i, "First cube state:")
     base_env.cube.print()
     for x in range(0, 300):
         action, _states = model.predict(obs, deterministic=True)
         obs, reward, done, info = base_env.step(action)
         if x % 50 == 0:
-            print("reward:", reward)
+            print(i, "reward:", reward)
             base_env.cube.print()
         if done:
-            print("Done!")
+            print(i, "Done!")
             time.sleep(2)
             score = base_env._get_info()
             print("score:", score)
