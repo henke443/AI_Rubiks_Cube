@@ -46,8 +46,8 @@ class CustomCallback(BaseCallback):
         """
         This method is called before the first rollout starts.
         """
-        self.callback(self.num_timesteps, self.n_calls, self.locals["total_timesteps"], self.locals["learning_starts"],
-                      self.locals["num_collected_steps"], self.locals["num_collected_episodes"])
+        self.callback(self.num_timesteps, self.n_calls, self.locals["total_timesteps"],
+                      self.locals["num_collected_steps"], self.locals["num_collected_episodes"], self.locals)
 
     def _on_rollout_start(self) -> None:
         """
