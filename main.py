@@ -42,14 +42,6 @@ class CustomCallback(BaseCallback):
         # # to have access to the parent object
         # self.parent = None  # type: Optional[BaseCallback]
 
-    def _on_training_start(self) -> None:
-        """
-        This method is called before the first rollout starts.
-        """
-        # self.callback("training start", self.num_timesteps, self.n_calls,
-        #              self.locals["total_timesteps"], self.locals)
-        pass
-
     def _on_rollout_end(self) -> None:
         """
         A rollout is the collection of environment interaction
@@ -57,7 +49,6 @@ class CustomCallback(BaseCallback):
         This event is triggered before collecting new samples.
         """
         self.callback({
-            "when": "rollout start",
             "steps": self.num_timesteps,
             "calls": self.n_calls,
             "total_steps": self.locals["total_timesteps"],
@@ -129,7 +120,9 @@ def callback(options):
 
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20,
-            progress_bar=True, callback=CustomCallback(callback, verbose=0))
+            progress_bar=True,
+            # callback=CustomCallback(callback, verbose=0)
+            )
 model.save("tqc_rubiks")
 
 
