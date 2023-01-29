@@ -124,8 +124,8 @@ model = TQC("MlpPolicy", wrapped_env,
 
 
 def callback(options):
-    wrapped_env.reset(options=options)
-    # model.env.env_method("reset", options)
+    # wrapped_env.reset(options=options)
+    model.env.env_method("reset", options=options)
 
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20,
