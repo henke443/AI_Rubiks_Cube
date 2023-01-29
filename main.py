@@ -86,7 +86,7 @@ class CustomCallback(BaseCallback):
         pass
 
 
-base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=5)
+base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=10)
 check_env(base_env)
 
 wrapped_env = TimeLimit(base_env, max_episode_steps=20)
@@ -99,12 +99,12 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=[32, 32], qf=[64, 64, 64])
+                     net_arch=dict(pi=[128, 128], qf=[256, 256, 256])
                      # net_arch=[32, 32]
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.5) * np.ones(wrapped_env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
@@ -112,7 +112,7 @@ model = TQC("MlpPolicy", wrapped_env,
             top_quantiles_to_drop_per_net=2,
             ent_coef="auto",
             verbose=1,
-            # action_noise=action_noise,
+            action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.001,
             learning_starts=1e2,
@@ -129,7 +129,7 @@ def callback(options):
         print("wtf?", options)
 
 
-model.learn(total_timesteps=5e4, log_interval=20,
+model.learn(total_timesteps=10e4, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
@@ -139,20 +139,26 @@ del model  # remove to demonstrate saving and loading
 
 model = TQC.load("tqc_rubiks")
 
-for i in range(0, 20):
+successes = 0
+tries = 100
+for i in range(0, tries):
     obs = base_env.reset({"steps": 1, "total_steps": 1})
     print(i, "First cube state:")
     base_env.render()
-    for x in range(0, 20):
+    for x in range(0, 50):
         action, _states = model.predict(obs, deterministic=False)
         obs, reward, done, info = base_env.step(action)
-        if x % 10 == 0:
+        if x % 20 == 0:
             print(i, x,  "reward:", reward)
             base_env.render()
         if done:
+            successes += 1
             print(i, x, "Done!")
             time.sleep(2)
             score = base_env._get_info()
             print("score:", score)
             print("Cube state at done:")
             obs = base_env.reset({"steps": 1, "total_steps": 1})
+            continue
+
+print("Successes:", successes, "tries", tries)

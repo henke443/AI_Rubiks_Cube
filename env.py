@@ -105,7 +105,7 @@ class RubiksEnv(gym.Env):
             # score = max(0, min(1, score))
 
         toReturn = -1
-        if score == 1:
+        if distance == 0:
             toReturn = 1
             print("Solved once!")
             self._solved_before = 1
