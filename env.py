@@ -83,7 +83,7 @@ class RubiksEnv(gym.Env):
 
         score = (
             sum([
-                1 if v == current[i] else 0
+                1 if v == current[i] else -1
                 for i, v in enumerate(solved)
             ])
         ) / len(solved)
