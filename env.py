@@ -98,7 +98,7 @@ class RubiksEnv(gym.Env):
             # and score is 1, then remove 1 and score is 0
             score = score - (1-self._scramble_distance)
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
-            score = max(0, min(1, score))
+            # score = max(0, min(1, score))
 
         return {
             "distance": distance,
