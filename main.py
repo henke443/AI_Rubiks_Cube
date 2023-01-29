@@ -112,7 +112,7 @@ model = TQC("MlpPolicy", wrapped_env,
             top_quantiles_to_drop_per_net=2,
             ent_coef="auto",
             verbose=1,
-            action_noise=action_noise,
+            # action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.001,
             learning_starts=1e2,
@@ -129,7 +129,7 @@ def callback(options):
         print("wtf?", options)
 
 
-model.learn(total_timesteps=10e4, log_interval=20,
+model.learn(total_timesteps=1e4, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
