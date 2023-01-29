@@ -56,12 +56,13 @@ class CustomCallback(BaseCallback):
         using the current policy.
         This event is triggered before collecting new samples.
         """
-        self.callback(
+        self.callback({
             "when": "rollout start",
             "steps": self.num_timesteps,
             "calls": self.n_calls,
             "total_steps": self.locals["total_timesteps"],
-            "learning_starts": self.locals["learning_starts"])
+            "learning_starts": self.locals["learning_starts"]
+        })
 
         pass
 
