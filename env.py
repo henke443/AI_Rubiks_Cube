@@ -81,13 +81,15 @@ class RubiksEnv(gym.Env):
 
         score = (
             sum([
-                1 if v == current[i] else -1
+                1 if v == current[i] else 0
                 for i, v in enumerate(solved)
             ])
         )**2 / len(solved)**2
 
         if hasattr(self, "_scramble_score"):
             score = score - self._scramble_score
+
+        score = np.clip(score, 0, 1)
 
         return {
             "score": score
