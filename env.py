@@ -160,7 +160,7 @@ class RubiksEnv(gym.Env):
 
             if not self._has_reset_logged and options["steps"] % 500 < 100:
                 self._has_reset_logged = True
-                print("reset() steps extra_scramble_moves:", options["steps"])
+                print("reset() steps extra_scramble_moves:", extra_scramble_moves)
             else:
                 self._has_reset_logged = False
 
