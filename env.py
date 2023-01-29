@@ -125,7 +125,6 @@ class RubiksEnv(gym.Env):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
-        self._scramble_score = 0
 
         self.cube = Cube()
 
@@ -139,6 +138,7 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(scramble_moves)
 
+        del self._scramble_score
         self._scramble_score = self._get_info()["score"]
 
         observation = self._get_obs()
