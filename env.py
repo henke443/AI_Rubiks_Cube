@@ -138,7 +138,7 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(scramble_moves)
 
-        del self._scramble_score
+        self._scramble_score = 0
         self._scramble_score = self._get_info()["score"]
 
         observation = self._get_obs()
