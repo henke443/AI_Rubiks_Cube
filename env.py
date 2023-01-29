@@ -154,17 +154,17 @@ class RubiksEnv(gym.Env):
 
         scramble_moves = " ".join(
             random.choices(
-                self.all_moves, k=np.random.randint(1, self.n_scramble_moves)
+                self.all_moves, k=np.random.choice(np.random.randint(0, 3)
             )
         )
 
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
-        self._scramble_distance = 1
-        self._scramble_distance = self._get_info()["distance"]
+        self._scramble_distance=1
+        self._scramble_distance=self._get_info()["distance"]
 
-        observation = self._get_obs()
+        observation=self._get_obs()
         # info = self._get_info()
 
         # if self.render_mode == "human":
@@ -182,7 +182,7 @@ class RubiksEnv(gym.Env):
 
 
 if __name__ == "__main__":
-    env = RubiksEnv()
+    env=RubiksEnv()
     env.reset()
     print(env._get_info())
     print(env._get_obs())
