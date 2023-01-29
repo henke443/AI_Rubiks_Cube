@@ -46,8 +46,9 @@ class CustomCallback(BaseCallback):
         """
         This method is called before the first rollout starts.
         """
-        self.callback("training start", self.num_timesteps, self.n_calls,
-                      self.locals["total_timesteps"], self.locals)
+        # self.callback("training start", self.num_timesteps, self.n_calls,
+        #              self.locals["total_timesteps"], self.locals)
+        pass
 
     def _on_rollout_start(self) -> None:
         """
@@ -55,8 +56,12 @@ class CustomCallback(BaseCallback):
         using the current policy.
         This event is triggered before collecting new samples.
         """
-        self.callback("rollout start", self.num_timesteps, self.n_calls,
-                      self.locals["total_timesteps"], self.locals)
+        self.callback(
+            "when": "rollout start",
+            "steps": self.num_timesteps,
+            "calls": self.n_calls,
+            "total_steps": self.locals["total_timesteps"],
+            "learning_starts": self.locals["learning_starts"])
 
         pass
 
@@ -117,8 +122,9 @@ model = TQC("MlpPolicy", wrapped_env,
             tau=0.005)
 
 
-def callback(*options):
+def callback(**options):
     print("got options:", options)
+    model.env.reset(options)
 
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20,
