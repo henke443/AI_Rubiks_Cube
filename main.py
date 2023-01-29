@@ -27,7 +27,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.5) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
@@ -42,8 +42,13 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=1e4+1e5, log_interval=15, progress_bar=True)
+model.learn(total_timesteps=1e4+1e5, log_interval=20, progress_bar=True)
 model.save("tqc_rubiks")
+
+
+print(env.get_attr("best_found"))
+print(max(env.get_attr("best_found")))
+
 
 del model  # remove to demonstrate saving and loading
 
