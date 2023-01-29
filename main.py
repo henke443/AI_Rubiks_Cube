@@ -64,7 +64,7 @@ model = TQC("MlpPolicy", wrapped_env,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=30000, log_interval=5, progress_bar=True)
+model.learn(total_timesteps=100000, log_interval=5, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
@@ -79,10 +79,10 @@ for i in range(0, 10):
         action, _states = model.predict(obs, deterministic=True)
         obs, reward, done, info = base_env.step(action)
         if x % 50 == 0:
-            print(i, "reward:", reward)
+            print(i, x,  "reward:", reward)
             base_env.cube.print()
         if done:
-            print(i, "Done!")
+            print(i, x, "Done!")
             time.sleep(2)
             score = base_env._get_info()
             print("score:", score)
