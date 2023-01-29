@@ -48,14 +48,6 @@ class CustomCallback(BaseCallback):
         using the current policy.
         This event is triggered before collecting new samples.
         """
-        self.callback({
-            "steps": self.num_timesteps,
-            "calls": self.n_calls,
-            "total_steps": self.locals["total_timesteps"],
-            "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None,
-            "rewards": self.locals["rewards"] if "rewards" in self.locals else None,
-            "infos": self.locals["infos"] if "infos" in self.locals else None,
-        })
 
         pass
 
@@ -69,6 +61,14 @@ class CustomCallback(BaseCallback):
         :return: (bool) If the callback returns False, training is aborted early.
         """
         # print("_on_step:", self.locals, self.globals)
+        self.callback({
+            "steps": self.num_timesteps,
+            "calls": self.n_calls,
+            "total_steps": self.locals["total_timesteps"],
+            "learning_starts": self.locals["learning_starts"] if "learning_starts" in self.locals else None,
+            "rewards": self.locals["rewards"] if "rewards" in self.locals else None,
+            "infos": self.locals["infos"] if "infos" in self.locals else None,
+        })
 
         return True
 
