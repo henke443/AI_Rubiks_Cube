@@ -99,7 +99,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=[32, 32], qf=[64, 64, 64])
+                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
@@ -129,7 +129,7 @@ def callback(options):
         print("wtf?", options)
 
 
-model.learn(total_timesteps=2e3, log_interval=20,
+model.learn(total_timesteps=5e4, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
