@@ -54,9 +54,9 @@ for i in range(0, 100):
     print(i, "First cube state:")
     base_env.render()
     for x in range(0, 50):
-        action, _states = model.predict(obs, deterministic=True)
+        action, _states = model.predict(obs, deterministic=False)
         obs, reward, done, info = base_env.step(action)
-        if x % 25 == 0:
+        if x % 10 == 0:
             print(i, x,  "reward:", reward)
             base_env.render()
         if done:
