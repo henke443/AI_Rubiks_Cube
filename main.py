@@ -86,7 +86,7 @@ class CustomCallback(BaseCallback):
         pass
 
 
-base_env = env.RubiksEnv(moves_per_step=1)
+base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=5)
 check_env(base_env)
 
 wrapped_env = TimeLimit(base_env, max_episode_steps=20)
@@ -144,11 +144,11 @@ del model  # remove to demonstrate saving and loading
 
 model = TQC.load("tqc_rubiks")
 
-for i in range(0, 100):
-    obs = base_env.reset()
+for i in range(0, 20):
+    obs = base_env.reset({"steps": 1, "total_steps": 1})
     print(i, "First cube state:")
     base_env.render()
-    for x in range(0, 50):
+    for x in range(0, 20):
         action, _states = model.predict(obs, deterministic=False)
         obs, reward, done, info = base_env.step(action)
         if x % 10 == 0:
@@ -160,5 +160,4 @@ for i in range(0, 100):
             score = base_env._get_info()
             print("score:", score)
             print("Cube state at done:")
-            obs = base_env.reset()
-            exit()
+            obs = base_env.reset({"steps": 1, "total_steps": 1})
