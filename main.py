@@ -22,17 +22,17 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[256, 512, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.3) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
 model = TQC("MlpPolicy", wrapped_env,
-            top_quantiles_to_drop_per_net=3,
+            top_quantiles_to_drop_per_net=2,
             ent_coef="auto",
             verbose=3,
             action_noise=action_noise,
