@@ -143,8 +143,8 @@ class RubiksEnv(gym.Env):
 
         # print("reset options:", options)
 
-        # if options == None:
-        #    print("reset called without options:", options)
+        if options == None:
+            print("reset called without options:", options)
         # else:
         #    print("reset options:", options)
 

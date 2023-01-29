@@ -42,7 +42,7 @@ class CustomCallback(BaseCallback):
         # # to have access to the parent object
         # self.parent = None  # type: Optional[BaseCallback]
 
-    def _on_rollout_end(self) -> None:
+    def _on_rollout_start(self) -> None:
         """
         A rollout is the collection of environment interaction
         using the current policy.
@@ -68,7 +68,7 @@ class CustomCallback(BaseCallback):
         """
         return True
 
-    def _on_rollout_start(self) -> None:
+    def _on_rollout_end(self) -> None:
         """
         This event is triggered before updating the policy.
         """
@@ -121,7 +121,7 @@ def callback(options):
 
 model.learn(total_timesteps=1e4+1e5, log_interval=20,
             progress_bar=True,
-            # callback=CustomCallback(callback, verbose=0)
+            callback=CustomCallback(callback, verbose=0)
             )
 model.save("tqc_rubiks")
 
