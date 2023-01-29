@@ -13,7 +13,7 @@ import torch as th
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=1e3)
+wrapped_env = TimeLimit(base_env, max_episode_steps=25)
 
 
 param_noise = None
@@ -37,12 +37,12 @@ model = TQC("MlpPolicy", wrapped_env,
             verbose=3,
             action_noise=action_noise,
             policy_kwargs=policy_kwargs,
-            learning_rate=.0003,
+            learning_rate=.001,
             learning_starts=1e4,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=1e4+6e4, log_interval=1, progress_bar=True)
+model.learn(total_timesteps=1e4+6e4, log_interval=20, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
