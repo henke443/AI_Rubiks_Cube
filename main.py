@@ -13,7 +13,7 @@ import torch as th
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=1000)
+wrapped_env = TimeLimit(base_env, max_episode_steps=5000)
 
 
 param_noise = None
@@ -22,12 +22,12 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[256, 512, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.5) * np.ones(wrapped_env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
@@ -37,12 +37,12 @@ model = TQC("MlpPolicy", wrapped_env,
             verbose=3,
             action_noise=action_noise,
             policy_kwargs=policy_kwargs,
-            learning_rate=.0005,
-            learning_starts=1000,
+            learning_rate=.0003,
+            learning_starts=10000,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=50000, log_interval=1, progress_bar=True)
+model.learn(total_timesteps=60000, log_interval=1, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
