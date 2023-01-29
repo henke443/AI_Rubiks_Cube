@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from c2 import Cube
 import sys
 import gym
@@ -5,6 +7,7 @@ from gym import spaces
 import random
 from time import perf_counter
 import numpy as np
+
 
 # sys.modules["gym"] = gym
 
