@@ -98,7 +98,8 @@ action_noise = None
 policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
-                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+                     # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[128, 128], qf=[256, 256, 256])
                      # net_arch=[32, 32]
                      )
 
@@ -114,7 +115,7 @@ model = TQC("MlpPolicy", wrapped_env,
             action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.001,
-            learning_starts=1e4,
+            learning_starts=1e2,
             gamma=0.99,
             tau=0.005)
 
@@ -125,7 +126,7 @@ def callback(options):
         model.env.env_method("reset", options=options)
 
 
-model.learn(total_timesteps=1e4+1e5, log_interval=20,
+model.learn(total_timesteps=2e4, log_interval=20,
             progress_bar=True,
             callback=CustomCallback(callback, verbose=0)
             )
