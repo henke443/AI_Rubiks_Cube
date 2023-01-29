@@ -50,7 +50,7 @@ class CustomCallback(BaseCallback):
         #              self.locals["total_timesteps"], self.locals)
         pass
 
-    def _on_rollout_start(self) -> None:
+    def _on_rollout_end(self) -> None:
         """
         A rollout is the collection of environment interaction
         using the current policy.
@@ -77,7 +77,7 @@ class CustomCallback(BaseCallback):
         """
         return True
 
-    def _on_rollout_end(self) -> None:
+    def _on_rollout_start(self) -> None:
         """
         This event is triggered before updating the policy.
         """
