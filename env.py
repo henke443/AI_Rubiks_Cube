@@ -159,7 +159,9 @@ class RubiksEnv(gym.Env):
 
         scramble_moves = " ".join(
             random.choices(
-                1 if extra_scramble_moves == 0 else self.all_moves, k=np.random.randint(1, 1+extra_scramble_moves)
+                self.all_moves,
+                k=1 if extra_scramble_moves == 0 else np.random.randint(
+                    1, 1+extra_scramble_moves)
             )
         )
 
