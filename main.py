@@ -27,7 +27,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      )
 
 action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.5) * np.ones(wrapped_env.action_space.shape[-1]))
+    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
@@ -53,10 +53,10 @@ for i in range(0, 100):
     obs = base_env.reset()
     print(i, "First cube state:")
     base_env.render()
-    for x in range(0, 30):
+    for x in range(0, 50):
         action, _states = model.predict(obs, deterministic=True)
         obs, reward, done, info = base_env.step(action)
-        if x % 1000 == 0:
+        if x % 25 == 0:
             print(i, x,  "reward:", reward)
             base_env.render()
         if done:
