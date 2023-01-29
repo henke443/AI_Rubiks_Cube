@@ -89,7 +89,7 @@ class CustomCallback(BaseCallback):
 base_env = env.RubiksEnv(moves_per_step=1)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=3)
+wrapped_env = TimeLimit(base_env, max_episode_steps=20)
 
 
 param_noise = None
@@ -99,7 +99,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=[128, 128], qf=[256, 256, 256])
+                     net_arch=dict(pi=[32, 32], qf=[64, 64, 64])
                      # net_arch=[32, 32]
                      )
 
