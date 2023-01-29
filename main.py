@@ -38,11 +38,11 @@ model = TQC("MlpPolicy", wrapped_env,
             action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.0003,
-            learning_starts=10e5,
+            learning_starts=1e5,
             gamma=0.99,
             tau=0.005)
 
-model.learn(total_timesteps=10e5+6e4, log_interval=1, progress_bar=True)
+model.learn(total_timesteps=1e5+6e4, log_interval=1, progress_bar=True)
 model.save("tqc_rubiks")
 
 del model  # remove to demonstrate saving and loading
