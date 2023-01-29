@@ -87,7 +87,7 @@ class RubiksEnv(gym.Env):
 
         # distance = min(1, max(0, distance))
 
-        speed = 1/self.cube.total_moves
+        # speed = 1/self.cube.total_moves
 
         # score = speed * 0.1 + (1-distance) * 0.9
         score = 1-distance  # score of 1 when distance is 0 = solved
@@ -102,7 +102,7 @@ class RubiksEnv(gym.Env):
 
         return {
             "distance": distance,
-            "speed": speed,
+            # "speed": speed,
             "score": score
         }
 
@@ -116,7 +116,7 @@ class RubiksEnv(gym.Env):
         info = self._get_info()
 
         # An episode is done if cube is solved
-        terminated = info["distance"] == 0 + self._scramble_distance
+        terminated = info["distance"] == 0
 
         score = info["score"]
 
