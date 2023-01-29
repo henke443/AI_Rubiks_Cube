@@ -19,7 +19,7 @@ wrapped_env = TimeLimit(base_env, max_episode_steps=200)
 param_noise = None
 action_noise = None
 
-policy_kwargs = dict(n_critics=2, n_quantiles=25, action_noise=action_noise,  # activation_fn=th.nn.ReLU,
+policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      net_arch=dict(pi=[256, 256], qf=[512, 512])
