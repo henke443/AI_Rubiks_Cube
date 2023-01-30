@@ -116,7 +116,8 @@ class RubiksEnv(gym.Env):
 
             toReturn = 1-percent_moves_usage
 
-            print("Solved once!")
+            print("Solved once! Score:", toReturn,
+                  "Scramble moves:", 1+self._extra_scramble_moves)
             self._solved_before = 1
         if score < -1 or score > 1:
             print("WTF:", score, distance)
