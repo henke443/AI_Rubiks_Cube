@@ -7,6 +7,8 @@ from stable_baselines3.ddpg.policies import MlpPolicy
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
+from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env.base_vec_env import VecEnv
 
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
@@ -113,8 +115,8 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = SubprocVecEnv([lambda: TimeLimit(base_env)
-                         for _ in range(n_processes)])
+    envs = VecEnv([lambda: TimeLimit(base_env)
+                   for _ in range(n_processes)])
 
     param_noise = None
     action_noise = None
