@@ -162,7 +162,7 @@ def main():
         # model.env.set_attr("total_steps", options["total_steps"])
         model.env.env_method("set_steps", options["steps"])
         model.env.env_method("set_total_steps", options["total_steps"])
-        print("in step:", model.env.get_attr("episode_returns"))
+        # print("in step:", model.env.get_attr("episode_returns"))
         # print(model.get_env().get_attr("base_moves"))
         # model.env.set_attr("base_moves", ["poop"])
         # print(model.env.get_attr("cur_steps"))
