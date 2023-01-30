@@ -210,7 +210,9 @@ class RubiksEnv(gym.Env):
         self._extra_scramble_moves = len(scramble_moves_2)-1
 
         if len(scramble_moves_2) < 1:
-            print("Scramble moves was less than 1")
+            print("Scramble moves 2 was less than 1")
+            print("scramble_moves_2", scramble_moves_2)
+            print("scramble_moves", scramble_moves)
             exit()
         print("Scramble moves:", scramble_moves_2, self._extra_scramble_moves)
 
