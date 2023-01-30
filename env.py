@@ -193,7 +193,7 @@ class RubiksEnv(gym.Env):
                 k=1 + self._extra_scramble_moves
             )
         )
-        print("asd", self._extra_scramble_moves)
+        # print("asd", self._extra_scramble_moves)
 
         self.cube.moves(scramble_moves)
 
