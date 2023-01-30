@@ -145,7 +145,8 @@ def main():
     #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-    model = QRDQN("MlpPolicy", envs,
+    model = QRDQN("MlpPolicy",
+                  envs,
                   verbose=1,
                   # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                   # ent_coef="auto",
