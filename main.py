@@ -153,8 +153,8 @@ def main():
         if "episode" in options["infos"][0]:
             model.env.env_method("reset", options=options)
             # print("callback options:", options)
-        elif len(options["infos"][0]):
-            print("wtf?", options)
+        # elif len(options["infos"][0]):
+        #    print("wtf?", options)
 
     model.learn(total_timesteps=total_timesteps, log_interval=20,
                 progress_bar=True,
