@@ -86,7 +86,7 @@ class CustomCallback(BaseCallback):
         pass
 
 
-total_timesteps = 2e5
+total_timesteps = 5e5
 learning_starts = 100
 batch_size = 256  # 2**14
 max_moves_per_episode = 25
