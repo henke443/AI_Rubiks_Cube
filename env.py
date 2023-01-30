@@ -159,7 +159,7 @@ class RubiksEnv(gym.Env):
         # print("asd:", self.steps)
         move = self._discrete_action_to_action(action)
         print("making move:", move)
-        print("self.step:", self.step, self.total_steps)
+        print("self.step:", self.steps, self.total_steps)
         exit()
 
         self.cube.moves(move)
