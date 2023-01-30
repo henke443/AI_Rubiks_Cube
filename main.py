@@ -89,7 +89,7 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_processes = 8
+    n_processes = 1
 
     total_timesteps = 5e5
     learning_starts = 100
