@@ -14,8 +14,8 @@ from stable_baselines3.common.monitor import Monitor
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
 # from sb3_contrib import TQC
-# from sb3_contrib import QRDQN
-from stable_baselines3 import PPO
+from sb3_contrib import QRDQN
+# from stable_baselines3 import PPO
 
 
 import numpy as np
@@ -97,7 +97,7 @@ class CustomCallback(BaseCallback):
 
 def main():
     n_envs = 10
-    log_interval = 200
+    log_interval = 100
     total_timesteps = np.int64(1e6)
     learning_starts = 100
 
@@ -144,25 +144,22 @@ def main():
     #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-    model = PPO("MlpPolicy", envs,
-                # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
-                # ent_coef="auto",
-                # verbose=1,
-                log_interval=100,
-                n_steps=total_timesteps,
-                # n_epochs=20,
-                learning_rate=learning_rate,
-                batch_size=batch_size,
-                # optimize_memory_usage=False,
-                # action_noise=action_noise,
-                policy_kwargs=policy_kwargs,
-                gae_lambda=0.9,
-                clip_range=0.2
-                # learning_rate=learning_rate,
-                # learning_starts=learning_starts,
-                # gamma=gamma,
-                # tau=tau
-                )
+    model = QRDQN("MlpPolicy", envs,
+                  # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
+                  # ent_coef="auto",
+                  # verbose=1,
+                  n_steps=total_timesteps,
+                  # n_epochs=20,
+                  learning_rate=learning_rate,
+                  batch_size=batch_size,
+                  # optimize_memory_usage=False,
+                  # action_noise=action_noise,
+                  policy_kwargs=policy_kwargs,
+                  # learning_rate=learning_rate,
+                  # learning_starts=learning_starts,
+                  # gamma=gamma,
+                  # tau=tau
+                  )
     """
     n_epochs: int = 10, gamma: float = 0.99, gae_lambda: float = 0.95, clip_range: float | Schedule = 0.2, clip_range_vf: float | Schedule | None = None, normalize_advantage: bool = True, ent_coef: float = 0, vf_coef: float = 0.5, max_grad_norm: float = 0.5, use_sde: bool = False, sde_sample_freq: int = -1, target_kl: float | None = None
     """
