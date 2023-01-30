@@ -113,15 +113,15 @@ class RubiksEnv(gym.Env):
             moves_after_scramble = max(
                 1, self.cube.total_moves - scramble_moves)
 
-            percent_moves_usage = moves_after_scramble / self._max_moves
-            percent_scramble_usage = scramble_moves / self._n_scramble_moves
+            moves_usage = moves_after_scramble / self._max_moves
+            scramble_usage = scramble_moves / self._n_scramble_moves
 
             # toReturn = 1-(percent_moves_usage / scramble_moves)
 
             # score = (1/moves_after_scramble + percent_scramble_usage)/2
 
-            score = (percent_moves_usage - 1) ** 2 * (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 \
-                / ((percent_moves_usage - 1) ** 2 + (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 + 0.0001)
+            score = (moves_usage - 1) ** 2 * (scramble_usage - 1/self._n_scramble_moves) ** 2 \
+                / ((moves_usage - 1) ** 2 + (scramble_usage - 1/self._n_scramble_moves) ** 2 + 0.0001)
 
             print("Solved once! Score:", score,
                   "Scramble moves:", 1+self._extra_scramble_moves, "solved in:", moves_after_scramble)
