@@ -87,6 +87,8 @@ class CustomCallback(BaseCallback):
 
 
 total_timesteps = 2e5
+learning_starts = 1e3
+batch_size = 2**14
 
 base_env = env.RubiksEnv(
     moves_per_step=1, n_scramble_moves=33, max_moves=30)
@@ -115,12 +117,12 @@ model = TQC("MlpPolicy", wrapped_env,
             top_quantiles_to_drop_per_net=2,
             ent_coef="auto",
             verbose=1,
-            batch_size=1024,
+            batch_size=batch_size,
             optimize_memory_usage=False,
             # action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.001,
-            learning_starts=1e2,
+            learning_starts=learning_starts,
             gamma=0.99,
             tau=0.005)
 
