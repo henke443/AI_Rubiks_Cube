@@ -91,12 +91,14 @@ learning_starts = 1e4
 batch_size = 256  # 2**14
 max_moves_per_episode = 20
 n_scramble_moves = 3
+learning_rate = 0.001
+
+pi = [64, 64]
+qf = [pi[0]*2, pi[0]*2, pi[0]*2]
+
+top_quantiles_to_drop_per_net = 2
 n_critics = 2
 n_quantiles = 25
-top_quantiles_to_drop_per_net = 2
-learning_rate = 0.001
-pi = [64, 64]
-qf = [128, 128, 128]
 gamma = 0.99
 tau = 0.005
 
