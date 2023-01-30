@@ -88,7 +88,7 @@ class CustomCallback(BaseCallback):
 
 total_timesteps = 2e5
 learning_starts = 1e3
-batch_size = 1  # 2**14
+batch_size = 256  # 2**14
 
 base_env = env.RubiksEnv(
     moves_per_step=1, n_scramble_moves=33, max_moves=30)
