@@ -115,7 +115,7 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([lambda: TimeLimit(base_env)
+    envs = DummyVecEnv([lambda: base_env
                         for _ in range(n_processes)])
 
     param_noise = None
