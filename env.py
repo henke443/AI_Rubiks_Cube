@@ -158,10 +158,8 @@ class RubiksEnv(gym.Env):
             # print("reset called without options:", options)
         else:
             # print("reset options:", options)
-            extra_scramble_moves = np.floor(
-                (options["steps"] / options["total_steps"])**2
-                * self.n_scramble_moves
-            )
+            extra_scramble_moves = np.round(
+                np.tanh((options["steps"] / options["total_steps"]))) * self.n_scramble_moves
 
             if not self._has_reset_logged and options["steps"] % 500 < 100:
                 self._has_reset_logged = True
