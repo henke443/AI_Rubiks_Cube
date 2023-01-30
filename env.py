@@ -134,9 +134,9 @@ class RubiksEnv(gym.Env):
             print("\nSolved once! Score:", score,
                   "Scramble moves:", 1+self._extra_scramble_moves, "solved in:", moves_after_scramble)  # "alt_score:", alt_score)
             self._solved_before = 1
-        if score < -1 or score > 1:
-            print("WTF:", score, distance)
-            exit()
+        # if score < -1 or score > 1:
+        #    print("WTF:", score, distance)
+        #    exit()
         return {
             "distance": distance,
             # "speed": speed,
