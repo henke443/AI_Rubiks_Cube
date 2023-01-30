@@ -91,10 +91,11 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_envs = 12
-
+    n_envs = 10
+    log_interval = 1000
     total_timesteps = 3e5
     learning_starts = 100
+
     batch_size = 512  # 2**14
     max_moves_per_episode = 25
     n_scramble_moves = 50
@@ -123,6 +124,7 @@ def main():
 
     envs = SubprocVecEnv([create_env for _ in range(n_envs)])
 
+    VecMonitor(env, )
     policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
                          # vf doesnt exist on TQC (?)
                          # pi = actor network, qf = critic network, vf = value network
@@ -156,7 +158,7 @@ def main():
         # elif len(options["infos"][0]):
         #    print("wtf?", options)
 
-    model.learn(total_timesteps=total_timesteps, log_interval=20,
+    model.learn(total_timesteps=total_timesteps, log_interval=log_interval,
                 progress_bar=True,
                 callback=CustomCallback(callback, verbose=0)
                 )
