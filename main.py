@@ -90,8 +90,8 @@ total_timesteps = 2e5
 learning_starts = 1e4
 batch_size = 256  # 2**14
 max_moves_per_episode = 20
-pi = [256, 256]
-qf = [512, 512, 512]
+pi = [32, 32]
+qf = [64, 64, 64]
 
 base_env = env.RubiksEnv(
     moves_per_step=1, n_scramble_moves=20, max_moves=max_moves_per_episode)
