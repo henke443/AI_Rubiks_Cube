@@ -89,11 +89,11 @@ class CustomCallback(BaseCallback):
 total_timesteps = 2e5
 learning_starts = 100
 batch_size = 256  # 2**14
-max_moves_per_episode = 20
-n_scramble_moves = 3
+max_moves_per_episode = 25
+n_scramble_moves = 50
 learning_rate = 0.001
 
-pi = [64, 64]
+pi = [128, 512]
 qf = [pi[0]*2, pi[0]*2, pi[0]*2]
 
 top_quantiles_to_drop_per_net = 2
