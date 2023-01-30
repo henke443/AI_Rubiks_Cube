@@ -120,8 +120,8 @@ class RubiksEnv(gym.Env):
 
             # alt_score = ((1-moves_usage) + scramble_usage)/2
             # alt_score = max(0, min(1, alt_score**2 + 0.5))
-            score = 1  # (min(1, (scramble_moves)/moves_after_scramble)
-            # * scramble_moves)/self._n_scramble_moves
+            score = (min(1, (scramble_moves)/moves_after_scramble)
+                     * scramble_moves)/self._n_scramble_moves
 
             # score = (moves_usage - 1) ** 2 * (scramble_usage - 1/self._n_scramble_moves) ** 2 \
             #    / ((moves_usage - 1) ** 2 + (scramble_usage - 1/self._n_scramble_moves) ** 2)
