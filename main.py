@@ -88,74 +88,75 @@ class CustomCallback(BaseCallback):
         pass
 
 
-n_processes = 8
+def main():
+    n_processes = 8
 
-total_timesteps = 5e5
-learning_starts = 100
-batch_size = 256  # 2**14
-max_moves_per_episode = 25
-n_scramble_moves = 50
-learning_rate = 0.001
+    total_timesteps = 5e5
+    learning_starts = 100
+    batch_size = 256  # 2**14
+    max_moves_per_episode = 25
+    n_scramble_moves = 50
+    learning_rate = 0.001
 
-pi = [128, 512]
-qf = [pi[0]*2, pi[0]*2, pi[0]*2]
+    pi = [128, 512]
+    qf = [pi[0]*2, pi[0]*2, pi[0]*2]
 
-top_quantiles_to_drop_per_net = 2
-n_critics = 2
-n_quantiles = 25
-gamma = 0.99
-tau = 0.005
+    top_quantiles_to_drop_per_net = 2
+    n_critics = 2
+    n_quantiles = 25
+    gamma = 0.99
+    tau = 0.005
 
-base_env = env.RubiksEnv(
-    moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
-check_env(base_env)
+    base_env = env.RubiksEnv(
+        moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
+    check_env(base_env)
 
-# wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
+    # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
+
+    envs = SubprocVecEnv([TimeLimit(base_env) for _ in range(n_processes)])
+
+    param_noise = None
+    action_noise = None
+
+    policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
+                         # vf doesnt exist on TQC (?)
+                         # pi = actor network, qf = critic network, vf = value network
+                         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+                         net_arch=dict(pi=pi, qf=qf)
+                         # net_arch=[32, 32]
+                         )
+
+    # action_noise = OrnsteinUhlenbeckActionNoise(
+    #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
+
+    # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
+    model = TQC("MlpPolicy", envs,
+                top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
+                ent_coef="auto",
+                verbose=1,
+                batch_size=batch_size,
+                optimize_memory_usage=False,
+                # action_noise=action_noise,
+                policy_kwargs=policy_kwargs,
+                learning_rate=learning_rate,
+                learning_starts=learning_starts,
+                gamma=gamma,
+                tau=tau)
+
+    def callback(options):
+        # wrapped_env.reset(options=options)
+        if "episode" in options["infos"][0]:
+            model.env.env_method("reset", options=options)
+            # print("callback options:", options)
+        elif len(options["infos"][0]):
+            print("wtf?", options)
+
+    model.learn(total_timesteps=total_timesteps, log_interval=20,
+                progress_bar=True,
+                callback=CustomCallback(callback, verbose=0)
+                )
+    model.save("tqc_rubiks")
 
 
-envs = SubprocVecEnv([TimeLimit(base_env) for _ in range(n_processes)])
-
-param_noise = None
-action_noise = None
-
-policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
-                     # vf doesnt exist on TQC (?)
-                     # pi = actor network, qf = critic network, vf = value network
-                     # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=pi, qf=qf)
-                     # net_arch=[32, 32]
-                     )
-
-# action_noise = OrnsteinUhlenbeckActionNoise(
-#    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
-
-
-# policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-model = TQC("MlpPolicy", envs,
-            top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
-            ent_coef="auto",
-            verbose=1,
-            batch_size=batch_size,
-            optimize_memory_usage=False,
-            # action_noise=action_noise,
-            policy_kwargs=policy_kwargs,
-            learning_rate=learning_rate,
-            learning_starts=learning_starts,
-            gamma=gamma,
-            tau=tau)
-
-
-def callback(options):
-    # wrapped_env.reset(options=options)
-    if "episode" in options["infos"][0]:
-        model.env.env_method("reset", options=options)
-        # print("callback options:", options)
-    elif len(options["infos"][0]):
-        print("wtf?", options)
-
-
-model.learn(total_timesteps=total_timesteps, log_interval=20,
-            progress_bar=True,
-            callback=CustomCallback(callback, verbose=0)
-            )
-model.save("tqc_rubiks")
+if __name__ == "__main__":
+    main()
