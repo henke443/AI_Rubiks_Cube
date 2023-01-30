@@ -102,7 +102,7 @@ def main():
     n_scramble_moves = 50
     learning_rate = 0.001
 
-    pi = [1024, 1024]
+    pi = [512, 512]
     qf = [512, 512, 512]
 
     top_quantiles_to_drop_per_net = 2
