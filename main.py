@@ -155,7 +155,7 @@ def main():
                   # n_epochs=20,
                   learning_rate=learning_rate,
                   exploration_final_eps=0.0001,
-                  exploration_initial_eps=0.1,
+                  exploration_initial_eps=0.01,
                   batch_size=batch_size,
                   # optimize_memory_usage=False,
                   # action_noise=action_noise,
