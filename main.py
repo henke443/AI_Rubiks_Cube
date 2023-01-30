@@ -113,7 +113,7 @@ def main():
         print("Create env params:", params)
         new_env = env.RubiksEnv(
             moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
-        return new_env
+        return TimeLimit(new_env, max_moves_per_episode)
 
     base_env = env.RubiksEnv(
         moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
@@ -122,9 +122,6 @@ def main():
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
     envs = DummyVecEnv([create_env for _ in range(n_processes)])
-
-    param_noise = None
-    action_noise = None
 
     policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
                          # vf doesnt exist on TQC (?)
