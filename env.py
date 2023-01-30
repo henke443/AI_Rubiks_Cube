@@ -178,7 +178,7 @@ class RubiksEnv(gym.Env):
         # if self.render_mode == "human":
         #    self._render_frame()
 
-        return observation, score, False, {}  # truncated, {}
+        return observation, score, terminated, {}  # truncated, {}
 
     def reset(self, options=None):
         # We need the following line to seed self.np_random
