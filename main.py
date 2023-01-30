@@ -8,6 +8,7 @@ from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
 from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
+from stable_baselines3.common.monitor import Monitor
 # from stable_baselines3.common.vec_env.base_vec_env import VecEnv
 # from stable_baselines3.common.vec_env.vec_monitor import VecMonitor
 # from stable_baselines3 import DDPG
@@ -92,7 +93,7 @@ class CustomCallback(BaseCallback):
 
 def main():
     n_envs = 10
-    log_interval = 1000
+    log_interval = False
     total_timesteps = 3e5
     learning_starts = 100
 
@@ -114,7 +115,9 @@ def main():
         print("Create env params:", params)
         new_env = env.RubiksEnv(
             moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
-        return TimeLimit(new_env, max_episode_steps=max_moves_per_episode)
+        return Monitor(
+            TimeLimit(new_env, max_episode_steps=max_moves_per_episode)
+        )
 
     base_env = env.RubiksEnv(
         moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
