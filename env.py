@@ -111,7 +111,7 @@ class RubiksEnv(gym.Env):
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
             # score = max(0, min(1, score))
 
-        score = 0
+        score = -1
         if distance == 0:
             scramble_moves = 1+self._extra_scramble_moves
             moves_after_scramble = max(
