@@ -115,7 +115,7 @@ def main():
     gamma = 0.99
     tau = 0.005
 
-    exploration_fraction = 0.003
+    exploration_fraction = 0.004
 
     def create_env(*params):
         print("Create env params:", params)
