@@ -87,14 +87,17 @@ class CustomCallback(BaseCallback):
 
 
 total_timesteps = 2e5
-learning_starts = 1e3
+learning_starts = 1e4
 batch_size = 256  # 2**14
+max_moves_per_episode = 20
+pi = [256, 256]
+qf = [512, 512, 512]
 
 base_env = env.RubiksEnv(
-    moves_per_step=1, n_scramble_moves=33, max_moves=30)
+    moves_per_step=1, n_scramble_moves=20, max_moves=max_moves_per_episode)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=30)
+wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
 
 param_noise = None
@@ -104,7 +107,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=[512, 512], qf=[512, 512, 512])
+                     net_arch=dict(pi=pi, qf=qf)
                      # net_arch=[32, 32]
                      )
 
