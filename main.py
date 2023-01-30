@@ -114,7 +114,7 @@ def main():
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
     envs = SubprocVecEnv([lambda: TimeLimit(base_env)
-                         for _ in range(n_processes)], start_method='fork')
+                         for _ in range(n_processes)])
 
     param_noise = None
     action_noise = None
