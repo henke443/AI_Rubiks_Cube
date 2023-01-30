@@ -157,7 +157,8 @@ def main():
         # model.env.set_attr("total_steps", options["total_steps"])
         model.get_env().set_attr("cur_steps", options["steps"])
         model.get_env().set_attr("total_steps", options["total_steps"])
-        print(model.get_env().get_attr("base_moves"))
+        # print(model.get_env().get_attr("base_moves"))
+        print(model.env.get_attr("base_moves"))
         # print()
         # if "episode" in options["infos"][0]:
         # model.env.env_method("reset", options=options)
