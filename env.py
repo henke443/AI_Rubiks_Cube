@@ -206,12 +206,13 @@ class RubiksEnv(gym.Env):
             if len(scramble_moves) == 1 or scramble_moves[i-1] != x
         ])
 
+        self._extra_scramble_moves = len(scramble_moves)-1
+
         if len(scramble_moves) < 1:
             print("Scramble moves was less than 1")
             exit()
-        print("Scramble moves:", scramble_moves)
+        print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
 
-        self._extra_scramble_moves = len(scramble_moves)-1
         # print("asd", self._extra_scramble_moves)
 
         self.cube.moves(scramble_moves)
