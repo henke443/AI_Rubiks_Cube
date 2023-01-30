@@ -201,18 +201,18 @@ class RubiksEnv(gym.Env):
         )
 
         print("sm here", scramble_moves)
-        scramble_moves = " ".join([
+        scramble_moves_2 = " ".join([
             x + ("'" if bool(random.getrandbits(1)) else "")
             for i, x in enumerate(scramble_moves)
             if len(scramble_moves) == 1 or scramble_moves[i-1] != x
         ])
 
-        self._extra_scramble_moves = len(scramble_moves)-1
+        self._extra_scramble_moves = len(scramble_moves_2)-1
 
-        if len(scramble_moves) < 1:
+        if len(scramble_moves_2) < 1:
             print("Scramble moves was less than 1")
             exit()
-        print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
+        print("Scramble moves:", scramble_moves_2, self._extra_scramble_moves)
 
         # print("asd", self._extra_scramble_moves)
 
