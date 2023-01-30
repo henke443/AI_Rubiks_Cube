@@ -152,7 +152,7 @@ def main():
                 # n_epochs=20,
                 learning_rate=learning_rate,
                 batch_size=batch_size,
-                optimize_memory_usage=False,
+                # optimize_memory_usage=False,
                 # action_noise=action_noise,
                 policy_kwargs=policy_kwargs,
                 gae_lambda=0.9,
