@@ -212,7 +212,7 @@ class RubiksEnv(gym.Env):
             print("Scramble moves 2 was less than 1")
             print("scramble_moves", scramble_moves)
             exit()
-        print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
+        # print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
 
         # print("asd", self._extra_scramble_moves)
 
