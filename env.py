@@ -196,13 +196,13 @@ class RubiksEnv(gym.Env):
             self._extra_scramble_moves = np.random.randint(
                 0, self._extra_scramble_moves)
 
-        if not self._has_reset_logged and self.steps % 500 < 100:
-            self._has_reset_logged = True
-            print("reset() steps extra_scramble_moves:",
-                  self._extra_scramble_moves)
-            print("asd", self.total_steps, self.steps)
-        else:
-            self._has_reset_logged = False
+        # if not self._has_reset_logged and self.steps % 500 < 100:
+        #    self._has_reset_logged = True
+        #    print("reset() steps extra_scramble_moves:",
+        #          self._extra_scramble_moves)
+            # print("asd", self.total_steps, self.steps)
+        # else:
+        #    self._has_reset_logged = False
 
         self.cube = Cube()
 
