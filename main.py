@@ -109,14 +109,19 @@ def main():
     gamma = 0.99
     tau = 0.005
 
+    def create_env(*params):
+        print("Create env params:", params)
+        new_env = env.RubiksEnv(
+            moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
+        return new_env
+
     base_env = env.RubiksEnv(
         moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
     check_env(base_env)
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([lambda: base_env
-                        for _ in range(n_processes)])
+    envs = DummyVecEnv([create_env for _ in range(n_processes)])
 
     param_noise = None
     action_noise = None
