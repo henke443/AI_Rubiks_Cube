@@ -178,7 +178,7 @@ class RubiksEnv(gym.Env):
         self._extra_scramble_moves = 0
 
         self._extra_scramble_moves = round(
-            np.tanh((self.cur_steps / self.total_steps)
+            np.tanh((self.cur_steps / (self.total_steps+1))
                     ) * self._n_scramble_moves
         )
 
