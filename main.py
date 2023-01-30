@@ -115,7 +115,7 @@ def main():
     gamma = 0.99
     tau = 0.005
 
-    exploration_fraction = 0.004
+    exploration_fraction = 0.005
 
     def create_env(*params):
         print("Create env params:", params)
@@ -158,7 +158,7 @@ def main():
                   exploration_fraction=exploration_fraction,
                   learning_rate=learning_rate,
                   exploration_final_eps=0.001,
-                  exploration_initial_eps=0.5,
+                  exploration_initial_eps=1,
                   batch_size=batch_size,
                   # optimize_memory_usage=False,
                   # action_noise=action_noise,
