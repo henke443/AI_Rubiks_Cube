@@ -6,6 +6,8 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.ddpg.policies import MlpPolicy
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
+
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
 from sb3_contrib import TQC
@@ -86,6 +88,8 @@ class CustomCallback(BaseCallback):
         pass
 
 
+n_processes = 8
+
 total_timesteps = 5e5
 learning_starts = 100
 batch_size = 256  # 2**14
@@ -106,8 +110,10 @@ base_env = env.RubiksEnv(
     moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
+# wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
+
+envs = SubprocVecEnv([TimeLimit(base_env) for _ in range(n_processes)])
 
 param_noise = None
 action_noise = None
@@ -120,12 +126,12 @@ policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation
                      # net_arch=[32, 32]
                      )
 
-action_noise = OrnsteinUhlenbeckActionNoise(
-    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
+# action_noise = OrnsteinUhlenbeckActionNoise(
+#    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
 
 # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-model = TQC("MlpPolicy", wrapped_env,
+model = TQC("MlpPolicy", envs,
             top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
             ent_coef="auto",
             verbose=1,
