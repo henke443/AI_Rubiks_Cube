@@ -6,7 +6,7 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.ddpg.policies import MlpPolicy
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.callbacks import BaseCallback
-from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
+# from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
 from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env.base_vec_env import VecEnv
 
