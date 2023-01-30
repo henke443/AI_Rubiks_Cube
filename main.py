@@ -13,7 +13,11 @@ from stable_baselines3.common.monitor import Monitor
 # from stable_baselines3.common.vec_env.vec_monitor import VecMonitor
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
-from sb3_contrib import TQC
+# from sb3_contrib import TQC
+# from sb3_contrib import QRDQN
+from stable_baselines3 import PPO
+
+
 import numpy as np
 import time
 import torch as th
@@ -100,14 +104,14 @@ def main():
     batch_size = 256  # 2**14
     max_moves_per_episode = 100
     n_scramble_moves = 50
-    learning_rate = 0.001
+    learning_rate = 3e-5
 
-    pi = [512, 512]
-    qf = [512, 512, 512]
+    pi = [256, 256]
+    # qf = [512, 512, 512]
 
     top_quantiles_to_drop_per_net = 2
     n_critics = 2
-    n_quantiles = 25
+    n_quantiles = 50
     gamma = 0.99
     tau = 0.005
 
@@ -128,30 +132,39 @@ def main():
     envs = SubprocVecEnv([create_env for _ in range(n_envs)])
 
     # VecMonitor(env, )
-    policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
-                         # vf doesnt exist on TQC (?)
-                         # pi = actor network, qf = critic network, vf = value network
-                         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                         net_arch=dict(pi=pi, qf=qf)
-                         # net_arch=[32, 32]
-                         )
+    policy_kwargs = dict(  # n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
+        # vf doesnt exist on TQC (?)
+        # pi = actor network, qf = critic network, vf = value network
+        # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+        net_arch=dict(pi=pi)
+        # net_arch=[32, 32]
+    )
 
     # action_noise = OrnsteinUhlenbeckActionNoise(
     #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-    model = TQC("MlpPolicy", envs,
-                top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
-                ent_coef="auto",
-                verbose=1,
+    model = PPO("MlpPolicy", envs,
+                # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
+                # ent_coef="auto",
+                # verbose=1,
+                n_steps=total_timesteps,
+                # n_epochs=20,
+                learning_rate=learning_rate,
                 batch_size=batch_size,
                 optimize_memory_usage=False,
                 # action_noise=action_noise,
                 policy_kwargs=policy_kwargs,
-                learning_rate=learning_rate,
-                learning_starts=learning_starts,
-                gamma=gamma,
-                tau=tau)
+                gae_lambda=0.9,
+                clip_range=0.2
+                # learning_rate=learning_rate,
+                # learning_starts=learning_starts,
+                # gamma=gamma,
+                # tau=tau
+                )
+    """
+    n_epochs: int = 10, gamma: float = 0.99, gae_lambda: float = 0.95, clip_range: float | Schedule = 0.2, clip_range_vf: float | Schedule | None = None, normalize_advantage: bool = True, ent_coef: float = 0, vf_coef: float = 0.5, max_grad_norm: float = 0.5, use_sde: bool = False, sde_sample_freq: int = -1, target_kl: float | None = None
+    """
 
     def callback(options):
         # print("options:", options)

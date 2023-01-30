@@ -32,11 +32,9 @@ class RubiksEnv(gym.Env):
 
         self.moves_per_step = moves_per_step
 
-        actions_min = [np.float32(-1)]*len(self.base_moves)*moves_per_step
-        actions_max = [np.float32(1)]*len(self.base_moves)*moves_per_step
-        self.action_space = spaces.Box(
-            np.array(actions_min), np.array(actions_max)
-        )
+        # actions_min = [np.float32(-1)]*len(self.base_moves)*moves_per_step
+        # actions_max = [np.float32(1)]*len(self.base_moves)*moves_per_step
+        self.action_space = spaces.Discrete(len(self.all_moves))
 
         self.observation_space = spaces.Box(
             0, 5, shape=(54,), dtype=np.int8
@@ -69,6 +67,9 @@ class RubiksEnv(gym.Env):
         #    if v[1] > 0:
         #        action_moves.append(_move)
         return move  # " ".join(action_moves)
+
+    def _discrete_action_to_action(self, action):
+        return self.all_moves[action]
 
     def _get_obs(self):
         color_map = {
@@ -156,7 +157,7 @@ class RubiksEnv(gym.Env):
         if hasattr(self, "episode_returns"):
             print("in step:", self.episode_returns)
         # print("asd:", self.steps)
-        move = self._vector_action_to_action(action)
+        move = self._discrete_action_to_action(action)
 
         self.cube.moves(move)
 
