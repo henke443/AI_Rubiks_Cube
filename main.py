@@ -97,7 +97,7 @@ def main():
     total_timesteps = 5e5
     learning_starts = 100
 
-    batch_size = 512  # 2**14
+    batch_size = 256  # 2**14
     max_moves_per_episode = 20
     n_scramble_moves = 50
     learning_rate = 0.001
