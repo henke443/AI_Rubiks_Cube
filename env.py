@@ -175,7 +175,7 @@ class RubiksEnv(gym.Env):
         self._extra_scramble_moves = 0
         if options == None:
             pass
-            # print("reset called without options:", options)
+            print("reset called without options:", options)
         else:
             # print("reset options:", options)
             self._extra_scramble_moves = round(
