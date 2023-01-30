@@ -190,6 +190,7 @@ class RubiksEnv(gym.Env):
             self._has_reset_logged = True
             print("reset() steps extra_scramble_moves:",
                   self._extra_scramble_moves)
+            print("asd", self.total_steps, self.cur_steps)
         else:
             self._has_reset_logged = False
 

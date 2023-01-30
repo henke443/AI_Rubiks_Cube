@@ -151,10 +151,11 @@ def main():
                 tau=tau)
 
     def callback(options):
-        print("options:", options)
+        # print("options:", options)
         # wrapped_env.reset(options=options)
         if "episode" in options["infos"][0]:
             model.env.set_attr("cur_steps", options["steps"])
+            model.env.set_attr("total_steps", options["total_steps"])
             # print("callback options:", options)
         # elif len(options["infos"][0]):
         #    print("wtf?", options)
