@@ -197,18 +197,16 @@ class RubiksEnv(gym.Env):
 
         scramble_moves = []
         while len(scramble_moves) != 1 + self._extra_scramble_moves:
-            scramble_moves = random.choices(
-                self.base_moves,
-                k=1 + self._extra_scramble_moves
-            )
+            for i in range(0, 1 + self._extra_scramble_moves):
+                scramble_moves.append(random.choice(self.base_moves))
 
-            scramble_moves = " ".join([
-                x + ("'" if bool(random.getrandbits(1)) else "")
-                for i, x in enumerate(scramble_moves)
-                if len(scramble_moves) == 1 or scramble_moves[i-1] != x
-            ])
+                while i > 0 and scramble_moves[i-1] == scramble_moves[i]:
+                    scramble_moves[i] = random.choice(self.base_moves)
 
-        self._extra_scramble_moves = len(scramble_moves)-1
+        scramble_moves = " ".join([
+            x + ("'" if bool(random.getrandbits(1)) else "")
+            for x in scramble_moves
+        ])
 
         if len(scramble_moves) < 1:
             print("Scramble moves 2 was less than 1")
