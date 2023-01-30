@@ -154,6 +154,7 @@ def main():
                   # n_steps=total_timesteps,
                   # n_epochs=20,
                   learning_rate=learning_rate,
+                  exploration_final_eps=0.001
                   batch_size=batch_size,
                   # optimize_memory_usage=False,
                   # action_noise=action_noise,
