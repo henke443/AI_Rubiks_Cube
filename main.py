@@ -91,7 +91,7 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_envs = 2
+    n_envs = 10
     log_interval = 1000
     total_timesteps = 3e5
     learning_starts = 100
@@ -122,7 +122,7 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([create_env for _ in range(n_envs)])
+    envs = SubprocVecEnv([create_env for _ in range(n_envs)])
 
     # VecMonitor(env, )
     policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
