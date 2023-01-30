@@ -94,15 +94,15 @@ class CustomCallback(BaseCallback):
 def main():
     n_envs = 10
     log_interval = 200
-    total_timesteps = 3e5
+    total_timesteps = 5e5
     learning_starts = 100
 
     batch_size = 256  # 2**14
-    max_moves_per_episode = 25
+    max_moves_per_episode = 20
     n_scramble_moves = 50
     learning_rate = 0.001
 
-    pi = [64, 64]
+    pi = [128, 128]
     qf = [pi[0]*2, pi[0]*2, pi[0]*2]
 
     top_quantiles_to_drop_per_net = 2
