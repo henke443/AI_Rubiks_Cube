@@ -115,8 +115,9 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([lambda: TimeLimit(base_env)
-                        for _ in range(n_processes)])
+    envs = DummyVecEnv([lambda: TimeLimit(env.RubiksEnv(
+        moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode))
+        for _ in range(n_processes)])
 
     param_noise = None
     action_noise = None
