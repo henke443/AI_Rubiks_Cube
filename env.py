@@ -195,12 +195,13 @@ class RubiksEnv(gym.Env):
 
         self._solved_obs = self._get_obs()
 
-        scramble_moves = " ".join(
-            random.choices(
-                self.all_moves,
-                k=1 + self._extra_scramble_moves
-            )
+        scramble_moves = random.choices(
+            self.base_moves,
+            k=1 + self._extra_scramble_moves
         )
+
+        scramble_moves = " ".join([x + ("'" if bool(random.getrandbits(1)) else "")
+                                  for x, i in enumerate(scramble_moves) if scramble_moves[i-1] != x])
         # print("asd", self._extra_scramble_moves)
 
         self.cube.moves(scramble_moves)
