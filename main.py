@@ -101,12 +101,12 @@ def main():
     total_timesteps = np.int64(2e6)
     learning_starts = 100
 
-    batch_size = 512  # 2**14
+    batch_size = 64  # 2**14
     max_moves_per_episode = 20
     n_scramble_moves = 20
     learning_rate = 3e-5
 
-    pi = [256, 256]
+    pi = [1024, 1024]
     # qf = [512, 512, 512]
 
     top_quantiles_to_drop_per_net = 2
@@ -157,7 +157,7 @@ def main():
                   # n_epochs=20,
                   exploration_fraction=exploration_fraction,
                   learning_rate=learning_rate,
-                  exploration_final_eps=0.001,
+                  exploration_final_eps=0.01,
                   exploration_initial_eps=1,
                   batch_size=batch_size,
                   # optimize_memory_usage=False,
