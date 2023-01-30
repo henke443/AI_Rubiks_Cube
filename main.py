@@ -146,6 +146,7 @@ def main():
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
     model = QRDQN("MlpPolicy", envs,
+                  verbose=1,
                   # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                   # ent_coef="auto",
                   # verbose=1,
@@ -187,7 +188,8 @@ def main():
         # elif len(options["infos"][0]):
         #    print("wtf?", options)
 
-    model.learn(total_timesteps=total_timesteps, log_interval=log_interval,
+    model.learn(total_timesteps=total_timesteps,
+                log_interval=log_interval,
                 progress_bar=True,
                 callback=CustomCallback(callback, verbose=0)
                 )
