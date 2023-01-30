@@ -115,6 +115,8 @@ def main():
     gamma = 0.99
     tau = 0.005
 
+    exploration_fraction = 0.003
+
     def create_env(*params):
         print("Create env params:", params)
         new_env = env.RubiksEnv(
@@ -153,9 +155,10 @@ def main():
                   # verbose=1,
                   # n_steps=total_timesteps,
                   # n_epochs=20,
+                  exploration_fraction=exploration_fraction,
                   learning_rate=learning_rate,
-                  exploration_final_eps=0.0001,
-                  exploration_initial_eps=0.01,
+                  exploration_final_eps=0.001,
+                  exploration_initial_eps=0.5,
                   batch_size=batch_size,
                   # optimize_memory_usage=False,
                   # action_noise=action_noise,
