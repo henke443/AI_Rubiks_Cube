@@ -118,8 +118,8 @@ class RubiksEnv(gym.Env):
 
             toReturn = 1-(percent_moves_usage / scramble_moves)
 
-            toReturn = (percent_moves_usage - 1) ^ 2 * (percent_scramble_usage - 1/30) ^ 2 \
-                / ((percent_moves_usage - 1) ^ 2 + (percent_scramble_usage - 1/30) ^ 2 + 0.0001)
+            toReturn = (percent_moves_usage - 1) ^ 2 * (percent_scramble_usage - 1/self._n_scramble_moves) ^ 2 \
+                / ((percent_moves_usage - 1) ^ 2 + (percent_scramble_usage - 1/self._n_scramble_moves) ^ 2 + 0.0001)
 
             print("Solved once! Score:", toReturn,
                   "Scramble moves:", 1+self._extra_scramble_moves)
