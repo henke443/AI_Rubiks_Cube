@@ -119,6 +119,7 @@ class RubiksEnv(gym.Env):
             # toReturn = 1-(percent_moves_usage / scramble_moves)
 
             score = ((1-moves_usage) + scramble_usage)/2
+            score = max(0, min(1, score**2 + 0.5))
 
             # score = (moves_usage - 1) ** 2 * (scramble_usage - 1/self._n_scramble_moves) ** 2 \
             #    / ((moves_usage - 1) ** 2 + (scramble_usage - 1/self._n_scramble_moves) ** 2)
