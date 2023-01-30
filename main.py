@@ -99,7 +99,7 @@ def main():
     n_envs = 8
     log_interval = 1
     total_timesteps = np.int64(1e6)
-    n_steps = np.int64(1e3)
+    n_steps = 8**4
     n_epochs = 50
     learning_starts = 100
 
