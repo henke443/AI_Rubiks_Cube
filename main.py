@@ -91,7 +91,7 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_envs = 10
+    n_envs = 2
     log_interval = 1000
     total_timesteps = 3e5
     learning_starts = 100
@@ -151,9 +151,10 @@ def main():
                 tau=tau)
 
     def callback(options):
+        print("options:", options)
         # wrapped_env.reset(options=options)
         if "episode" in options["infos"][0]:
-            model.env.env_method("reset", options=options)
+            model.env.set_attr("cur_steps", options["steps"])
             # print("callback options:", options)
         # elif len(options["infos"][0]):
         #    print("wtf?", options)

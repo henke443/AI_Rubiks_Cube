@@ -20,6 +20,9 @@ class RubiksEnv(gym.Env):
     def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0):
         super(RubiksEnv, self).__init__()
 
+        self.cur_steps = 0
+        self.total_steps = 0
+
         self._n_scramble_moves = n_scramble_moves
         self._terminate_after_n_moves = terminate_after_n_moves
         self.all_moves = ["U", "U'", "L", "L'", "B",
@@ -164,7 +167,7 @@ class RubiksEnv(gym.Env):
 
         return observation, score, terminated, {}  # truncated, {}
 
-    def reset(self, options=None):
+    def reset(self):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
@@ -173,26 +176,22 @@ class RubiksEnv(gym.Env):
 
         # print("reset options:", options)
         self._extra_scramble_moves = 0
-        if options == None:
-            pass
-            print("reset called without options:", options)
+
+        self._extra_scramble_moves = round(
+            np.tanh((self.cur_steps / self.total_steps)
+                    ) * self._n_scramble_moves
+        )
+
+        if self._extra_scramble_moves > 0:
+            self._extra_scramble_moves = np.random.randint(
+                0, self._extra_scramble_moves)
+
+        if not self._has_reset_logged and self.cur_steps % 500 < 100:
+            self._has_reset_logged = True
+            print("reset() steps extra_scramble_moves:",
+                  self._extra_scramble_moves)
         else:
-            # print("reset options:", options)
-            self._extra_scramble_moves = round(
-                np.tanh((options["steps"] / options["total_steps"])
-                        ) * self._n_scramble_moves
-            )
-
-            if self._extra_scramble_moves > 0:
-                self._extra_scramble_moves = np.random.randint(
-                    0, self._extra_scramble_moves)
-
-            if not self._has_reset_logged and options["steps"] % 500 < 100:
-                self._has_reset_logged = True
-                print("reset() steps extra_scramble_moves:",
-                      self._extra_scramble_moves)
-            else:
-                self._has_reset_logged = False
+            self._has_reset_logged = False
 
         self.cube = Cube()
 
