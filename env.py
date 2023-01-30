@@ -96,7 +96,7 @@ class RubiksEnv(gym.Env):
         # speed = 1/self.cube.total_moves
 
         # score = speed * 0.1 + (1-distance) * 0.9
-        score = 1-distance  # score of 1 when distance is 0 = solved
+        # score = 1-distance  # score of 1 when distance is 0 = solved
 
         if hasattr(self, "_scramble_distance"):
             pass
@@ -107,7 +107,7 @@ class RubiksEnv(gym.Env):
             # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
             # score = max(0, min(1, score))
 
-        toReturn = -1
+        score = -1
         if distance == 0:
             scramble_moves = 1+self._extra_scramble_moves
             moves_after_scramble = self.cube.total_moves - scramble_moves
@@ -117,11 +117,12 @@ class RubiksEnv(gym.Env):
 
             # toReturn = 1-(percent_moves_usage / scramble_moves)
 
-            toReturn = (percent_moves_usage - 1) ** 2 * (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 \
-                / ((percent_moves_usage - 1) ** 2 + (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 + 0.0001)
+            score = (1/moves_after_scramble + percent_scramble_usage)/2
+            # (percent_moves_usage - 1) ** 2 * (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 \
+            #    / ((percent_moves_usage - 1) ** 2 + (percent_scramble_usage - 1/self._n_scramble_moves) ** 2 + 0.0001)
 
-            print("Solved once! Score:", toReturn,
-                  "Scramble moves:", 1+self._extra_scramble_moves)
+            print("Solved once! Score:", score,
+                  "Scramble moves:", 1+self._extra_scramble_moves, "solved in:", moves_after_scramble)
             self._solved_before = 1
         if score < -1 or score > 1:
             print("WTF:", score, distance)
