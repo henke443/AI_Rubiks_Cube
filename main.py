@@ -148,7 +148,7 @@ def main():
                   # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                   # ent_coef="auto",
                   # verbose=1,
-                  n_steps=total_timesteps,
+                  # n_steps=total_timesteps,
                   # n_epochs=20,
                   learning_rate=learning_rate,
                   batch_size=batch_size,
