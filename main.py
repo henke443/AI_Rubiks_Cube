@@ -97,7 +97,7 @@ def main():
     total_timesteps = 3e5
     learning_starts = 100
 
-    batch_size = 512  # 2**14
+    batch_size = 256  # 2**14
     max_moves_per_episode = 25
     n_scramble_moves = 50
     learning_rate = 0.001
@@ -162,6 +162,7 @@ def main():
         # model.env.set_attr("total_steps", options["total_steps"])
         model.env.env_method("set_steps", options["steps"])
         model.env.env_method("set_total_steps", options["total_steps"])
+        model.env.
         # print(model.get_env().get_attr("base_moves"))
         # model.env.set_attr("base_moves", ["poop"])
         # print(model.env.get_attr("cur_steps"))
