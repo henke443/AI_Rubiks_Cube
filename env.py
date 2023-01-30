@@ -29,8 +29,8 @@ class RubiksEnv(gym.Env):
 
         self.moves_per_step = moves_per_step
 
-        actions_min = [-1]*len(self.base_moves)*moves_per_step
-        actions_max = [1]*len(self.base_moves)*moves_per_step
+        actions_min = [np.float32(-1)]*len(self.base_moves)*moves_per_step
+        actions_max = [np.float32(1)]*len(self.base_moves)*moves_per_step
         self.action_space = spaces.Box(
             np.array(actions_min), np.array(actions_max)
         )
