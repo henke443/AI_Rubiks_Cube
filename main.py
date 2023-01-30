@@ -91,11 +91,11 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_envs = 8
+    n_envs = 12
 
-    total_timesteps = 5e5
+    total_timesteps = 3e5
     learning_starts = 100
-    batch_size = 256  # 2**14
+    batch_size = 512  # 2**14
     max_moves_per_episode = 25
     n_scramble_moves = 50
     learning_rate = 0.001
