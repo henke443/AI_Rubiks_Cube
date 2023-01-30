@@ -88,7 +88,7 @@ class CustomCallback(BaseCallback):
 
 total_timesteps = 50e4
 
-base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=40)
+base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=40, max_moves=20)
 check_env(base_env)
 
 wrapped_env = TimeLimit(base_env, max_episode_steps=20)
@@ -101,7 +101,7 @@ policy_kwargs = dict(n_critics=2, n_quantiles=25,  # activation_fn=th.nn.ReLU,
                      # vf doesnt exist on TQC (?)
                      # pi = actor network, qf = critic network, vf = value network
                      # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-                     net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
+                     net_arch=dict(pi=[512, 512], qf=[512, 512, 512])
                      # net_arch=[32, 32]
                      )
 
@@ -114,6 +114,7 @@ model = TQC("MlpPolicy", wrapped_env,
             top_quantiles_to_drop_per_net=2,
             ent_coef="auto",
             verbose=1,
+            batch_size=512,
             # action_noise=action_noise,
             policy_kwargs=policy_kwargs,
             learning_rate=.001,

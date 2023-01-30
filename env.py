@@ -17,11 +17,11 @@ class RubiksEnv(gym.Env):
     """Custom Environment that follows gym interface"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40):
+    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0):
         super(RubiksEnv, self).__init__()
 
-        self.n_scramble_moves = n_scramble_moves
-        self.terminate_after_n_moves = terminate_after_n_moves
+        self._n_scramble_moves = n_scramble_moves
+        self._terminate_after_n_moves = terminate_after_n_moves
         self.all_moves = ["U", "U'", "L", "L'", "B",
                           "B'", "R", "R'", "F", "F'", "D", "D'"]
 
@@ -38,6 +38,9 @@ class RubiksEnv(gym.Env):
         self.observation_space = spaces.Box(
             0, 5, shape=(54,), dtype=np.int8
         )
+
+        self._max_moves = max_moves
+        self._extra_scramble_moves = 0
 
         self._has_reset_logged = False
         self._solved_before = 0
@@ -106,7 +109,13 @@ class RubiksEnv(gym.Env):
 
         toReturn = -1
         if distance == 0:
-            toReturn = 1
+            moves_after_scramble = self.cube.total_moves \
+                - (1+self._extra_scramble_moves)
+
+            percent_moves_usage = moves_after_scramble / self._max_moves
+
+            toReturn = 1-percent_moves_usage
+
             print("Solved once!")
             self._solved_before = 1
         if score < -1 or score > 1:
@@ -136,7 +145,7 @@ class RubiksEnv(gym.Env):
         # it works differently, where you return terminated, truncated, info instead of terminated, info.
         # I tried using TimeLimit which should theoretically be a better approach but then my model suicides and
         # makes a policy that is as shitty as possible, not sure why.
-        # if self.terminate_after_n_moves != False and self.cube.total_moves >= self.terminate_after_n_moves+self.n_scramble_moves:
+        # if self._terminate_after_n_moves != False and self.cube.total_moves >= self._terminate_after_n_moves+self._n_scramble_moves:
         #    terminated = True
 
         # if self.render_mode == "human":
@@ -152,20 +161,24 @@ class RubiksEnv(gym.Env):
         self._solved_before = 0
 
         # print("reset options:", options)
-        extra_scramble_moves = 0
+        self._extra_scramble_moves = 0
         if options == None:
             pass
             # print("reset called without options:", options)
         else:
             # print("reset options:", options)
-            extra_scramble_moves = np.round(
+            self._extra_scramble_moves = np.round(
                 np.tanh((options["steps"] / options["total_steps"])
-                        ) * self.n_scramble_moves
+                        ) * self._n_scramble_moves
             )
+
+            self._extra_scramble_moves = np.random.randint(
+                0, self._extra_scramble_moves)
 
             if not self._has_reset_logged and options["steps"] % 500 < 100:
                 self._has_reset_logged = True
-                print("reset() steps extra_scramble_moves:", extra_scramble_moves)
+                print("reset() steps extra_scramble_moves:",
+                      self._extra_scramble_moves)
             else:
                 self._has_reset_logged = False
 
@@ -176,8 +189,7 @@ class RubiksEnv(gym.Env):
         scramble_moves = " ".join(
             random.choices(
                 self.all_moves,
-                k=1 if extra_scramble_moves == 0 else np.random.randint(
-                    1, 1+extra_scramble_moves)
+                k=1 + self._extra_scramble_moves
             )
         )
 
