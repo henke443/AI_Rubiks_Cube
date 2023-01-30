@@ -20,7 +20,7 @@ class RubiksEnv(gym.Env):
     def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0):
         super(RubiksEnv, self).__init__()
 
-        self.cur_steps = 0
+        self.steps = 0
         self.total_steps = 0
 
         self._n_scramble_moves = n_scramble_moves
@@ -143,6 +143,7 @@ class RubiksEnv(gym.Env):
 
     def step(self, action):
 
+        print("asd:", self.steps)
         move = self._vector_action_to_action(action)
 
         self.cube.moves(move)
@@ -181,7 +182,7 @@ class RubiksEnv(gym.Env):
         self._extra_scramble_moves = 0
 
         self._extra_scramble_moves = round(
-            np.tanh((self.cur_steps / (self.total_steps+1))
+            np.tanh((self.steps / (self.total_steps+1))
                     ) * self._n_scramble_moves
         )
 
@@ -189,11 +190,11 @@ class RubiksEnv(gym.Env):
             self._extra_scramble_moves = np.random.randint(
                 0, self._extra_scramble_moves)
 
-        if not self._has_reset_logged and self.cur_steps % 500 < 100:
+        if not self._has_reset_logged and self.steps % 500 < 100:
             self._has_reset_logged = True
             print("reset() steps extra_scramble_moves:",
                   self._extra_scramble_moves)
-            print("asd", self.total_steps, self.cur_steps)
+            print("asd", self.total_steps, self.steps)
         else:
             self._has_reset_logged = False
 
