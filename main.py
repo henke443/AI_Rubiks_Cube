@@ -91,7 +91,7 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_processes = 1
+    n_envs = 24
 
     total_timesteps = 5e5
     learning_starts = 100
@@ -121,7 +121,7 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([create_env for _ in range(n_processes)])
+    envs = VecEnv([create_env for _ in range(n_envs)])
 
     policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
                          # vf doesnt exist on TQC (?)
