@@ -130,7 +130,7 @@ class RubiksEnv(gym.Env):
         return {
             "distance": distance,
             # "speed": speed,
-            "score": toReturn
+            "score": score
         }
 
     def step(self, action):
