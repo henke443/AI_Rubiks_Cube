@@ -97,8 +97,10 @@ class CustomCallback(BaseCallback):
 
 def main():
     n_envs = 8
-    log_interval = 200
+    log_interval = 1
     total_timesteps = np.int64(1e6)
+    n_steps = np.int64(1e3)
+    n_epochs = 50
     learning_starts = 100
 
     batch_size = 512  # 2**14
@@ -148,6 +150,9 @@ def main():
     model = PPO("MlpPolicy",
                 envs,
                 verbose=1,
+                n_epochs=n_epochs,
+                n_steps=n_steps,
+
                 # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                 # ent_coef="auto",
                 # verbose=1,
