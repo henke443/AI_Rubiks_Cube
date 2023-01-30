@@ -98,7 +98,7 @@ class CustomCallback(BaseCallback):
 def main():
     n_envs = 8
     log_interval = 200
-    total_timesteps = np.int64(1e6)
+    total_timesteps = np.int64(2e6)
     learning_starts = 100
 
     batch_size = 512  # 2**14
