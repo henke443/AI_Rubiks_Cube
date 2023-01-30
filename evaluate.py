@@ -22,8 +22,8 @@ successes = 0
 tries = 100
 for i in range(0, tries):
     obs = base_env.reset()
-    base_env.set_steps(1)
-    base_env.set_total_steps(1)
+    base_env.set_steps(20)
+    base_env.set_total_steps(20)
     print(i, "First cube state:")
     base_env.render()
     for x in range(0, 300):
