@@ -216,7 +216,7 @@ class RubiksEnv(gym.Env):
 
         # print("asd", self._extra_scramble_moves)
 
-        self.cube.moves(scramble_moves)
+        self.cube.moves(scramble_moves_2)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
         self._scramble_distance = self._get_info()["distance"]
