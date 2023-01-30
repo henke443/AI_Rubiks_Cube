@@ -176,7 +176,7 @@ def main():
         #    print("wtf?", options)
 
     model.learn(total_timesteps=total_timesteps, log_interval=log_interval,
-                progress_bar=False,
+                progress_bar=True,
                 callback=CustomCallback(callback, verbose=0)
                 )
     model.save("tqc_rubiks")
