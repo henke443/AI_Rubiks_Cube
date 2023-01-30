@@ -141,8 +141,11 @@ class RubiksEnv(gym.Env):
             "score": score
         }
 
-    def set_step(self, step):
+    def set_steps(self, step):
         self.steps = step
+
+    def set_total_steps(self, total_steps):
+        self.total_steps = total_steps
 
     def step(self, action):
 
