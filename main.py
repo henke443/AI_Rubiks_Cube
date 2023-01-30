@@ -88,10 +88,10 @@ class CustomCallback(BaseCallback):
 
 total_timesteps = 40e4
 
-base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=40, max_moves=20)
+base_env = env.RubiksEnv(moves_per_step=1, n_scramble_moves=40, max_moves=30)
 check_env(base_env)
 
-wrapped_env = TimeLimit(base_env, max_episode_steps=20)
+wrapped_env = TimeLimit(base_env, max_episode_steps=30)
 
 
 param_noise = None
