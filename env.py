@@ -118,14 +118,15 @@ class RubiksEnv(gym.Env):
 
             # toReturn = 1-(percent_moves_usage / scramble_moves)
 
-            score = ((1-moves_usage) + scramble_usage)/2
-            score = max(0, min(1, score**2 + 0.5))
+            alt_score = ((1-moves_usage) + scramble_usage)/2
+            alt_score = max(0, min(1, score**2 + 0.5))
+            score = (1+self._extra_scramble_moves)/moves_after_scramble
 
             # score = (moves_usage - 1) ** 2 * (scramble_usage - 1/self._n_scramble_moves) ** 2 \
             #    / ((moves_usage - 1) ** 2 + (scramble_usage - 1/self._n_scramble_moves) ** 2)
 
             print("Solved once! Score:", score,
-                  "Scramble moves:", 1+self._extra_scramble_moves, "solved in:", moves_after_scramble)
+                  "Scramble moves:", 1+self._extra_scramble_moves, "solved in:", moves_after_scramble, "alt_score:", alt_score)
             self._solved_before = 1
         if score < -1 or score > 1:
             print("WTF:", score, distance)
