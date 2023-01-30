@@ -167,7 +167,7 @@ class RubiksEnv(gym.Env):
             # print("reset called without options:", options)
         else:
             # print("reset options:", options)
-            self._extra_scramble_moves = np.round(
+            self._extra_scramble_moves = round(
                 np.tanh((options["steps"] / options["total_steps"])
                         ) * self._n_scramble_moves
             )
