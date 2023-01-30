@@ -99,7 +99,7 @@ def main():
     n_envs = 8
     log_interval = 1
     total_timesteps = np.int64(1e6)
-    n_steps = 8**3
+    n_steps = 8**4
     n_epochs = 20
     learning_starts = 100
 
@@ -194,11 +194,11 @@ def main():
         # elif len(options["infos"][0]):
         #    print("wtf?", options)
 
-    model.learn(  # total_timesteps=total_timesteps,
-        log_interval=log_interval,
-        progress_bar=True,
-        callback=CustomCallback(callback, verbose=0)
-    )
+    model.learn(total_timesteps=total_timesteps,
+                log_interval=log_interval,
+                progress_bar=True,
+                callback=CustomCallback(callback, verbose=0)
+                )
     model.save("tqc_rubiks")
 
 
