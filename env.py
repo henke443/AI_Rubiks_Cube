@@ -149,7 +149,7 @@ class RubiksEnv(gym.Env):
 
     def step(self, action):
 
-        if "episode_returns" in self:
+        if hasattr(self, "episode_returns"):
             print(self.episode_returns)
         # print("asd:", self.steps)
         move = self._vector_action_to_action(action)
