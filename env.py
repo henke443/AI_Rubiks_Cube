@@ -142,7 +142,7 @@ class RubiksEnv(gym.Env):
         }
 
     def set_step(self, step):
-        self.step = step
+        self.steps = step
 
     def step(self, action):
 
