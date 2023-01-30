@@ -200,6 +200,7 @@ class RubiksEnv(gym.Env):
             k=1 + self._extra_scramble_moves
         )
 
+        print("sm here", scramble_moves)
         scramble_moves = " ".join([
             x + ("'" if bool(random.getrandbits(1)) else "")
             for i, x in enumerate(scramble_moves)
