@@ -195,30 +195,30 @@ class RubiksEnv(gym.Env):
 
         self._solved_obs = self._get_obs()
 
-        scramble_moves = random.choices(
-            self.base_moves,
-            k=1 + self._extra_scramble_moves
-        )
+        scramble_moves = []
+        while len(scramble_moves) != 1 + self._extra_scramble_moves:
+            scramble_moves = random.choices(
+                self.base_moves,
+                k=1 + self._extra_scramble_moves
+            )
 
-        print("sm here", scramble_moves)
-        scramble_moves_2 = " ".join([
-            x + ("'" if bool(random.getrandbits(1)) else "")
-            for i, x in enumerate(scramble_moves)
-            if len(scramble_moves) == 1 or scramble_moves[i-1] != x
-        ])
+            scramble_moves = " ".join([
+                x + ("'" if bool(random.getrandbits(1)) else "")
+                for i, x in enumerate(scramble_moves)
+                if len(scramble_moves) == 1 or scramble_moves[i-1] != x
+            ])
 
-        self._extra_scramble_moves = len(scramble_moves_2)-1
+        self._extra_scramble_moves = len(scramble_moves)-1
 
-        if len(scramble_moves_2) < 1:
+        if len(scramble_moves) < 1:
             print("Scramble moves 2 was less than 1")
-            print("scramble_moves_2", scramble_moves_2)
             print("scramble_moves", scramble_moves)
             exit()
-        print("Scramble moves:", scramble_moves_2, self._extra_scramble_moves)
+        print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
 
         # print("asd", self._extra_scramble_moves)
 
-        self.cube.moves(scramble_moves_2)
+        self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
         self._scramble_distance = self._get_info()["distance"]
