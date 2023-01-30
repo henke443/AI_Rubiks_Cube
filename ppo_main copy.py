@@ -96,13 +96,15 @@ class CustomCallback(BaseCallback):
 
 
 def main():
-    n_envs = 10
-    log_interval = 200
+    n_envs = 8
+    log_interval = 1
     total_timesteps = np.int64(1e6)
+    n_steps = 8**4
+    n_epochs = 20
     learning_starts = 100
 
-    batch_size = 256  # 2**14
-    max_moves_per_episode = 100
+    batch_size = 512  # 2**14
+    max_moves_per_episode = 20
     n_scramble_moves = 50
     learning_rate = 3e-5
 
@@ -136,7 +138,8 @@ def main():
         # vf doesnt exist on TQC (?)
         # pi = actor network, qf = critic network, vf = value network
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-        net_arch=dict(pi=pi)
+        net_arch=pi,
+        # n_quantiles=25
         # net_arch=[32, 32]
     )
 
@@ -144,20 +147,22 @@ def main():
     #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-    model = PPO("MlpPolicy", envs,
+    model = PPO("MlpPolicy",
+                envs,
+                verbose=1,
+                n_epochs=n_epochs,
+                n_steps=n_steps,
+
                 # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                 # ent_coef="auto",
                 # verbose=1,
-                log_interval=100,
-                n_steps=total_timesteps,
+                # n_steps=total_timesteps,
                 # n_epochs=20,
                 learning_rate=learning_rate,
                 batch_size=batch_size,
                 # optimize_memory_usage=False,
                 # action_noise=action_noise,
                 policy_kwargs=policy_kwargs,
-                gae_lambda=0.9,
-                clip_range=0.2
                 # learning_rate=learning_rate,
                 # learning_starts=learning_starts,
                 # gamma=gamma,
@@ -189,7 +194,8 @@ def main():
         # elif len(options["infos"][0]):
         #    print("wtf?", options)
 
-    model.learn(total_timesteps=total_timesteps, log_interval=log_interval,
+    model.learn(total_timesteps=total_timesteps,
+                log_interval=log_interval,
                 progress_bar=True,
                 callback=CustomCallback(callback, verbose=0)
                 )

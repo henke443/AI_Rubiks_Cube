@@ -113,9 +113,10 @@ class RubiksEnv(gym.Env):
 
         score = -1
         if distance == 0:
-            scramble_moves = 1+self._extra_scramble_moves
-            moves_after_scramble = max(
-                1, self.cube.total_moves - scramble_moves)
+            score = 1
+            # scramble_moves = 1+self._extra_scramble_moves
+            # moves_after_scramble = max(
+            #    1, self.cube.total_moves - scramble_moves)
 
             # moves_usage = moves_after_scramble / self._max_moves
             # scramble_usage = scramble_moves / self._n_scramble_moves
@@ -126,8 +127,8 @@ class RubiksEnv(gym.Env):
 
             # alt_score = ((1-moves_usage) + scramble_usage)/2
             # alt_score = max(0, min(1, alt_score**2 + 0.5))
-            score = 0.5*min(1, scramble_moves/self._n_scramble_moves) + \
-                0.5*min(1, scramble_moves/moves_after_scramble)
+            # score = 0.5*min(1, scramble_moves/self._n_scramble_moves) + \
+            #    0.5*min(1, scramble_moves/moves_after_scramble)
 
             # score *= self._max_moves
 
