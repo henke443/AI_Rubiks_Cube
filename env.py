@@ -149,7 +149,7 @@ class RubiksEnv(gym.Env):
 
     def step(self, action):
 
-        print("asd:", self.steps)
+        # print("asd:", self.steps)
         move = self._vector_action_to_action(action)
 
         self.cube.moves(move)
