@@ -109,12 +109,17 @@ class RubiksEnv(gym.Env):
 
         toReturn = -1
         if distance == 0:
+            scramble_moves = 1+self._extra_scramble_moves
             moves_after_scramble = self.cube.total_moves \
-                - (1+self._extra_scramble_moves)
+                - scramble_moves
 
             percent_moves_usage = moves_after_scramble / self._max_moves
+            percent_scramble_usage = scramble_moves / self._n_scramble_moves
 
-            toReturn = 1-percent_moves_usage
+            toReturn = 1-(percent_moves_usage / scramble_moves)
+
+            toReturn = (percent_moves_usage - 1) ^ 2 * (percent_scramble_usage - 1/30) ^ 2 \
+                / ((percent_moves_usage - 1) ^ 2 + (percent_scramble_usage - 1/30) ^ 2 + 0.0001)
 
             print("Solved once! Score:", toReturn,
                   "Scramble moves:", 1+self._extra_scramble_moves)
