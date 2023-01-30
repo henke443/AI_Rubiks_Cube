@@ -136,7 +136,7 @@ def main():
         # vf doesnt exist on TQC (?)
         # pi = actor network, qf = critic network, vf = value network
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-        # net_arch=dict(pi=pi),
+        net_arch=dict(pi=pi),
         n_quantiles=50
         # net_arch=[32, 32]
     )
