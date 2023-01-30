@@ -124,7 +124,7 @@ def main():
 
     envs = SubprocVecEnv([create_env for _ in range(n_envs)])
 
-    VecMonitor(env, )
+    # VecMonitor(env, )
     policy_kwargs = dict(n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
                          # vf doesnt exist on TQC (?)
                          # pi = actor network, qf = critic network, vf = value network
