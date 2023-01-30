@@ -153,8 +153,11 @@ def main():
     def callback(options):
         # print("options:", options)
         # wrapped_env.reset(options=options)
-        model.env.set_attr("cur_steps", options["steps"], [0, 1])
-        model.env.set_attr("total_steps", options["total_steps"], [0, 1])
+        # model.env.set_attr("cur_steps", options["steps"])
+        # model.env.set_attr("total_steps", options["total_steps"])
+        model.get_env().set_attr("cur_steps", options["steps"])
+        model.get_env().set_attr("total_steps", options["total_steps"])
+        # print()
         # if "episode" in options["infos"][0]:
         # model.env.env_method("reset", options=options)
         # model.env.set_attr("total_steps", options["total_steps"])
