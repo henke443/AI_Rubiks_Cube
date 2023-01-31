@@ -41,7 +41,7 @@ class RubiksEnv(gym.Env):
         # )
 
         self.observation_space = spaces.Box(
-            0, 53, shape=(6, 6), dtype=np.int8)
+            0, 53, shape=(6, 9), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
