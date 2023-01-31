@@ -43,8 +43,8 @@ class CustomCNN(BaseFeaturesExtractor):
             nn.Conv2d(6, 12,
                       kernel_size=2, stride=1, padding=0),
             nn.ReLU(),
-            nn.Conv2d(12, 24, kernel_size=2, stride=2, padding=0),
-            nn.ReLU(),
+            # nn.Conv2d(12, 24, kernel_size=2, stride=2, padding=0),
+            # nn.ReLU(),
             nn.Flatten(),
         )
 
