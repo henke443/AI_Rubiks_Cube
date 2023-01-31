@@ -37,7 +37,7 @@ class RubiksEnv(gym.Env):
 
         if self.moves_per_step > 1:
             self.action_space = spaces.Box(
-                0, len(self.all_moves), dtype=np.int8, shape=(1, ))
+                0, len(self.all_moves)-1, dtype=np.int8, shape=(len(self.all_moves), ))
         else:
             self.action_space = spaces.Discrete(len(self.all_moves))
 
