@@ -222,7 +222,7 @@ class RubiksEnv(gym.Env):
         if self.moves_per_step > 1:
             many_moves = []
             for n in action:
-                print("action:", action, n)
+                # print("action:", action, n)
                 many_moves.append(self._discrete_action_to_action(n))
                 moves = " ".join(many_moves)
         else:
