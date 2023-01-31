@@ -179,8 +179,8 @@ def main():
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
         net_arch=[128, 128],
         n_quantiles=25,
-        # features_extractor_class=CustomCNN,
-        # features_extractor_kwargs=dict(features_dim=128),
+        features_extractor_class=CustomCNN,
+        features_extractor_kwargs=dict(features_dim=128),
         normalize_images=False,
 
         # net_arch=[32, 32]
