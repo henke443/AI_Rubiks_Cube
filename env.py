@@ -86,15 +86,14 @@ class RubiksEnv(gym.Env):
         retVal = np.zeros(shape=(6, 9), dtype=np.int8)
 
         for cube_face_i in range(0, 6):
+            cube_face = np.array([], dtype=np.int8)
+
             for row_i in range(0, 3):
                 discrete_row = np.array(self.cube.get_strip(
                     cube_face_i, "row", row_i), dtype=np.int8)
+                cube_face = np.append(cube_face, discrete_row)
 
-                if len(discrete_row) > 3:
-                    print("omg what", discrete_row)
-                retVal[cube_face_i] = np.append(
-                    retVal[cube_face_i], discrete_row)
-                print("retVal now:", retVal)
+            retVal[cube_face_i] = cube_face
 
         return retVal
 
