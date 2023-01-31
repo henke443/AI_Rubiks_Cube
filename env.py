@@ -45,8 +45,10 @@ class RubiksEnv(gym.Env):
         #    0, 5, shape=(54,), dtype=np.int8
         # )
 
+        self._full_obs_info = False
+
         self.observation_space = spaces.Box(
-            0, 53, shape=(6, 9, 54), dtype=np.int8)
+            0, 53, shape=(6, 9, 54 if self._full_obs_info else 6), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
@@ -88,7 +90,7 @@ class RubiksEnv(gym.Env):
 
         # np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
 
-        full_info = False
+        full_info = self._full_obs_info
 
         retVal = np.zeros(
             shape=(6, 9, 53 if full_info else 6), dtype=np.bool_)
