@@ -41,7 +41,7 @@ class RubiksEnv(gym.Env):
         # )
 
         self.observation_space = spaces.Box(
-            0, 53, shape=(6, 3, 3), dtype=np.int8)
+            0, 53, shape=(6, 6), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
@@ -81,12 +81,16 @@ class RubiksEnv(gym.Env):
         # One cube is described by 6 faces
         # 6x3x3
 
-        retVal = np.zeros(shape=(6, 3, 3), dtype=np.int8)
+        # np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
+
+        retVal = np.zeros(shape=(6, 6), dtype=np.int8)
 
         for cube_face_i in range(0, 6):
             for row_i in range(0, 3):
-                retVal[cube_face_i][row_i] = np.array(
-                    self.cube.get_strip(cube_face_i, "row", row_i), dtype=np.int8)
+                discrete_row = np.array(self.cube.get_strip(
+                    cube_face_i, "row", row_i), dtype=np.int8)
+                retVal[cube_face_i] = np.append(
+                    retVal[cube_face_i], discrete_row)
 
         return retVal
 
@@ -172,11 +176,9 @@ class RubiksEnv(gym.Env):
         current = self._get_multi_dim_obs()
         is_solved = True
         for cube_face_i, cube_face in enumerate(current):
-            for row_i, row in enumerate(cube_face):
-                # print("cube_face:", cube_face, "row:", row)
-                for i, el in enumerate(row):
-                    if el != solved[cube_face_i][row_i][i]:
-                        is_solved = False
+            for i, el in enumerate(cube_face):
+                if el != solved[cube_face_i][i]:
+                    is_solved = False
         return {
             "score": 1 if is_solved else -1,
             "distance": 0 if is_solved else 1

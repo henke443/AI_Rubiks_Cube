@@ -37,10 +37,10 @@ class CustomCNN(BaseFeaturesExtractor):
         super().__init__(observation_space, features_dim)
         # We assume CxHxW images (channels first)
         # Re-ordering will be done by pre-preprocessing or wrapper
-        n_input_channels = observation_space.shape[0]
+        n_faces = observation_space.shape[0]
         self.cnn = nn.Sequential(
-            nn.Conv2d(n_input_channels, 32,
-                      kernel_size=8, stride=4, padding=0),
+            nn.Conv2d(n_faces, 32,
+                      kernel_size=3, stride=1, padding=0),
             nn.ReLU(),
             nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=0),
             nn.ReLU(),
@@ -177,8 +177,8 @@ def main():
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
         net_arch=dict(pi=pi, qf=qf),
         n_quantiles=25,
-        # features_extractor_class=CustomCNN,
-        # features_extractor_kwargs=dict(features_dim=128),
+        features_extractor_class=CustomCNN,
+        features_extractor_kwargs=dict(features_dim=128),
 
         # net_arch=[32, 32]
     )
