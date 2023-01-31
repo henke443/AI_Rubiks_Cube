@@ -179,10 +179,10 @@ class RubiksEnv(gym.Env):
         # print("Solved:", solved)
         current = self._get_multi_dim_obs()
         is_solved = True
-        for cube_face_i, cube_face in enumerate(current):
-            for i, el in enumerate(cube_face):
-                if el != solved[cube_face_i][i]:
-                    is_solved = False
+        # for cube_face_i, cube_face in enumerate(current):
+        #    for i, el in enumerate(cube_face):
+        #        if el != solved[cube_face_i][i]:
+        #            is_solved = False
         return {
             "score": 1 if is_solved else -1,
             "distance": 0 if is_solved else 1
