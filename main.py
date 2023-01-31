@@ -169,7 +169,7 @@ def main():
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
 
-    envs = DummyVecEnv([create_env for _ in range(n_envs)])
+    envs = SubprocVecEnv([create_env for _ in range(n_envs)])
 
     # VecMonitor(env, )
     policy_kwargs = dict(  # n_critics=n_critics, n_quantiles=n_quantiles,  # activation_fn=th.nn.ReLU,
