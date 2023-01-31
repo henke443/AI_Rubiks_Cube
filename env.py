@@ -89,6 +89,7 @@ class RubiksEnv(gym.Env):
             for row_i in range(0, 3):
                 discrete_row = np.array(self.cube.get_strip(
                     cube_face_i, "row", row_i), dtype=np.int8)
+
                 retVal[cube_face_i] = np.append(
                     retVal[cube_face_i], discrete_row)
 
