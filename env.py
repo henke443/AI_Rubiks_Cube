@@ -41,7 +41,7 @@ class RubiksEnv(gym.Env):
         # )
 
         self.observation_space = spaces.Box(
-            0, 53, shape=(6, 9), dtype=np.int8)
+            0, 53, shape=(6, 9, 54), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
@@ -83,18 +83,26 @@ class RubiksEnv(gym.Env):
 
         # np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
 
-        retVal = np.zeros(shape=(6, 9), dtype=np.int8)
+        retVal = np.zeros(shape=(6, 9, 54), dtype=np.int8)
 
         for cube_face_i in range(0, 6):
             cube_face = np.array([], dtype=np.int8)
 
-            for row_i in range(0, 3):
-                discrete_row = np.array(self.cube.get_strip(
-                    cube_face_i, "row", row_i), dtype=np.int8)
-                # binary_row = np.zeros(shape=(54,))
-                cube_face = np.append(cube_face, discrete_row)
+            for cubie_face_i in range(0, 9):
 
-            retVal[cube_face_i] = cube_face
+                cubie_face = np.array([])
+                for row_i in range(0, 3):
+                    discrete_row = np.array(
+                        self.cube.get_strip(
+                            cube_face_i, "row", row_i
+                        ), dtype=np.int8)
+
+                    for col_i in discrete_row:
+                        bin_cubie_face = np.zeros(shape=(54,), dtype=np.bool_)
+                        bin_cubie_face[col_i] = 1
+                        cubie_face = np.append(cubie_face, bin_cubie_face)
+
+                retVal[cube_face_i][cubie_face_i] = cubie_face
 
         return retVal
 
@@ -179,10 +187,10 @@ class RubiksEnv(gym.Env):
         # print("Solved:", solved)
         current = self._get_multi_dim_obs()
         is_solved = True
-        for cube_face_i, cube_face in enumerate(current):
-            for i, el in enumerate(cube_face):
-                if el != solved[cube_face_i][i]:
-                    is_solved = False
+        # for cube_face_i, cube_face in enumerate(current):
+        #    for i, el in enumerate(cube_face):
+        #        if el != solved[cube_face_i][i]:
+        #            is_solved = False
         return {
             "score": 1 if is_solved else -1,
             "distance": 0 if is_solved else 1
