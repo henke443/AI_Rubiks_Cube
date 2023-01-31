@@ -17,10 +17,47 @@ from gym.wrappers.time_limit import TimeLimit
 from sb3_contrib import QRDQN
 # from stable_baselines3 import PPO
 
+import torch as th
+import torch.nn as nn
+
 
 import numpy as np
 import time
-import torch as th
+from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
+
+
+class CustomCNN(BaseFeaturesExtractor):
+    """
+    :param observation_space: (gym.Space)
+    :param features_dim: (int) Number of features extracted.
+        This corresponds to the number of unit for the last layer.
+    """
+
+    def __init__(self, observation_space: spaces.Box, features_dim: int = 256):
+        super().__init__(observation_space, features_dim)
+        # We assume CxHxW images (channels first)
+        # Re-ordering will be done by pre-preprocessing or wrapper
+        n_input_channels = observation_space.shape[0]
+        self.cnn = nn.Sequential(
+            nn.Conv2d(n_input_channels, 32,
+                      kernel_size=8, stride=4, padding=0),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=0),
+            nn.ReLU(),
+            nn.Flatten(),
+        )
+
+        # Compute shape by doing one forward pass
+        with th.no_grad():
+            n_flatten = self.cnn(
+                th.as_tensor(observation_space.sample()[None]).float()
+            ).shape[1]
+
+        self.linear = nn.Sequential(
+            nn.Linear(n_flatten, features_dim), nn.ReLU())
+
+    def forward(self, observations: th.Tensor) -> th.Tensor:
+        return self.linear(self.cnn(observations))
 
 
 class CustomCallback(BaseCallback):
@@ -103,11 +140,11 @@ def main():
 
     batch_size = 64  # 2**14
     max_moves_per_episode = 20
-    n_scramble_moves = 40
+    n_scramble_moves = 10
     learning_rate = 3e-5
 
-    pi = [2048, 2048]
-    # qf = [512, 512, 512]
+    pi = [256, 256]
+    qf = [512, 512, 512]
 
     top_quantiles_to_drop_per_net = 2
     n_critics = 2
@@ -138,9 +175,8 @@ def main():
         # vf doesnt exist on TQC (?)
         # pi = actor network, qf = critic network, vf = value network
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-        net_arch=pi,
+        net_arch=dict(pi=pi, qf=qf),
         n_quantiles=25,
-        normalize_images=False,
         # net_arch=[32, 32]
     )
 
@@ -148,9 +184,12 @@ def main():
     #    mean=np.zeros(wrapped_env.action_space.shape[-1]), sigma=float(0.2) * np.ones(wrapped_env.action_space.shape[-1]))
 
     # policy_kwargs = dict(n_critics=2, n_quantiles=25, n_env=)
-    model = QRDQN("CnnPolicy",
+    model = QRDQN("DQNPolicy",
                   envs,
                   verbose=1,
+                  features_extractor_class=CustomCNN,
+                  features_extractor_kwargs=dict(features_dim=128),
+
                   # top_quantiles_to_drop_per_net=top_quantiles_to_drop_per_net,
                   # ent_coef="auto",
                   # verbose=1,
