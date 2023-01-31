@@ -164,7 +164,6 @@ def main():
 
     base_env = env.RubiksEnv(
         moves_per_step=1, n_scramble_moves=n_scramble_moves, max_moves=max_moves_per_episode)
-    base_env.step("asd")
     check_env(base_env)
 
     # wrapped_env = TimeLimit(base_env, max_episode_steps=max_moves_per_episode)
