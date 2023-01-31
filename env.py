@@ -72,6 +72,7 @@ class RubiksEnv(gym.Env):
         return move  # " ".join(action_moves)
 
     def _discrete_action_to_action(self, action):
+        print("got action:", action)
         return self.all_moves[action]
 
     def _get_multi_dim_obs(self):
