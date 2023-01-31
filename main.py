@@ -40,25 +40,25 @@ class CustomCNN(BaseFeaturesExtractor):
         # Re-ordering will be done by pre-preprocessing or wrapper
         n_faces = observation_space.shape[0]
         self.cnn = nn.Sequential(
-            nn.Conv3d(n_faces, 32,
+            nn.Conv2d(n_faces, 32,
                       kernel_size=3, stride=1, padding=0),
             nn.ReLU(),
-            # nn.Conv3d(32, 24, kernel_size=3, stride=2, padding=0),
-            # nn.ReLU(),
+            nn.Conv2d(32, 24, kernel_size=3, stride=2, padding=0),
+            nn.ReLU(),
             nn.Flatten(),
         )
 
         # Compute shape by doing one forward pass
-        # with th.no_grad():
-        #    n_flatten = self.cnn(
-        #        th.as_tensor(observation_space.sample()[None]).float()
-        #    ).shape[1]
+        with th.no_grad():
+            n_flatten = self.cnn(
+                th.as_tensor(observation_space.sample()[None]).float()
+            ).shape[1]
 
-        # self.linear = nn.Sequential(
-        #    nn.Linear(n_flatten, features_dim), nn.ReLU())
+        self.linear = nn.Sequential(
+            nn.Linear(n_flatten, features_dim), nn.ReLU())
 
     def forward(self, observations: th.Tensor) -> th.Tensor:
-        # return self.linear(self.cnn(observations))
+        return self.linear(self.cnn(observations))
         return self.cnn(observations)
 
 
