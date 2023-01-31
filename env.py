@@ -299,7 +299,8 @@ if __name__ == "__main__":
     env.reset()
     env.cube = Cube()
     print(env._get_multi_dim_info())
-    print(env._get_multi_dim_obs())
+    print(env._get_multi_dim_obs().shape(-1))
+
     # env.render()
     print("\nThen doing R U R:\n")
     env.cube.moves("R U R")
