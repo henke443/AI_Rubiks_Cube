@@ -34,7 +34,12 @@ class RubiksEnv(gym.Env):
 
         # actions_min = [np.float32(-1)]*len(self.base_moves)*moves_per_step
         # actions_max = [np.float32(1)]*len(self.base_moves)*moves_per_step
-        self.action_space = spaces.Discrete(len(self.all_moves))
+
+        if self.moves_per_step > 1:
+            self.action_space = spaces.Box(
+                0, len(self.all_moves), dtype=np.int8, shape=(1, ))
+        else:
+            self.action_space = spaces.Discrete(len(self.all_moves))
 
         # self.observation_space = spaces.Box(
         #    0, 5, shape=(54,), dtype=np.int8
@@ -83,7 +88,10 @@ class RubiksEnv(gym.Env):
 
         # np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
 
-        retVal = np.zeros(shape=(6, 9, 54), dtype=np.bool_)
+        full_info = False
+
+        retVal = np.zeros(
+            shape=(6, 9, 53 if full_info else 6), dtype=np.bool_)
 
         for cube_face_i in range(0, 6):
 
@@ -97,8 +105,9 @@ class RubiksEnv(gym.Env):
                         ), dtype=np.int8)
 
                     for col_i in discrete_row:
-                        bin_cubie_face = np.zeros(shape=(54,), dtype=np.bool_)
-                        bin_cubie_face[col_i] = 1
+                        bin_cubie_face = np.zeros(
+                            shape=(53 if full_info else 6,), dtype=np.bool_)
+                        bin_cubie_face[col_i if full_info else col_i % 6] = 1
                         # cubie_face = bin_cubie_face
 
                         retVal[cube_face_i][cubie_face_i] = bin_cubie_face
@@ -206,9 +215,17 @@ class RubiksEnv(gym.Env):
         if hasattr(self, "episode_returns"):
             print("in step:", self.episode_returns)
         # print("asd:", self.steps)
-        move = self._discrete_action_to_action(action)
+        moves = ""
 
-        self.cube.moves(move)
+        if self.moves_per_step > 1:
+            many_moves = []
+            for n in action:
+                many_moves.append(self._discrete_action_to_action)
+                moves = " ".join(many_moves)
+        else:
+            moves = self._discrete_action_to_action(action)
+
+        self.cube.moves(moves)
 
         observation = self._get_multi_dim_obs()
         info = self._get_multi_dim_info()
