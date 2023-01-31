@@ -180,6 +180,7 @@ def main():
         n_quantiles=25,
         features_extractor_class=CustomCNN,
         features_extractor_kwargs=dict(features_dim=128),
+        normalize_images=False,
 
         # net_arch=[32, 32]
     )
