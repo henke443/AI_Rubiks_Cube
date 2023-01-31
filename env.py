@@ -94,6 +94,7 @@ class RubiksEnv(gym.Env):
                     print("omg what", discrete_row)
                 retVal[cube_face_i] = np.append(
                     retVal[cube_face_i], discrete_row)
+                print("retVal now:", retVal)
 
         return retVal
 
