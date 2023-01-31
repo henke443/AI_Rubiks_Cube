@@ -145,8 +145,8 @@ def main():
     n_scramble_moves = 10
     learning_rate = 3e-5
 
-    pi = [256, 256]
-    qf = [512, 512, 512]
+    pi = [128, 128]
+    qf = [256, 256, 256]
 
     top_quantiles_to_drop_per_net = 2
     n_critics = 2
