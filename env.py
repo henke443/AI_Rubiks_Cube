@@ -83,7 +83,7 @@ class RubiksEnv(gym.Env):
 
         # np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
 
-        retVal = np.zeros(shape=(6, 6), dtype=np.int8)
+        retVal = np.zeros(shape=(6, 9), dtype=np.int8)
 
         for cube_face_i in range(0, 6):
             for row_i in range(0, 3):
