@@ -102,7 +102,7 @@ class RubiksEnv(gym.Env):
                         bin_cubie_face[col_i] = 1
                         cubie_face = np.append(cubie_face, bin_cubie_face)
 
-                retVal[cube_face_i][cubie_face_i] = cubie_face
+                retVal[cube_face][cubie_face_i] = cubie_face
 
         return retVal
 
