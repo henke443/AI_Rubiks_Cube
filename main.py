@@ -13,6 +13,7 @@ from stable_baselines3.common.monitor import Monitor
 # from stable_baselines3.common.vec_env.vec_monitor import VecMonitor
 # from stable_baselines3 import DDPG
 from gym.wrappers.time_limit import TimeLimit
+from gym import spaces
 # from sb3_contrib import TQC
 from sb3_contrib import QRDQN
 # from stable_baselines3 import PPO
