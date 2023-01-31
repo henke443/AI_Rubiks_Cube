@@ -40,8 +40,8 @@ class CustomCNN(BaseFeaturesExtractor):
         # Re-ordering will be done by pre-preprocessing or wrapper
         n_faces = observation_space.shape[0]
         self.cnn = nn.Sequential(
-            nn.Conv3d(1, 16,
-                      kernel_size=2, stride=1, padding=0),
+            nn.Conv3d(1, 64,
+                      kernel_size=3, stride=1, padding=0),
             nn.ReLU(),
             # nn.Conv3d(16, 8, kernel_size=2, stride=1, padding=0),
             # nn.ReLU(),
