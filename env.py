@@ -41,14 +41,17 @@ class RubiksEnv(gym.Env):
         else:
             self.action_space = spaces.Discrete(len(self.all_moves))
 
-        # self.observation_space = spaces.Box(
-        #    0, 5, shape=(54,), dtype=np.int8
-        # )
-
         self._full_obs_info = False
 
-        self.observation_space = spaces.Box(
-            0, 53, shape=(6, 9, 54 if self._full_obs_info else 6), dtype=np.int8)
+        self._flat_obs = False
+
+        if self._flat_obs:
+            self.observation_space = spaces.Box(
+                0, 5, shape=(54,), dtype=np.int8
+            )
+        else:
+            self.observation_space = spaces.Box(
+                0, 53, shape=(6, 9, 54 if self._full_obs_info else 6), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
