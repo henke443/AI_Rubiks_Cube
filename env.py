@@ -60,6 +60,8 @@ class RubiksEnv(gym.Env):
             np.where(vec == minv)[0][0]
         ] + "'"
 
+        print("action vec:", vec)
+
         # print("move:", move, "\n")
         # action_moves = []
         # for v in ([i, x] for i, x in enumerate(vec) if x):
