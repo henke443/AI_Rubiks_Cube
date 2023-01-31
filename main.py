@@ -140,7 +140,7 @@ def main():
     learning_starts = 100
 
     batch_size = 64  # 2**14
-    max_moves_per_episode = 20
+    max_moves_per_episode = 100
     n_scramble_moves = 10
     learning_rate = 3e-5
 
