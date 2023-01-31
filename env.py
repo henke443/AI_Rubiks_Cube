@@ -36,9 +36,12 @@ class RubiksEnv(gym.Env):
         # actions_max = [np.float32(1)]*len(self.base_moves)*moves_per_step
         self.action_space = spaces.Discrete(len(self.all_moves))
 
+        # self.observation_space = spaces.Box(
+        #    0, 5, shape=(54,), dtype=np.int8
+        # )
+
         self.observation_space = spaces.Box(
-            0, 5, shape=(54,), dtype=np.int8
-        )
+            0, 6, shape=(6, 3, 3), dtype=np.int8)
 
         self._max_moves = max_moves
         self._extra_scramble_moves = 0
@@ -71,7 +74,22 @@ class RubiksEnv(gym.Env):
     def _discrete_action_to_action(self, action):
         return self.all_moves[action]
 
-    def _get_obs(self):
+    def _get_multi_dim_obs(self):
+        # One cubie face color is desribed a vector of length 6
+        # One face is described by 6 cubie face colors
+        # One cube is described by 6 faces
+        # 6x3x3
+
+        retVal = np.zeros(shape=(6, 3, 3), dtype=np.int8)
+
+        for cube_face_i in range(0, 6):
+            for row_i in range(0, 3):
+                retVal[cube_face_i][row_i] = np.array(
+                    self.cube.get_strip(cube_face_i, "row", row_i), dtype=np.int8)
+
+        return retVal
+
+    def _get_flat_obs(self):
         color_map = {
             "Y": 0,
             "O": 1,
@@ -82,10 +100,10 @@ class RubiksEnv(gym.Env):
         }
         return np.array([color_map[self.cube.get_color(x)] for x in self.cube._data], dtype=np.int8)
 
-    def _get_info(self):
+    def _get_flat_info(self):
         solved = self._solved_obs
         # print("Solved:", solved)
-        current = self._get_obs()
+        current = self._get_multi_dim_obs()
         # print("Current:", current)
 
         distance = 1-(
@@ -147,6 +165,22 @@ class RubiksEnv(gym.Env):
             "score": score
         }
 
+    def _get_multi_dim_info(self):
+        solved = self._solved_obs
+        # print("Solved:", solved)
+        current = self._get_multi_dim_obs()
+        is_solved = True
+        for cube_face_i, cube_face in enumerate(current):
+            for row_i, row in enumerate(cube_face):
+                # print("cube_face:", cube_face, "row:", row)
+                for i, el in enumerate(row):
+                    if el != solved[cube_face_i][row_i][i]:
+                        is_solved = False
+        return {
+            "score": 1 if is_solved else -1,
+            "distance": 0 if is_solved else 1
+        }
+
     def set_steps(self, step):
         self.steps = step
 
@@ -162,8 +196,8 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(move)
 
-        observation = self._get_obs()
-        info = self._get_info()
+        observation = self._get_multi_dim_obs()
+        info = self._get_multi_dim_info()
 
         # An episode is done if cube is solved
         terminated = info["distance"] == 0
@@ -215,7 +249,7 @@ class RubiksEnv(gym.Env):
 
         self.cube = Cube()
 
-        self._solved_obs = self._get_obs()
+        self._solved_obs = self._get_multi_dim_obs()
 
         scramble_moves = []
         while len(scramble_moves) != 1 + self._extra_scramble_moves:
@@ -241,10 +275,10 @@ class RubiksEnv(gym.Env):
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
-        self._scramble_distance = self._get_info()["distance"]
+        self._scramble_distance = self._get_multi_dim_info()["distance"]
 
-        observation = self._get_obs()
-        # info = self._get_info()
+        observation = self._get_multi_dim_obs()
+        # info = self._get_multi_dim_info()
 
         # if self.render_mode == "human":
         #    self.render()
@@ -263,11 +297,12 @@ class RubiksEnv(gym.Env):
 if __name__ == "__main__":
     env = RubiksEnv()
     env.reset()
-    print(env._get_info())
-    print(env._get_obs())
+    env.cube = Cube()
+    print(env._get_multi_dim_info())
+    print(env._get_multi_dim_obs())
     # env.render()
-    print("Then doing R U R:")
+    print("\nThen doing R U R:\n")
     env.cube.moves("R U R")
-    print(env._get_info())
-    print(env._get_obs())
+    print(env._get_multi_dim_info())
+    print(env._get_multi_dim_obs())
     # env.render()
