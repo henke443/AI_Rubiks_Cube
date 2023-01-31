@@ -89,7 +89,7 @@ class RubiksEnv(gym.Env):
 
             for cubie_face_i in range(0, 9):
 
-                cubie_face = np.array([])
+                # cubie_face = np.array([])
                 for row_i in range(0, 3):
                     discrete_row = np.array(
                         self.cube.get_strip(
@@ -99,9 +99,9 @@ class RubiksEnv(gym.Env):
                     for col_i in discrete_row:
                         bin_cubie_face = np.zeros(shape=(54,), dtype=np.bool_)
                         bin_cubie_face[col_i] = 1
-                        cubie_face = np.append(cubie_face, bin_cubie_face)
+                        # cubie_face = bin_cubie_face
 
-                retVal[cube_face_i][cubie_face_i] = cubie_face
+                        retVal[cube_face_i][cubie_face_i] = bin_cubie_face
 
         return retVal
 
