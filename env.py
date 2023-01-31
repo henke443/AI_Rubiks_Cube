@@ -286,7 +286,7 @@ class RubiksEnv(gym.Env):
 
         observation = self._get_multi_dim_obs()
 
-        print("Got observation:", observation)
+        # print("Got observation:", observation)
         # info = self._get_multi_dim_info()
 
         # if self.render_mode == "human":
