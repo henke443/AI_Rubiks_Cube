@@ -178,7 +178,7 @@ def main():
         # vf doesnt exist on TQC (?)
         # pi = actor network, qf = critic network, vf = value network
         # net_arch=dict(pi=[256, 256], qf=[512, 512, 512])
-        net_arch=[128, 64, 64],
+        net_arch=dict(pi=pi),
         n_quantiles=25,
         features_extractor_class=CustomCNN,
         features_extractor_kwargs=dict(features_dim=32),
