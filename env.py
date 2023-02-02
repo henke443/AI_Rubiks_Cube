@@ -135,7 +135,7 @@ class RubiksEnv(gym.Env):
     def _get_flat_info(self):
         solved = self._solved_obs
         # print("Solved:", solved)
-        current = self._get_multi_dim_obs()
+        current = self._get_flat_obs()
         # print("Current:", current)
 
         distance = 1-(
