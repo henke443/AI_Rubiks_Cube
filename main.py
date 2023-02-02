@@ -143,7 +143,7 @@ def main():
 
     batch_size = 64  # 2**14
     max_moves_per_episode = 20
-    n_scramble_moves = 10
+    n_scramble_moves = 2
     learning_rate = 3e-5
 
     pi = [256, 256, 256]
