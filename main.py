@@ -43,7 +43,8 @@ class CustomCNN(BaseFeaturesExtractor):
             nn.Conv3d(1, 64,
                       kernel_size=3, stride=1, padding=0),
             nn.ReLU(),
-            nn.Conv3d(64, 64, kernel_size=3, stride=2, padding=0),
+            nn.MaxPool3d(3, 1, 0, 0),
+            nn.Conv3d(64, 64, kernel_size=2, stride=2, padding=0),
             nn.ReLU(),
             nn.Flatten(),
         )
