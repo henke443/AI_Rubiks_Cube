@@ -45,7 +45,7 @@ class RubiksEnv(gym.Env):
 
         self._full_obs_info = False
 
-        self._flat_obs = False
+        self._flat_obs = True
 
         if self._flat_obs:
             self.observation_space = spaces.Box(
@@ -235,8 +235,8 @@ class RubiksEnv(gym.Env):
 
         self.cube.moves(moves)
 
-        observation = self._get_multi_dim_obs()
-        info = self._get_multi_dim_info()
+        observation = self._get_flat_obs() if self._flat_obs else self._get_multi_dim_obs()
+        info = self._get_flat_info() if self._flat_obs else self._get_multi_dim_info()
 
         # An episode is done if cube is solved
         terminated = info["distance"] == 0
@@ -288,7 +288,8 @@ class RubiksEnv(gym.Env):
 
         self.cube = Cube()
 
-        self._solved_obs = self._get_multi_dim_obs()
+        self._solved_obs = self._get_flat_obs(
+        ) if self._flat_obs else self._get_multi_dim_obs()
 
         scramble_moves = []
         while len(scramble_moves) != 1 + self._extra_scramble_moves:
@@ -314,9 +315,9 @@ class RubiksEnv(gym.Env):
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
-        self._scramble_distance = self._get_multi_dim_info()["distance"]
+        self._scramble_distance = self._get_flat_info()["distance"]
 
-        observation = self._get_multi_dim_obs()
+        observation = self._get_flat_obs() if self._flat_obs else self._get_multi_dim_obs()
 
         # print("Got observation:", observation)
         # info = self._get_multi_dim_info()
