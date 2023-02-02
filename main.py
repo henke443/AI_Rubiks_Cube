@@ -137,7 +137,7 @@ class CustomCallback(BaseCallback):
 def main():
     n_envs = 8
     log_interval = 200
-    total_timesteps = np.int64(2.5e6)
+    total_timesteps = np.int64(1e5)
     learning_starts = 100
 
     batch_size = 64  # 2**14
@@ -145,8 +145,8 @@ def main():
     n_scramble_moves = 10
     learning_rate = 3e-5
 
-    pi = [128, 128]
-    qf = [256, 256, 256]
+    pi = [256, 256, 256]
+    qf = [512, 512, 512]
 
     top_quantiles_to_drop_per_net = 2
     n_critics = 2
