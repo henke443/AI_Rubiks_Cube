@@ -104,6 +104,8 @@ class RubikConfig(BaseConfig):
 
         obs_shape = (self.stacked_observation, 54)
 
+        self.obs_shape = obs_shape
+
         # self.obs_shape = (
         #    obs_shape[0] * self.stacked_observations, obs_shape[1], obs_shape[2])
 

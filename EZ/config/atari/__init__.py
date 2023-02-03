@@ -77,10 +77,14 @@ class AtariConfig(BaseConfig):
         self.reduced_channels_reward = 16  # x36 Number of channels in reward head
         self.reduced_channels_value = 16  # x36 Number of channels in value head
         self.reduced_channels_policy = 16  # x36 Number of channels in policy head
-        self.resnet_fc_reward_layers = [32]  # Define the hidden layers in the reward head of the dynamic network
-        self.resnet_fc_value_layers = [32]  # Define the hidden layers in the value head of the prediction network
-        self.resnet_fc_policy_layers = [32]  # Define the hidden layers in the policy head of the prediction network
-        self.downsample = True  # Downsample observations before representation network (See paper appendix Network Architecture)
+        # Define the hidden layers in the reward head of the dynamic network
+        self.resnet_fc_reward_layers = [32]
+        # Define the hidden layers in the value head of the prediction network
+        self.resnet_fc_value_layers = [32]
+        # Define the hidden layers in the policy head of the prediction network
+        self.resnet_fc_policy_layers = [32]
+        # Downsample observations before representation network (See paper appendix Network Architecture)
+        self.downsample = True
 
     def visit_softmax_temperature_fn(self, num_moves, trained_steps):
         if self.change_temperature:
@@ -99,7 +103,8 @@ class AtariConfig(BaseConfig):
         if self.gray_scale:
             self.image_channel = 1
         obs_shape = (self.image_channel, 96, 96)
-        self.obs_shape = (obs_shape[0] * self.stacked_observations, obs_shape[1], obs_shape[2])
+        self.obs_shape = (
+            obs_shape[0] * self.stacked_observations, obs_shape[1], obs_shape[2])
 
         game = self.new_game()
         self.action_space_size = game.action_space_size
@@ -136,20 +141,24 @@ class AtariConfig(BaseConfig):
                 max_moves = 108000 // self.frame_skip
             else:
                 max_moves = self.test_max_moves
-            env = make_atari(self.env_name, skip=self.frame_skip, max_episode_steps=max_moves)
+            env = make_atari(self.env_name, skip=self.frame_skip,
+                             max_episode_steps=max_moves)
         else:
-            env = make_atari(self.env_name, skip=self.frame_skip, max_episode_steps=self.max_moves)
+            env = make_atari(self.env_name, skip=self.frame_skip,
+                             max_episode_steps=self.max_moves)
 
         if self.episode_life and not test:
             env = EpisodicLifeEnv(env)
-        env = WarpFrame(env, width=self.obs_shape[1], height=self.obs_shape[2], grayscale=self.gray_scale)
+        env = WarpFrame(
+            env, width=self.obs_shape[1], height=self.obs_shape[2], grayscale=self.gray_scale)
 
         if seed is not None:
             env.seed(seed)
 
         if save_video:
             from gym.wrappers import Monitor
-            env = Monitor(env, directory=save_path, force=True, video_callable=video_callable, uid=uid)
+            env = Monitor(env, directory=save_path, force=True,
+                          video_callable=video_callable, uid=uid)
         return AtariWrapper(env, discount=self.discount, cvt_string=self.cvt_string)
 
     def scalar_reward_loss(self, prediction, target):
@@ -160,7 +169,8 @@ class AtariConfig(BaseConfig):
 
     def set_transforms(self):
         if self.use_augmentation:
-            self.transforms = Transforms(self.augmentation, image_shape=(self.obs_shape[1], self.obs_shape[2]))
+            self.transforms = Transforms(self.augmentation, image_shape=(
+                self.obs_shape[1], self.obs_shape[2]))
 
     def transform(self, images):
         return self.transforms.transform(images)
