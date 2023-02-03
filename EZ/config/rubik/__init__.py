@@ -102,6 +102,8 @@ class RubikConfig(BaseConfig):
         self.env_name = env_name
         game = self.new_game()
 
+        print("DEBUG obs shape", game.env.observation_space)
+        print("DEBUG obs shape 1", game.env.observation_space.shape)
         obs_shape = (self.stacked_observations,
                      game.env.observation_space.shape[1], game.env.observation_space.shape[2], game.env.observation_space.shape[3])
 
