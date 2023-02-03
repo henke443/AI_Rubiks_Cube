@@ -316,7 +316,8 @@ class RubiksEnv(gym.Env):
         self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
-        self._scramble_distance = self._get_flat_info()["distance"]
+        self._scramble_distance = self._get_flat_info(
+        )["distance"] if self._flat_obs else 1
 
         observation = self._get_flat_obs() if self._flat_obs else self._get_multi_dim_obs()
 
