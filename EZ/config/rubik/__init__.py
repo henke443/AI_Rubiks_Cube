@@ -49,7 +49,7 @@ class RubikConfig(BaseConfig):
             transition_num=1,
             # frame skip & stack observation
             frame_skip=1,
-            stacked_observations=4,
+            stacked_observations=1,
             # coefficient
             reward_loss_coeff=1,
             value_loss_coeff=0.25,
