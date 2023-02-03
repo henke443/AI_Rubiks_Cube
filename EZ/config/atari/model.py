@@ -50,7 +50,7 @@ def mlp(
 
 
 def conv3x3(in_channels, out_channels, stride=1):
-    return nn.Conv2d(
+    return nn.Conv3D(
         in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False
     )
 
@@ -87,7 +87,7 @@ class ResidualBlock(nn.Module):
 class DownSample(nn.Module):
     def __init__(self, in_channels, out_channels, momentum=0.1):
         super().__init__()
-        self.conv1 = nn.Conv2d(
+        self.conv1 = nn.Conv3D(
             in_channels,
             out_channels // 2,
             kernel_size=3,
@@ -99,7 +99,7 @@ class DownSample(nn.Module):
         self.resblocks1 = nn.ModuleList(
             [ResidualBlock(out_channels // 2, out_channels // 2, momentum=momentum) for _ in range(1)]
         )
-        self.conv2 = nn.Conv2d(
+        self.conv2 = nn.Conv3D(
             out_channels // 2,
             out_channels,
             kernel_size=3,
@@ -237,7 +237,7 @@ class DynamicsNetwork(nn.Module):
             [ResidualBlock(num_channels - 1, num_channels - 1, momentum=momentum) for _ in range(num_blocks)]
         )
 
-        self.conv1x1_reward = nn.Conv2d(num_channels - 1, reduced_channels_reward, 1)
+        self.conv1x1_reward = nn.Conv3D(num_channels - 1, reduced_channels_reward, 1)
         self.bn_reward = nn.BatchNorm2d(reduced_channels_reward, momentum=momentum)
         self.block_output_size_reward = block_output_size_reward
         self.lstm = nn.LSTM(input_size=self.block_output_size_reward, hidden_size=self.lstm_hidden_size)
@@ -336,8 +336,8 @@ class PredictionNetwork(nn.Module):
             [ResidualBlock(num_channels, num_channels, momentum=momentum) for _ in range(num_blocks)]
         )
 
-        self.conv1x1_value = nn.Conv2d(num_channels, reduced_channels_value, 1)
-        self.conv1x1_policy = nn.Conv2d(num_channels, reduced_channels_policy, 1)
+        self.conv1x1_value = nn.Conv3D(num_channels, reduced_channels_value, 1)
+        self.conv1x1_policy = nn.Conv3D(num_channels, reduced_channels_policy, 1)
         self.bn_value = nn.BatchNorm2d(reduced_channels_value, momentum=momentum)
         self.bn_policy = nn.BatchNorm2d(reduced_channels_policy, momentum=momentum)
         self.block_output_size_value = block_output_size_value
