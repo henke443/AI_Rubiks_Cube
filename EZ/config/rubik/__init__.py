@@ -70,6 +70,8 @@ class RubikConfig(BaseConfig):
         self.start_transitions = self.start_transitions * 1000 // self.frame_skip
         self.start_transitions = max(1, self.start_transitions)
 
+        self.stacked_observations = self.stacked_observations
+
         self.bn_mt = 0.1
         self.blocks = 1  # Number of blocks in the ResNet
         self.channels = 64  # Number of channels in the ResNet
