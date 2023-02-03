@@ -19,7 +19,7 @@ class RubiksEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False,
-                 n_scramble_moves=40, max_moves=0, flat_obs=bool | "flat" | "2d" | "3d"="2d"):
+                 n_scramble_moves=40, max_moves=0, flat_obs=bool | str="2d"):
         super(RubiksEnv, self).__init__()
 
         if flat_obs == True:
