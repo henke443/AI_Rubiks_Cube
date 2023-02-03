@@ -18,7 +18,7 @@ class RubiksEnv(gym.Env):
     """Custom Environment that follows gym interface"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0):
+    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0, flat_obs=False):
         super(RubiksEnv, self).__init__()
 
         self.steps = 0
@@ -46,7 +46,7 @@ class RubiksEnv(gym.Env):
 
         self._full_obs_info = False
 
-        self._flat_obs = True
+        self._flat_obs = flat_obs
 
         if self._flat_obs:
             self.observation_space = spaces.Box(
