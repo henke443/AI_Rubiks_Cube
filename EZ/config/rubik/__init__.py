@@ -49,7 +49,7 @@ class RubikConfig(BaseConfig):
             transition_num=1,
             # frame skip & stack observation
             frame_skip=1,
-            stacked_observations=4,
+            stacked_observations=1,
             # coefficient
             reward_loss_coeff=1,
             value_loss_coeff=0.25,
@@ -104,8 +104,8 @@ class RubikConfig(BaseConfig):
 
         print("DEBUG obs shape", game.env.observation_space)
         print("DEBUG obs shape 1", game.env.observation_space.shape[0])
-        obs_shape = (self.stacked_observations,
-                     game.env.observation_space.shape[0], game.env.observation_space.shape[1], game.env.observation_space.shape[2])
+        obs_shape = (
+            game.env.observation_space.shape[0], game.env.observation_space.shape[1], game.env.observation_space.shape[2])
 
         self.obs_shape = obs_shape
 
