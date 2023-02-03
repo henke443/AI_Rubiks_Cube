@@ -18,8 +18,14 @@ class RubiksEnv(gym.Env):
     """Custom Environment that follows gym interface"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False, n_scramble_moves=40, max_moves=0, flat_obs=False):
+    def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False,
+                 n_scramble_moves=40, max_moves=0, flat_obs=bool | "flat" | "2d" | "3d"):
         super(RubiksEnv, self).__init__()
+
+        if flat_obs == True:
+            flat_obs = "flat"
+        elif flat_obs == False:
+            flat_obs = "2d"
 
         self.steps = 0
         self.total_steps = 0
@@ -48,11 +54,16 @@ class RubiksEnv(gym.Env):
 
         self._flat_obs = flat_obs
 
-        if self._flat_obs:
+        if self._flat_obs == "flat":
             self.observation_space = spaces.Box(
                 0, 5, shape=(54,), dtype=np.int8
             )
-        else:
+
+        elif self._flat_obs == "2d":
+            self.observation_space = spaces.Box(
+                0, 53, shape=(6, 9), dtype=np.int8)
+
+        elif self._flat_obs == "3d":
             self.observation_space = spaces.Box(
                 0, 53, shape=(6, 9, 54 if self._full_obs_info else 6), dtype=np.int8)
 
@@ -98,8 +109,12 @@ class RubiksEnv(gym.Env):
 
         full_info = self._full_obs_info
 
-        retVal = np.zeros(
-            shape=(6, 9, 53 if full_info else 6), dtype=np.bool_)
+        retVal = None
+        if self._flat_obs == "3d":
+            retVal = np.zeros(
+                shape=(6, 9, 53 if full_info else 6), dtype=np.bool_)
+        else:
+            retVal = np.zeros(shape=(6, 9), dtype=np.int8)
 
         for cube_face_i in range(0, 6):
 
@@ -112,13 +127,15 @@ class RubiksEnv(gym.Env):
                             cube_face_i, "row", row_i
                         ), dtype=np.int8)
 
-                    for col_i in discrete_row:
-                        bin_cubie_face = np.zeros(
-                            shape=(53 if full_info else 6,), dtype=np.bool_)
-                        bin_cubie_face[col_i if full_info else col_i % 6] = 1
-                        # cubie_face = bin_cubie_face
-
-                        retVal[cube_face_i][cubie_face_i] = bin_cubie_face
+                    for row_el in discrete_row:
+                        if self._flat_obs == "3d":
+                            bin_cubie_face = np.zeros(
+                                shape=(53 if full_info else 6,), dtype=np.bool_)
+                            bin_cubie_face[row_el if full_info else row_el % 6] = 1
+                            # cubie_face = bin_cubie_face
+                            retVal[cube_face_i][cubie_face_i] = bin_cubie_face
+                        else:
+                            retVal[cube_face_i][cubie_face_i] = row_el
 
         return retVal
 
@@ -205,8 +222,12 @@ class RubiksEnv(gym.Env):
         is_solved = True
         for cube_face_i, cube_face in enumerate(current):
             for i, cubie_face in enumerate(cube_face):
-                if list(cubie_face).index(1) != list(solved[cube_face_i][i]).index(1):
-                    is_solved = False
+                if self._flat_obs == "2d":
+                    if cubie_face != solved[cube_face_i][i]:
+                        is_solved = False
+                else:
+                    if list(cubie_face).index(1) != list(solved[cube_face_i][i]).index(1):
+                        is_solved = False
         return {
             "score": 1 if is_solved else -1,
             "distance": 0 if is_solved else 1
