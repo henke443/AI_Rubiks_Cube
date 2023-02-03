@@ -49,7 +49,7 @@ class RubikConfig(BaseConfig):
             transition_num=1,
             # frame skip & stack observation
             frame_skip=1,
-            stacked_observations=1,
+            stacked_observations=4,
             # coefficient
             reward_loss_coeff=1,
             value_loss_coeff=0.25,
@@ -102,7 +102,8 @@ class RubikConfig(BaseConfig):
         self.env_name = env_name
         game = self.new_game()
 
-        obs_shape = (self.stacked_observations, 54)
+        obs_shape = (self.stacked_observations,
+                     game.env.observation_space.shape[1], game.env.observation_space.shape[2], game.env.observation_space.shape[3])
 
         self.obs_shape = obs_shape
 
