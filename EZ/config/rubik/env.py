@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from c2 import Cube
+# import c2
+from .c2 import Cube
 import sys
 import gym
 from gym import spaces
