@@ -3,8 +3,6 @@ __pycache__/
 *.pyc
 *$py.class
 
-core/ctree/UNKOWN*
-core/ctree/build
 
 # Pycharm
 .idea/*
