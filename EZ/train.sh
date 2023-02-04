@@ -8,5 +8,6 @@ python main.py --env BreakoutNoFrameskip-v4 --case atari --opr train --force \
   --p_mcts_num 1 \
   --use_priority \
   --use_max_priority \
+  --object_store_memory 1610612736 \
   --amp_type 'torch_amp' \
   --info 'EfficientZero-V1'
