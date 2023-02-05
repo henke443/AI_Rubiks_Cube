@@ -19,10 +19,10 @@ class Trainer:
     def execute_episode(self):
 
         train_examples = []
-        state = self.game.get_init_board()
+        # state = self.game.get_init_board()
 
         while True:
-
+            state = self.game.get_init_board()  # added
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
 
