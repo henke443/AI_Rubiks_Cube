@@ -23,7 +23,8 @@ class RubiksGame:
             self.env.steps = step
             self.env.total_steps = total_steps
             self.env.reset()
-            print("extra_scrambles:", self.env._extra_scramble_moves)
+            if self.env._extra_scramble_moves > 0:
+                print("extra_scrambles:", self.env._extra_scramble_moves)
 
         return self.env._get_obs()
 
