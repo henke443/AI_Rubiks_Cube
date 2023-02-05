@@ -179,7 +179,7 @@ class RubiksEnv(gym.Env):
             # score = max(0, min(1, score))
 
         score = 0
-        if distance == 0:
+        if distance == -1337:
             # score = 1
             scramble_moves = 1+self._extra_scramble_moves
             moves_after_scramble = max(
@@ -208,6 +208,8 @@ class RubiksEnv(gym.Env):
         # if score < -1 or score > 1:
         #    print("WTF:", score, distance)
         #    exit()
+        if distance == 0:
+            score = 1
         return {
             "distance": distance,
             # "speed": speed,
