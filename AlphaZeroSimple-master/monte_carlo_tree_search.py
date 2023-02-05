@@ -7,7 +7,8 @@ def ucb_score(parent, child):
     """
     The score for an action that would transition between the parent and child.
     """
-    prior_score = child.prior * math.sqrt(parent.visit_count) / (child.visit_count + 1)
+    prior_score = child.prior * \
+        math.sqrt(parent.visit_count) / (child.visit_count + 1)
     if child.visit_count > 0:
         # The value of the child is from the perspective of the opposing player
         value_score = -child.value()
@@ -18,9 +19,8 @@ def ucb_score(parent, child):
 
 
 class Node:
-    def __init__(self, prior, to_play):
+    def __init__(self, prior):
         self.visit_count = 0
-        self.to_play = to_play
         self.prior = prior
         self.value_sum = 0
         self.children = {}
@@ -38,7 +38,8 @@ class Node:
         """
         Select action according to the visit count distribution and the temperature.
         """
-        visit_counts = np.array([child.visit_count for child in self.children.values()])
+        visit_counts = np.array(
+            [child.visit_count for child in self.children.values()])
         actions = [action for action in self.children.keys()]
         if temperature == 0:
             action = actions[np.argmax(visit_counts)]
@@ -47,7 +48,8 @@ class Node:
         else:
             # See paper appendix Data Generation
             visit_count_distribution = visit_counts ** (1 / temperature)
-            visit_count_distribution = visit_count_distribution / sum(visit_count_distribution)
+            visit_count_distribution = visit_count_distribution / \
+                sum(visit_count_distribution)
             action = np.random.choice(actions, p=visit_count_distribution)
 
         return action
@@ -69,15 +71,14 @@ class Node:
 
         return best_action, best_child
 
-    def expand(self, state, to_play, action_probs):
+    def expand(self, state, action_probs):
         """
         We expand a node and keep track of the prior policy probability given by neural network
         """
-        self.to_play = to_play
         self.state = state
         for a, prob in enumerate(action_probs):
             if prob != 0:
-                self.children[a] = Node(prior=prob, to_play=self.to_play * -1)
+                self.children[a] = Node(prior=prob)
 
     def __repr__(self):
         """
@@ -94,16 +95,16 @@ class MCTS:
         self.model = model
         self.args = args
 
-    def run(self, model, state, to_play):
+    def run(self, model, state):
 
-        root = Node(0, to_play)
+        root = Node(0)
 
         # EXPAND root
         action_probs, value = model.predict(state)
         valid_moves = self.game.get_valid_moves(state)
         action_probs = action_probs * valid_moves  # mask invalid moves
         action_probs /= np.sum(action_probs)
-        root.expand(state, to_play, action_probs)
+        root.expand(state, action_probs)
 
         for _ in range(self.args['num_simulations']):
             node = root
@@ -118,12 +119,13 @@ class MCTS:
             state = parent.state
             # Now we're at a leaf node and we would like to expand
             # Players always play from their own perspective
-            next_state, _ = self.game.get_next_state(state, player=1, action=action)
+            next_state, _ = self.game.get_next_state(state, action=action)
             # Get the board from the perspective of the other player
-            next_state = self.game.get_canonical_board(next_state, player=-1)
+            # next_state = self.game.get_canonical_board(next_state, player=-1)
 
             # The value of the new state from the perspective of the other player
-            value = self.game.get_reward_for_player(next_state, player=1)
+            value = self.game.get_reward(next_state)
+
             if value is None:
                 # If the game has not ended:
                 # EXPAND
@@ -131,17 +133,17 @@ class MCTS:
                 valid_moves = self.game.get_valid_moves(next_state)
                 action_probs = action_probs * valid_moves  # mask invalid moves
                 action_probs /= np.sum(action_probs)
-                node.expand(next_state, parent.to_play * -1, action_probs)
+                node.expand(next_state, action_probs)
 
-            self.backpropagate(search_path, value, parent.to_play * -1)
+            self.backpropagate(search_path, value)
 
         return root
 
-    def backpropagate(self, search_path, value, to_play):
+    def backpropagate(self, search_path, value):
         """
         At the end of a simulation, we propagate the evaluation all the way up the tree
         to the root.
         """
         for node in reversed(search_path):
-            node.value_sum += value if node.to_play == to_play else -value
+            node.value_sum += value
             node.visit_count += 1

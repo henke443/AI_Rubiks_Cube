@@ -7,6 +7,7 @@ import torch.optim as optim
 
 from monte_carlo_tree_search import MCTS
 
+
 class Trainer:
 
     def __init__(self, game, model, args):
@@ -15,34 +16,33 @@ class Trainer:
         self.args = args
         self.mcts = MCTS(self.game, self.model, self.args)
 
-    def exceute_episode(self):
+    def execute_episode(self):
 
         train_examples = []
-        current_player = 1
         state = self.game.get_init_board()
 
         while True:
-            canonical_board = self.game.get_canonical_board(state, current_player)
 
             self.mcts = MCTS(self.game, self.model, self.args)
-            root = self.mcts.run(self.model, canonical_board, to_play=1)
+            root = self.mcts.run(self.model, state)
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in root.children.items():
                 action_probs[k] = v.visit_count
 
             action_probs = action_probs / np.sum(action_probs)
-            train_examples.append((canonical_board, current_player, action_probs))
+            train_examples.append((state, action_probs))
 
             action = root.select_action(temperature=0)
-            state, current_player = self.game.get_next_state(state, current_player, action)
-            reward = self.game.get_reward_for_player(state, current_player)
+            state = self.game.get_next_state(
+                state, action)
+            reward = self.game.get_reward(state)
 
             if reward is not None:
                 ret = []
-                for hist_state, hist_current_player, hist_action_probs in train_examples:
-                    # [Board, currentPlayer, actionProbabilities, Reward]
-                    ret.append((hist_state, hist_action_probs, reward * ((-1) ** (hist_current_player != current_player))))
+                for hist_state, hist_action_probs in train_examples:
+                    # [Board, actionProbabilities, Reward]
+                    ret.append((hist_state, hist_action_probs, reward))
 
                 return ret
 
@@ -54,7 +54,7 @@ class Trainer:
             train_examples = []
 
             for eps in range(self.args['numEps']):
-                iteration_train_examples = self.exceute_episode()
+                iteration_train_examples = self.execute_episode()
                 train_examples.extend(iteration_train_examples)
 
             shuffle(train_examples)
@@ -73,7 +73,8 @@ class Trainer:
             batch_idx = 0
 
             while batch_idx < int(len(examples) / self.args['batch_size']):
-                sample_ids = np.random.randint(len(examples), size=self.args['batch_size'])
+                sample_ids = np.random.randint(
+                    len(examples), size=self.args['batch_size'])
                 boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
                 boards = torch.FloatTensor(np.array(boards).astype(np.float64))
                 target_pis = torch.FloatTensor(np.array(pis))

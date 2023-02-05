@@ -1,77 +1,47 @@
 import numpy as np
+import env
 
 
-class Connect2Game:
-    """
-    A very, very simple game of ConnectX in which we have:
-        rows: 1
-        columns: 4
-        winNumber: 2
-    """
+class RubiksGame:
 
     def __init__(self):
-        self.columns = 4
-        self.win = 2
+        self.env = env.RubiksEnv(n_scramble_moves=1, obs_dim="flat")
 
     def get_init_board(self):
-        b = np.zeros((self.columns,), dtype=np.int)
-        return b
+        self.env.steps = 1
+        self.env.total_steps = 1000
+        self.env.reset()
+        return self.env._get_obs()
 
     def get_board_size(self):
-        return self.columns
-
-    def get_action_size(self):
-        return self.columns
-
-    def get_next_state(self, board, player, action):
-        b = np.copy(board)
-        b[action] = player
-
-        # Return the new game, but
-        # change the perspective of the game with negative
-        return (b, -player)
-
-    def has_legal_moves(self, board):
-        for index in range(self.columns):
-            if board[index] == 0:
-                return True
-        return False
+        return self.env.observation_space.shape[0]
 
     def get_valid_moves(self, board):
         # All moves are invalid by default
-        valid_moves = [0] * self.get_action_size()
-
-        for index in range(self.columns):
-            if board[index] == 0:
-                valid_moves[index] = 1
+        valid_moves = [1] * self.get_action_size()
 
         return valid_moves
 
-    def is_win(self, board, player):
-        count = 0
-        for index in range(self.columns):
-            if board[index] == player:
-                count = count + 1
-            else:
-                count = 0
+    def get_action_size(self):
+        return self.env.action_space.n
 
-            if count == self.win:
-                return True
+    def get_next_state(self, action):
+        self.env.cube.moves(self.env._discrete_action_to_action(action))
+        return self.env._get_obs()
+
+    def is_win(self):
+        if self.env._get_info()["distance"] == 0:
+            return True
 
         return False
 
-    def get_reward_for_player(self, board, player):
-        # return None if not ended, 1 if player 1 wins, -1 if player 1 lost
+    def get_reward(self):
+        score = self.env._get_info["score"]
+        return score if score > 0 else None
 
-        if self.is_win(board, player):
-            return 1
-        if self.is_win(board, -player):
-            return -1
-        if self.has_legal_moves(board):
-            return None
 
-        return 0
-
-    def get_canonical_board(self, board, player):
-        return player * board
-
+if __name__ == "__main__":
+    game = RubiksGame()
+    print(game.get_init_board())
+    print(game.get_board_size())
+    print(game.get_action_size())
