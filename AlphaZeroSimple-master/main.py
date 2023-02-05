@@ -22,7 +22,7 @@ args = {
 }
 
 game = RubiksGame()
-game.env.reset()
+game.env.reset(fixed_extra_scrambles=0)
 board_size = game.get_board_size()
 action_size = game.get_action_size()
 

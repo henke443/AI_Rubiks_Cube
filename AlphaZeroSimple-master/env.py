@@ -286,28 +286,28 @@ class RubiksEnv(gym.Env):
 
         return observation, score, terminated, {}  # truncated, {}
 
-    def reset(self, options=None):
+    def reset(self, fixed_extra_scrambles=None):
         # We need the following line to seed self.np_random
         # super().reset(seed=seed)
         # random.seed(seed)
-
-        if options:
-            print("reset options:", options)
 
         self._solved_before = 0
 
         # print("reset options:", options)
         self._extra_scramble_moves = 0
 
-        self._extra_scramble_moves = round(
-            np.tanh((self.steps / (self.total_steps+1))
-                    ) * self._n_scramble_moves
-        )
+        if fixed_extra_scrambles:
+            self._extra_scramble_moves = fixed_extra_scrambles
+        else:
+            self._extra_scramble_moves = round(
+                np.tanh((self.steps / (self.total_steps+1))
+                        ) * self._n_scramble_moves
+            )
 
-        if self._extra_scramble_moves > 0:
-            if bool(random.getrandbits(1)):
-                self._extra_scramble_moves = np.random.randint(
-                    0, self._extra_scramble_moves)
+            if self._extra_scramble_moves > 0:
+                if bool(random.getrandbits(1)):
+                    self._extra_scramble_moves = np.random.randint(
+                        0, self._extra_scramble_moves)
 
         # if not self._has_reset_logged and self.steps % 500 < 100:
         #    self._has_reset_logged = True
@@ -322,27 +322,22 @@ class RubiksEnv(gym.Env):
         self._solved_obs = self._get_obs()
 
         scramble_moves = []
-        while len(scramble_moves) != 1 + self._extra_scramble_moves:
-            for i in range(0, 1 + self._extra_scramble_moves):
-                scramble_moves.append(random.choice(self.base_moves))
+        if fixed_extra_scrambles == -1:
+            scramble_moves = ""
+        else:
+            while len(scramble_moves) != 1 + self._extra_scramble_moves:
+                for i in range(0, 1 + self._extra_scramble_moves):
+                    scramble_moves.append(random.choice(self.base_moves))
 
-                while i > 0 and scramble_moves[i-1] == scramble_moves[i]:
-                    scramble_moves[i] = random.choice(self.base_moves)
+                    while i > 0 and scramble_moves[i-1] == scramble_moves[i]:
+                        scramble_moves[i] = random.choice(self.base_moves)
 
-        scramble_moves = " ".join([
-            x + ("'" if bool(random.getrandbits(1)) else "")
-            for x in scramble_moves
-        ])
+            scramble_moves = " ".join([
+                x + ("'" if bool(random.getrandbits(1)) else "")
+                for x in scramble_moves
+            ])
 
-        if len(scramble_moves) < 1:
-            print("Scramble moves 2 was less than 1")
-            print("scramble_moves", scramble_moves)
-            exit()
-        # print("Scramble moves:", scramble_moves, self._extra_scramble_moves)
-
-        # print("asd", self._extra_scramble_moves)
-
-        self.cube.moves(scramble_moves)
+            self.cube.moves(scramble_moves)
 
         # set the scramble "distance to solved", 0 is solved, 1 is furthest away from solved
         self._scramble_distance = self._get_flat_info(
