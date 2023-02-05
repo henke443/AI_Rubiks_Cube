@@ -137,7 +137,7 @@ class MCTS:
                 action_probs /= np.sum(action_probs)
                 node.expand(next_state, action_probs)
             else:
-                print("Solved once! Score:", value)
+                print("1")
 
             self.backpropagate(search_path, value)
 

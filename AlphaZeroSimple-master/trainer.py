@@ -58,6 +58,7 @@ class Trainer:
             self.step = i
 
             for eps in range(self.args['numEps']):
+                print("Eps:", eps)
                 iteration_train_examples = self.execute_episode()
                 train_examples.extend(iteration_train_examples)
 
@@ -70,6 +71,8 @@ class Trainer:
         optimizer = optim.Adam(self.model.parameters(), lr=5e-4)
         pi_losses = []
         v_losses = []
+
+        print("Train started, examples:", examples)
 
         for epoch in range(self.args['epochs']):
             self.model.train()
