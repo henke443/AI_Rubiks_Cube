@@ -8,7 +8,7 @@ class Cube:
         self.full_info = full_info
         self._data = [np.int8(x if full_info else np.floor(x/9.))
                       for x in range(0, 54)]
-        print("init data:", self._data)
+        # print("init data:", self._data)
         self.total_moves = 0
 
     # Front
