@@ -8,6 +8,7 @@ from gym import spaces
 import random
 from time import perf_counter
 import numpy as np
+import copy
 
 
 # sys.modules["gym"] = gym
@@ -19,7 +20,7 @@ class RubiksEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, moves_per_step=1, terminate_after_n_moves: int | str = False,
-                 n_scramble_moves=40, max_moves=0, obs_dim: str = "2d"):
+                 n_scramble_moves=40, max_moves=0, obs_dim: str = "flat"):
         super(RubiksEnv, self).__init__()
 
         self.steps = 0
@@ -150,9 +151,9 @@ class RubiksEnv(gym.Env):
 
     def _get_flat_info(self):
         solved = self._solved_obs
-        # print("Solved:", solved)
+        print("Solved:", solved)
         current = self._get_flat_obs()
-        # print("Current:", current)
+        print("Current:", current)
 
         distance = 1-(
             sum([
@@ -230,6 +231,10 @@ class RubiksEnv(gym.Env):
             "score": 1 if is_solved else -1,
             "distance": 0 if is_solved else 1
         }
+
+    def _load_obs(self, obs):
+        if self._obs_dim == "flat":
+            self.cube._data = copy.deepcopy(obs)
 
     def _get_info(self):
         return self._get_flat_info() if self._obs_dim == "flat" else self._get_multi_dim_info()
@@ -312,8 +317,9 @@ class RubiksEnv(gym.Env):
         # else:
         #    self._has_reset_logged = False
 
-        self.cube = Cube()
+        self.cube = Cube(full_info=self._full_obs_info)
 
+        print("s123olved:", self._get_obs())
         self._solved_obs = self._get_obs()
 
         scramble_moves = []
@@ -366,12 +372,12 @@ if __name__ == "__main__":
     env = RubiksEnv()
     env.reset()
     env.cube = Cube()
-    print(env._get_multi_dim_info())
-    print(env._get_multi_dim_obs().shape)
+    print(env._get_info())
+    print(env._get_obs())
 
     # env.render()
     print("\nThen doing R U R:\n")
     env.cube.moves("R U R")
-    print(env._get_multi_dim_info())
-    print(env._get_multi_dim_obs())
+    print(env._get_info())
+    print(env._get_obs())
     # env.render()

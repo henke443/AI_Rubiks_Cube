@@ -22,6 +22,7 @@ args = {
 }
 
 game = RubiksGame()
+game.env.reset()
 board_size = game.get_board_size()
 action_size = game.get_action_size()
 

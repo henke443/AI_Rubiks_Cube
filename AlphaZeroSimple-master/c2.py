@@ -3,10 +3,12 @@ import numpy as np
 
 
 class Cube:
-    _data = []
 
-    def __init__(self):
-        self._data = [np.int8(x) for x in range(0, 54)]
+    def __init__(self, full_info=False):
+        self.full_info = full_info
+        self._data = [np.int8(x if full_info else np.floor(x/9.))
+                      for x in range(0, 54)]
+        print("init data:", self._data)
         self.total_moves = 0
 
     # Front
@@ -176,18 +178,32 @@ class Cube:
         return self
 
     def get_color(self, n) -> str:
-        if n < 9:
-            return "Y"
-        if n < 18:
-            return "O"
-        if n < 27:
-            return "G"
-        if n < 36:
-            return "R"
-        if n < 45:
-            return "B"
-        if n < 54:
-            return "W"
+        if self.full_info:
+            if n < 9:
+                return "Y"
+            elif n < 18:
+                return "O"
+            elif n < 27:
+                return "G"
+            elif n < 36:
+                return "R"
+            elif n < 45:
+                return "B"
+            elif n < 54:
+                return "W"
+        else:
+            if n == 0:
+                return "Y"
+            elif n == 1:
+                return "O"
+            elif n == 2:
+                return "G"
+            elif n == 3:
+                return "R"
+            elif n == 4:
+                return "B"
+            elif n == 5:
+                return "W"
 
     def print(self, colors: bool | str = True) -> None:
         space = 17
@@ -402,6 +418,7 @@ class Cube:
 def main():
     cube = Cube()
 
+    print("data:", cube._data)
     cube.BP().DP().R().R().L().BP().R().U().L().RP().BP().DP().FP().R().R().BP(
     ).RP().D().F().F().BP().DP().F().F().B().B().L().L().F().F().L().U().U()
 
