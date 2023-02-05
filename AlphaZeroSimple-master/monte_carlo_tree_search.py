@@ -106,7 +106,7 @@ class MCTS:
         action_probs /= np.sum(action_probs)
         root.expand(state, action_probs)
 
-        print("MCTS simulation started")
+        print("MCTS simulation started, root:", root)
 
         for _ in range(self.args['num_simulations']):
             node = root
