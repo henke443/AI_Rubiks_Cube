@@ -14,7 +14,7 @@ args = {
     'numIters': 500,
     # Total number of MCTS simulations to run when deciding on a move to play
     'numEps': 50,
-    'num_simulations': 50,
+    'num_simulations': 1,
     # Number of full games (episodes) to run during each iteration
     # (outer loop of MCTS, aka number of batches of num_simulations MCTS simulations)
     'numItersForTrainExamplesHistory': 20,
