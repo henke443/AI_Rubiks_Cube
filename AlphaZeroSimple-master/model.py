@@ -40,7 +40,7 @@ class RubiksModel(nn.Module):
     def predict(self, observation):
         observation = torch.FloatTensor(
             observation.astype(np.float32)).to(self.device)
-        # observation = observation.view(1, self.observation_size)
+        observation = observation.view(1, self.observation_size)
         self.eval()
         with torch.no_grad():
             pi, v = self.forward(observation)
