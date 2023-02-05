@@ -119,7 +119,7 @@ class MCTS:
             state = parent.state
             # Now we're at a leaf node and we would like to expand
             # Players always play from their own perspective
-            next_state, _ = self.game.get_next_state(state, action=action)
+            next_state = self.game.get_next_state(action=action)
             # Get the board from the perspective of the other player
             # next_state = self.game.get_canonical_board(next_state, player=-1)
 

@@ -34,8 +34,7 @@ class Trainer:
             train_examples.append((state, action_probs))
 
             action = root.select_action(temperature=0)
-            state = self.game.get_next_state(
-                state, action)
+            state = self.game.get_next_state(action)
             reward = self.game.get_reward(state)
 
             if reward is not None:
