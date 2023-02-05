@@ -30,7 +30,7 @@ class RubiksGame:
         return self.env.action_space.n
 
     def get_next_state(self, state, action):
-        print("got action:", action)
+       # print("got action:", action)
         before_data = self.env._get_obs()
         self.env._load_obs(state)
         self.env.cube.moves(self.env._discrete_action_to_action(action))
