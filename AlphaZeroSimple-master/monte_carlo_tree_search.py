@@ -106,11 +106,11 @@ class MCTS:
         action_probs /= np.sum(action_probs)
         root.expand(state, action_probs)
 
-        for simIndex in range(self.args['num_simulations']):
+        print("MCTS simulation started")
+
+        for _ in range(self.args['num_simulations']):
             node = root
             search_path = [node]
-
-            print("MCTS simulation", simIndex)
 
             # SELECT
             while node.expanded():
