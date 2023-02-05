@@ -106,7 +106,6 @@ class MCTS:
         action_probs /= np.sum(action_probs)
         root.expand(state, action_probs)
 
-        self.game.env.reset()
         print("MCTS simulation started, root:", root)
 
         for _ in range(self.args['num_simulations']):

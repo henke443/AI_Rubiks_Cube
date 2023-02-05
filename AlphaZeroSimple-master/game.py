@@ -10,10 +10,12 @@ class RubiksGame:
         self.env.total_steps = 10000
         self.env.reset()
 
-        self.correct_state = self.env._get_obs()
+        self.correct_state = self.env._solved_obs
+
         print("correct state:", self.correct_state)
 
     def get_init_board(self):
+        self.env._load_obs(self.correct_state)
         self.env.reset()
         return self.env._get_obs()
 
