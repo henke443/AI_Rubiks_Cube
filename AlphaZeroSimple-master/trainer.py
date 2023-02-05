@@ -15,6 +15,7 @@ class Trainer:
         self.model = model
         self.args = args
         self.mcts = MCTS(self.game, self.model, self.args)
+        self.step = 0
 
     def execute_episode(self):
 
@@ -22,7 +23,9 @@ class Trainer:
         # state = self.game.get_init_board()
 
         while True:
-            state = self.game.get_init_board()  # added
+            state = self.game \
+                .get_init_board(self.step, self.args['numIters'])  # added
+
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
 
@@ -51,6 +54,8 @@ class Trainer:
             print("{}/{}".format(i, self.args['numIters']))
 
             train_examples = []
+
+            self.step = i
 
             for eps in range(self.args['numEps']):
                 iteration_train_examples = self.execute_episode()

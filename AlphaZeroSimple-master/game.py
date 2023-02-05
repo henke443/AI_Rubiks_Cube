@@ -5,18 +5,26 @@ import env
 class RubiksGame:
 
     def __init__(self):
-        self.env = env.RubiksEnv(n_scramble_moves=1, obs_dim="flat")
+        self.env = env.RubiksEnv(n_scramble_moves=10, obs_dim="flat")
         self.env.steps = 1
         self.env.total_steps = 10000
-        self.env.reset(fixed_extra_scrambles=2)
+        self.env.reset(fixed_extra_scrambles=-1)
 
         self.correct_state = self.env._solved_obs
 
         print("correct state:", self.correct_state)
 
-    def get_init_board(self):
-        self.env._load_obs(self.correct_state)
-        self.env.reset(fixed_extra_scrambles=2)
+    def get_init_board(self, step=None, total_steps=None):
+        if not step:
+            self.env._load_obs(self.correct_state)
+            self.env.reset(fixed_extra_scrambles=2)
+
+        else:
+            self.env.steps = step
+            self.env.total_steps = total_steps
+            self.env.reset()
+            print("extra_scrambles:", self.env._extra_scramble_moves)
+
         return self.env._get_obs()
 
     def get_board_size(self):
