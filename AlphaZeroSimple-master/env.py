@@ -151,9 +151,9 @@ class RubiksEnv(gym.Env):
 
     def _get_flat_info(self):
         solved = self._solved_obs
-        print("Solved:", solved)
+        # print("Solved:", solved)
         current = self._get_flat_obs()
-        print("Current:", current)
+        # print("Current:", current)
 
         distance = 1-(
             sum([
@@ -319,7 +319,6 @@ class RubiksEnv(gym.Env):
 
         self.cube = Cube(full_info=self._full_obs_info)
 
-        print("s123olved:", self._get_obs())
         self._solved_obs = self._get_obs()
 
         scramble_moves = []
