@@ -33,7 +33,7 @@ class Trainer:
 
             print("New init gameboard")
             state = self.game \
-                .get_init_board(self.step, self.args['numIters'])  # added
+                .get_init_board()  # self.step, self.args['numIters'])  # added
 
             self.mcts = MCTS(self.game, self.model, self.args)
             node = self.mcts.run(self.model, state)
@@ -44,18 +44,14 @@ class Trainer:
                 for k, v in node.children.items():
                     action_probs[k] = v.visit_count
 
-                if np.sum(action_probs) < 0:
-                    break
+                action_probs = action_probs / np.sum(action_probs)
+                train_examples.append((state, action_probs))
 
                 # print("state, action_probs", state, action_probs)
                 if len(node.children) == 0:
                     # print(
                     #    "Reached a node with no children before we got a reward so fail.")
                     break
-
-                action_probs = action_probs / np.sum(action_probs)
-                train_examples.append((state, action_probs))
-
                 action = node.select_action(temperature=0)
                 node = node.children[action]
                 # print("state b4 action:", action, state)
