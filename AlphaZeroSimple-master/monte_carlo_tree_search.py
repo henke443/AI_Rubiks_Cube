@@ -116,7 +116,7 @@ class MCTS:
 
             # SELECT
             search_path_i = 0
-            while node.expanded() and search_path_i < self.max_depth:
+            while node.expanded() and search_path_i <= self.max_depth:
                 action, node = node.select_child()
                 search_path.append(node)
                 search_path_i += 1
