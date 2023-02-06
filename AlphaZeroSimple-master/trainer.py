@@ -23,9 +23,6 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
-        max_tries = 2
-        tries = 0
-
         # state = self.game.env.reset(fixed_scramble_moves=-1)
         # state = self.game.env._get_obs()
         while True:
@@ -53,7 +50,7 @@ class Trainer:
 
                 action_probs = action_probs / np.sum(action_probs)
 
-                # print("actprobs and sum", action_probs, np.sum(action_probs))
+                print("actprobs and sum", action_probs, np.sum(action_probs))
                 train_examples.append((state, action_probs))
 
                 action = node.select_action(temperature=0)
