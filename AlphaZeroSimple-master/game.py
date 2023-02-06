@@ -47,6 +47,9 @@ class RubiksGame:
         self.env.cube.moves(self.env._discrete_action_to_action(action))
         to_return = self.env._get_obs()
         self.env._load_obs(before_data)
+        print("get_next_state action", action)
+        print("get_next_state prev state", state)
+        print("get_next_state after state", to_return)
         return to_return
 
     def is_win(self):
