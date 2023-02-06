@@ -44,14 +44,18 @@ class Trainer:
                 for k, v in node.children.items():
                     action_probs[k] = v.visit_count
 
-                action_probs = action_probs / np.sum(action_probs)
-                train_examples.append((state, action_probs))
+                if np.sum(action_probs) < 0:
+                    break
 
                 # print("state, action_probs", state, action_probs)
                 if len(node.children) == 0:
                     # print(
                     #    "Reached a node with no children before we got a reward so fail.")
                     break
+
+                action_probs = action_probs / np.sum(action_probs)
+                train_examples.append((state, action_probs))
+
                 action = node.select_action(temperature=0)
                 node = node.children[action]
                 # print("state b4 action:", action, state)
