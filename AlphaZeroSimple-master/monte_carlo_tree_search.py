@@ -143,7 +143,7 @@ class MCTS:
                 print("Parent probs:\n", actions)
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
-                # print("resulting state:", next_state, "\n")
+                print("resulting state:", next_state, "\n")
                 # print("copy of resulting state:", nextcopy, "\n")
 
             if value is None:
