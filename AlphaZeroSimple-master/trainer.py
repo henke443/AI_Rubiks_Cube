@@ -30,7 +30,7 @@ class Trainer:
         # state = self.game.env._get_obs()
         while True:
             state = self.game \
-                .get_init_board(fixed_extra_scrambles=-1)  # self.step, self.args['numIters'])  # added
+                .get_init_board()  # self.step, self.args['numIters'])  # added
 
             self.mcts = MCTS(self.game, self.model, self.args)
             node = self.mcts.run(self.model, state)
