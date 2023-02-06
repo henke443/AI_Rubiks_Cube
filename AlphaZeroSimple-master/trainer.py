@@ -24,7 +24,7 @@ class Trainer:
         # state = self.game.get_init_board()
 
         state = self.game \
-            .get_init_board(self.step, self.args['numIters'])  # added
+            .get_init_board(step=None, total_steps=None)  # self.args['numIters']
 
         while True:
 
