@@ -149,7 +149,7 @@ class MCTS:
                 print("Solved once, parent state, action:", parent.state, action)
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
-                print("resulting state:", state)
+                print("resulting state:", next_state)
 
         # print("mcts run ended")
         return root
