@@ -9,14 +9,18 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 args = {
     # batch_size of mcts simulations when training neural nets
     'batch_size': 64,
+
     # Total number of training iterations
     # (outer loop of episodes, aka number of batches of numEps episodes)
     'numIters': 500,
-    # Total number of MCTS simulations to run when deciding on a move to play
-    'numEps': 50,
-    'num_simulations': 200,
+
     # Number of full games (episodes) to run during each iteration
     # (outer loop of MCTS, aka number of batches of num_simulations MCTS simulations)
+    'numEps': 50,
+
+    # Total number of MCTS simulations to run when deciding on a move to play
+    'num_simulations': 200,
+
     'numItersForTrainExamplesHistory': 20,
     # Number of epochs of training per iteration
     'epochs': 2,
