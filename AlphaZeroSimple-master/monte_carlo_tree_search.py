@@ -136,12 +136,12 @@ class MCTS:
                 action_probs = action_probs * valid_moves  # mask invalid moves
                 action_probs /= np.sum(action_probs)
                 node.expand(next_state, action_probs)
-            else:
-                print("1")
+            # else:
+                # print("1")
 
             self.backpropagate(search_path, value)
 
-        print("mcts run ended")
+        # print("mcts run ended")
         return root
 
     def backpropagate(self, search_path, value):
