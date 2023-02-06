@@ -42,6 +42,10 @@ class Trainer:
                 for k, v in node.children.items():
                     action_probs[k] = v.visit_count if v.visit_count > 0 and v.visit_count is not None else 0
 
+                if np.isnan(action_probs) or any([np.isnan(x) for x in action_probs]):
+                    print("isnan had NaNs so skip?")
+                    break
+
                 action_probs = action_probs / np.sum(action_probs)
 
                 print("actprobs and sum", action_probs, np.sum(action_probs))
