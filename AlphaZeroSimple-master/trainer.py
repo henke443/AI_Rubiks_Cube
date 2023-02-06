@@ -48,7 +48,7 @@ class Trainer:
                 if len(node.children) == 0:
                     print(
                         "Reached a node with no children before we got a reward so fail.")
-                    continue
+                    break
                 action = node.select_action(temperature=0)
                 node = node.children[action]
                 print("state b4 action:", action, state)
