@@ -30,28 +30,25 @@ class Trainer:
         # state = self.game.env._get_obs()
         while True:
             print("New init gameboard")
-            state = self.game \
+            root_state = self.game \
                 .get_init_board()  # self.step, self.args['numIters'])  # added
-
+            state = root_state
             self.mcts = MCTS(self.game, self.model, self.args)
-            node = self.mcts.run(self.model, state)
+            root = self.mcts.run(self.model, state)
+            node = root
 
             for n in range(0, 20):
 
                 # print("state, action_probs", state, action_probs)
                 if len(node.children) == 0:
-                    # print(
-                    #    "Reached a node with no children before we got a reward so fail.")
+                    print(
+                        "Reached a node with no children before we got a reward, so breaked.")
                     break
 
                 action_probs = [0 for _ in range(self.game.get_action_size())]
 
                 for k, v in node.children.items():
-                    action_probs[k] = v.visit_count \
-                        if v.visit_count > 0 \
-                        and v.visit_count is not None \
-                        and not np.isnan(v.visit_count) \
-                        else 0.3
+                    action_probs[k] = v.visit_count
 
                 action_probs = action_probs / np.sum(action_probs)
 
@@ -68,8 +65,13 @@ class Trainer:
                 state = self.game.get_next_state(state, action)
                 # print("state now:", state)
                 reward = self.game.get_reward(state)
-                # print("action, next state, reward", action, state, reward)
-                # print(n, "s2", state)
+                if reward is None and len(node.children) == 0:
+                    print(
+                        "Didn't get a reward and no children on current node, breaked")
+                    break
+
+                    # print("action, next state, reward", action, state, reward)
+                    # print(n, "s2", state)
                 if reward is not None:
                     print("reward is not none, or i == max_depth, should end episode")
                     ret = []
