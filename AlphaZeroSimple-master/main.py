@@ -19,7 +19,7 @@ args = {
     'numEps': 64,
 
     # Total number of MCTS simulations to run when deciding on a move to play
-    'num_simulations': 100,
+    'num_simulations': 1,
 
     'numItersForTrainExamplesHistory': 20,
     # Number of epochs of training per iteration

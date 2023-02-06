@@ -43,6 +43,8 @@ class Trainer:
                     action_probs[k] = v.visit_count if v.visit_count > 0 and v.visit_count is not None else 0
 
                 action_probs = action_probs / np.sum(action_probs)
+
+                print("actprobs and sum", action_probs, np.sum(action_probs))
                 train_examples.append((state, action_probs))
 
                 # print("state, action_probs", state, action_probs)
