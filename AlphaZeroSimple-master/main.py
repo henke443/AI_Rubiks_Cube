@@ -16,7 +16,7 @@ args = {
 
     # Number of full games (episodes) to run during each iteration
     # (outer loop of MCTS, aka number of batches of num_simulations MCTS simulations)
-    'numEps': 64,
+    'numEps': 100,
 
     # Total number of MCTS simulations to run when deciding on a move to play
     'num_simulations': 200,
