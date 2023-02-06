@@ -138,7 +138,7 @@ class MCTS:
                 # print("Value:", value)
                 print("Solved once, parent state, action:", parent.state, action)
 
-                actions = [(action, child.visit_count, child.prior, child.value_sum)
+                actions = [[action, child.visit_count, child.prior, child.value_sum]
                            for action, child in parent.children.items()]
                 print("Parent probs:\n", "Action",
                       actions[0], "visits", action[1], "prior", action[2], "value sum", action[3])
