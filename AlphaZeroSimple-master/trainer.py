@@ -61,7 +61,7 @@ class Trainer:
                 # print("state now:", state)
                 reward = self.game.get_reward(state)
                 # print("action, next state, reward", action, state, reward)
-                print(n, "s2", state)
+                # print(n, "s2", state)
                 if reward is not None:
                     print("reward is not none, or i == max_depth, should end episode")
                     ret = []
