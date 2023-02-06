@@ -142,7 +142,8 @@ class MCTS:
                 node.expand(next_state, action_probs)
             elif value is not None:
                 print(value)
-                self.backpropagate(search_path, value)
+
+        self.backpropagate(search_path, value)
 
         # print("mcts run ended")
         return root
