@@ -23,14 +23,16 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
-        max_depth = 20
+        max_tries = 100
+        tries = 0
 
-        for i in range(0, max_depth+1):
+        while True:
+            tries += 1
 
-            state = self.game \
-                .get_init_board(step=None, total_steps=None)  # self.args['numIters']
+            if tries > max_tries:
+                self.mcts = MCTS(self.game, self.model, self.args)
+                tries = 0
 
-            self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
 
             # state = self.game \
@@ -47,7 +49,7 @@ class Trainer:
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
 
-            if reward is not None or i == max_depth:
+            if reward is not None:
                 print("reward is not none, or i == max_depth, should end episode")
                 ret = []
                 for hist_state, hist_action_probs in train_examples:
