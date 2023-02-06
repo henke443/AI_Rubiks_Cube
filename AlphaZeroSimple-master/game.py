@@ -16,8 +16,9 @@ class RubiksGame:
 
     def get_init_board(self, step=None, total_steps=None):
         if not step:
-            self.env._load_obs(self.correct_state)
             self.env.reset(fixed_extra_scrambles=2)
+            self.env._load_obs(self.correct_state)
+
         else:
             self.env._load_obs(self.correct_state)
             self.env.steps = step
@@ -25,6 +26,7 @@ class RubiksGame:
             self.env.reset()
             if self.env._extra_scramble_moves > 0:
                 print("extra_scrambles:", self.env._extra_scramble_moves)
+            self.env._load_obs(self.correct_state)
 
         return self.env._get_obs()
 
