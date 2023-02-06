@@ -51,7 +51,9 @@ class Trainer:
                     break
                 action = node.select_action(temperature=0)
                 node = node.children[action]
+                print("state b4 action:", action, state)
                 state = self.game.get_next_state(state, action)
+                print("state now:", state)
                 reward = self.game.get_reward(state)
                 # print("action, next state, reward", action, state, reward)
 
