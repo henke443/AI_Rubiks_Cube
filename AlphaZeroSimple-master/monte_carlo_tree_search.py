@@ -109,7 +109,6 @@ class MCTS:
 
         # print("MCTS simulation started, root:", root)
 
-        depth = 0
         for _ in range(self.args['num_simulations']):
 
             node = root
@@ -139,12 +138,8 @@ class MCTS:
                 action_probs = action_probs * valid_moves  # mask invalid moves
                 action_probs /= np.sum(action_probs)
                 node.expand(next_state, action_probs)
-            else:
-                if depth >= self.max_depth:
-                    value = 0
 
             self.backpropagate(search_path, value)
-            self.depth += 1
 
         # print("mcts run ended")
         return root
