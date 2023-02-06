@@ -94,7 +94,7 @@ class MCTS:
         self.game = game
         self.model = model
         self.args = args
-        self.max_depth = 10
+        self.max_depth = 20
 
     def run(self, model, state):
 
@@ -115,9 +115,11 @@ class MCTS:
             search_path = [node]
 
             # SELECT
-            while node.expanded():
+            search_path_i = 0
+            while node.expanded() and search_path_i < self.max_depth:
                 action, node = node.select_child()
                 search_path.append(node)
+                search_path_i += 1
 
             parent = search_path[-2]
             state = parent.state
