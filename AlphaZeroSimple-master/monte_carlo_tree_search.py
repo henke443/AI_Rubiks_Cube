@@ -144,7 +144,7 @@ class MCTS:
                 node.expand(next_state, action_probs)
 
             self.backpropagate(search_path, value)
-            self.depth += 1
+            depth += 1
 
         # print("mcts run ended")
         return root
