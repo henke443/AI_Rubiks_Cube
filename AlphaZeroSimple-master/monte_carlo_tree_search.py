@@ -132,7 +132,7 @@ class MCTS:
 
             # The value of the new state from the perspective of the other player
             value = self.game.get_reward(next_state)
-            nextcopy = copy.copy(next_state)
+            # nextcopy = copy.copy(next_state)
 
             if value is None:
                 # If the game has not ended:
@@ -150,11 +150,12 @@ class MCTS:
 
             self.backpropagate(search_path, value)
             if value > 0:
+                print("Value:", value)
                 print("Solved once, parent state, action:", parent.state, action)
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
-                print("resulting state:", next_state, "\n")
-                print("copy of resulting state:", nextcopy)
+                print("resulting state:", next_state)
+                # print("copy of resulting state:", nextcopy, "\n")
 
         # print("mcts run ended")
         return root
