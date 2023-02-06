@@ -134,11 +134,20 @@ class MCTS:
             value = self.game.get_reward(next_state)
             # nextcopy = copy.copy(next_state)
 
+            if value > 0:
+                print("Value:", value)
+                print("Solved once, parent state, action:", parent.state, action)
+                print("Parent would choose:",
+                      parent.select_action(temperature=0))
+                print("resulting state:", next_state, "\n")
+                # print("copy of resulting state:", nextcopy, "\n")
+
             if value is None:
                 # If the game has not ended:
                 # EXPAND
                 old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
+                value = value[0]
                 if len(search_path) < self.max_depth-1:
                     valid_moves = self.game.get_valid_moves(next_state)
                     action_probs = action_probs * valid_moves  # mask invalid moves
@@ -149,13 +158,6 @@ class MCTS:
                     # value = 0
 
             self.backpropagate(search_path, value)
-            if value > 0:
-                print("Value:", value)
-                print("Solved once, parent state, action:", parent.state, action)
-                print("Parent would choose:",
-                      parent.select_action(temperature=0))
-                print("resulting state:", next_state, "\n")
-                # print("copy of resulting state:", nextcopy, "\n")
 
         # print("mcts run ended")
         return root
