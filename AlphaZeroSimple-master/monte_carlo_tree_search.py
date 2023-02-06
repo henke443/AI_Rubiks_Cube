@@ -142,7 +142,8 @@ class MCTS:
                     node.expand(next_state, action_probs)
                 else:
                     action_probs = old_action_probs
-                    value = 0
+            else:
+                value = 0
 
             self.backpropagate(search_path, value)
 
