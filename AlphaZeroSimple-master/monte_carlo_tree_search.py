@@ -148,10 +148,10 @@ class MCTS:
                 old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
 
-                print("Value was none and now:", value)
+                # print("Value was none and now:", value)
                 if hasattr(value, "__len__"):
                     value = value[0]
-                print("Value was none and after thing:", value)
+                # print("Value was none and after thing:", value)
 
                 if len(search_path) < self.max_depth-1:
                     valid_moves = self.game.get_valid_moves(next_state)
