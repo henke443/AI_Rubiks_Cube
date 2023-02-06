@@ -47,9 +47,9 @@ class RubiksGame:
         self.env.cube.moves(self.env._discrete_action_to_action(action))
         to_return = self.env._get_obs()
         self.env._load_obs(before_data)
-        print("get_next_state action", action)
-        print("get_next_state prev state", state)
-        print("get_next_state after state", to_return)
+        # print("get_next_state action", action)
+        # print("get_next_state prev state", state)
+        # print("get_next_state after state", to_return)
         return to_return
 
     def is_win(self):
@@ -63,7 +63,7 @@ class RubiksGame:
         self.env._load_obs(state)
         score = self.env._get_info()["score"]
         if score > 0:
-            print("s1, s2\n", state, "\n", self.env.cube._data)
+            print("reward state\n", state)
             print("score", score)
         self.env._load_obs(before_data)
         return score if score > 0 else None
