@@ -42,11 +42,11 @@ class RubiksGame:
         return self.env.action_space.n
 
     def get_next_state(self, state, action):
-        before_data = self.env._get_obs()
+        # before_data = self.env._get_obs()
         self.env._load_obs(state)
         self.env.cube.moves(self.env._discrete_action_to_action(action))
         to_return = self.env._get_obs()
-        self.env._load_obs(before_data)
+        # self.env._load_obs(before_data)
         return to_return
 
     def is_win(self):

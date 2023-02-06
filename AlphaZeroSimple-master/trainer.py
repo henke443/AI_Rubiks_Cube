@@ -41,10 +41,9 @@ class Trainer:
                 print("should be same as:", self.game.env.cube._data)
 
                 tries = 0
-            print("state b4:", state)
+
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
-            print("state after:", state)
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in root.children.items():
