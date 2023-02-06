@@ -164,9 +164,9 @@ class RubiksExample:
                 lens.append(thelen)
                 # print(node)
 
-        print("examples actions:", [x[1] for x in examples])
-        print("len of actionss:", len(examples))
-        print("lens:", lens)
+        # print("examples actions:", [x[1] for x in examples])
+        # print("len of actionss:", len(examples))
+        # print("lens:", lens)
         print("avg length:", sum(lens)/len(lens))
 
         return examples
