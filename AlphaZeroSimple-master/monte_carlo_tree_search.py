@@ -147,7 +147,7 @@ class MCTS:
                 print("Solved once, parent state, action:", parent.state, action)
 
             self.backpropagate(search_path, value)
-            print("Parent would choose:", parent.select_action())
+            print("Parent would choose:", parent.select_action(temperature=0))
 
         # print("mcts run ended")
         return root
