@@ -1,6 +1,7 @@
 import torch
 import math
 import numpy as np
+import copy
 
 
 def ucb_score(parent, child):
@@ -129,6 +130,7 @@ class MCTS:
 
             # The value of the new state from the perspective of the other player
             value = self.game.get_reward(next_state)
+            nextcopy = copy.copy(next_state)
 
             if value is None:
                 # If the game has not ended:
@@ -150,6 +152,7 @@ class MCTS:
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
                 print("resulting state:", next_state, "\n")
+                print("copy of resulting state:", nextcopy)
 
         # print("mcts run ended")
         return root
