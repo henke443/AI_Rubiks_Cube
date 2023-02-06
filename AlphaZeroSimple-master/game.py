@@ -46,8 +46,7 @@ class RubiksGame:
         before_data = self.env._get_obs()
         self.env._load_obs(state)
 
-        print("scramble moves:", self.env._n_scramble_moves)
-        self.env.cube.total_moves = self.env._n_scramble_moves + total_moves
+        self.env.cube.total_moves = self.env._extra_scramble_moves + total_moves
 
         self.env.cube.moves(self.env._discrete_action_to_action(action))
         to_return = self.env._get_obs()
