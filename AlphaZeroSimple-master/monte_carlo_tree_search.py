@@ -148,7 +148,6 @@ class MCTS:
                 old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
 
-                print("action_probs", action_probs)
                 # print("Value was none and now:", value)
                 if hasattr(value, "__len__"):
                     value = value[0]
