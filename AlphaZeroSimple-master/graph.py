@@ -159,7 +159,7 @@ class RubiksExample:
                     example_action_probs = np.zeros((12,), dtype=np.float32)
                     example_action_probs[best_reducer_i] = 1.
                     examples.append(
-                        (node.state, best_reducer_i, node.distance/depth))
+                        (node.state, example_action_probs, node.distance/depth))
                     node = node.connections_reducing[best_reducer_i]
                 lens.append(thelen)
                 # print(node)
