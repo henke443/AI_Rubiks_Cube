@@ -4,6 +4,7 @@ from random import shuffle
 
 import torch
 import torch.optim as optim
+import copy
 
 from monte_carlo_tree_search import MCTS
 
@@ -27,10 +28,10 @@ class Trainer:
                 .get_init_board(self.step, self.args['numIters'])  # added
 
             self.mcts = MCTS(self.game, self.model, self.args)
-            root = self.mcts.run(self.model, state)
+            root = self.mcts.run(self.model, copy.copy(state))
 
-            state = self.game \
-                .get_init_board(self.step, self.args['numIters'])  # added
+            # state = self.game \
+            #    .get_init_board(self.step, self.args['numIters'])  # added
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in root.children.items():
