@@ -41,6 +41,7 @@ class Trainer:
             reward = self.game.get_reward(state)
 
             if reward is not None:
+                print("reward is not none, should end episode")
                 ret = []
                 for hist_state, hist_action_probs in train_examples:
                     # [Board, actionProbabilities, Reward]

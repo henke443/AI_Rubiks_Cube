@@ -141,6 +141,7 @@ class MCTS:
 
             self.backpropagate(search_path, value)
 
+        print("mcts run ended")
         return root
 
     def backpropagate(self, search_path, value):
