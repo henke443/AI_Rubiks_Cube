@@ -147,7 +147,10 @@ class MCTS:
                 # EXPAND
                 old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
-                value = value[0]
+
+                if hasattr(value, "__len__"):
+                    value = value[0]
+
                 if len(search_path) < self.max_depth-1:
                     valid_moves = self.game.get_valid_moves(next_state)
                     action_probs = action_probs * valid_moves  # mask invalid moves
