@@ -46,8 +46,8 @@ class Trainer:
 
                 # print("state, action_probs", state, action_probs)
                 if len(node.children) == 0:
-                    print(
-                        "Reached a node with no children before we got a reward so fail.")
+                    # print(
+                    #    "Reached a node with no children before we got a reward so fail.")
                     break
                 action = node.select_action(temperature=0)
                 node = node.children[action]
@@ -55,7 +55,7 @@ class Trainer:
                 state = self.game.get_next_state(state, action)
                 # print("state now:", state)
                 reward = self.game.get_reward(state)
-                print("action, next state, reward", action, state, reward)
+                # print("action, next state, reward", action, state, reward)
 
                 if reward is not None:
                     print("reward is not none, or i == max_depth, should end episode")
