@@ -143,11 +143,12 @@ class MCTS:
                 else:
                     action_probs = old_action_probs
                     value = 0
-            else:
-                print("Solved once, parent state, action:", parent.state, action)
 
             self.backpropagate(search_path, value)
-            print("Parent would choose:", parent.select_action(temperature=0))
+            if value is not None:
+                print("Solved once, parent state, action:", parent.state, action)
+                print("Parent would choose:",
+                      parent.select_action(temperature=0))
 
         # print("mcts run ended")
         return root
