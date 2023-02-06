@@ -34,7 +34,7 @@ class Trainer:
         self.mcts = MCTS(self.game, self.model, self.args)
         node = self.mcts.run(self.model, state)
 
-        for n in range(0, 20):
+        for n in range(0, 100):
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in node.children.items():
