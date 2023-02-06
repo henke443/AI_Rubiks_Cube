@@ -23,7 +23,7 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
-        max_tries = 5
+        max_tries = 2
         tries = 0
 
         state = self.game \
