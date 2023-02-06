@@ -71,7 +71,8 @@ class Trainer:
                     # print("action, next state, reward", action, state, reward)
                     # print(n, "s2", state)
                 if reward is not None:
-                    print("reward is not none, or i == max_depth, should end episode")
+                    print(
+                        f"reward is not none ({reward}) or i == max_depth, should end episode")
                     ret = []
                     for hist_state, hist_action_probs in train_examples:
                         # [Board, actionProbabilities, Reward]
