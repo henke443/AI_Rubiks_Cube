@@ -47,9 +47,11 @@ class Trainer:
             action_probs = action_probs / np.sum(action_probs)
             train_examples.append((state, action_probs))
 
+            print("state, action_probs", state, action_probs)
             action = root.select_action(temperature=0)
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
+            print("action, next state, reward", action, state, reward)
 
             if reward is not None:
                 print("reward is not none, or i == max_depth, should end episode")
