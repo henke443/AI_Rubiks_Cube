@@ -59,12 +59,15 @@ class Node:
 
 
 class RubiksExample:
-    def __init__(self):
+    def __init__(self, model=None):
+        self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
 
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
         org_state = node.state
+
+        # action_probs, value = model.predict(state)
 
         for action in range(0, 12):
 
@@ -150,6 +153,8 @@ class RubiksExample:
                     # print(node)
                     best_reducer_i = get_best_reducer_i(node)
                     # print("best_reducer_i", best_reducer_i)
+                    example_action_probs = np.zeros((12,), dtype=np.float32)
+                    example_action_probs[best_reducer_i] = 1.
                     examples.append(
                         (node.state, best_reducer_i, node.distance/depth))
                     node = node.connections_reducing[best_reducer_i]
