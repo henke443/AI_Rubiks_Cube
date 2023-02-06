@@ -94,7 +94,7 @@ class MCTS:
         self.game = game
         self.model = model
         self.args = args
-        self.max_depth = 10
+        self.max_depth = 20
 
     def run(self, model, state):
 
@@ -132,7 +132,7 @@ class MCTS:
             value = self.game.get_reward(next_state)
 
             if depth >= self.max_depth and value is None:
-                value = 0
+                value = -1
 
             if value is None:
                 # If the game has not ended:
