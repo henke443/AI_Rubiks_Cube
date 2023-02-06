@@ -1,5 +1,6 @@
 import numpy as np
 import env
+import copy
 
 
 class RubiksGame:
@@ -10,20 +11,20 @@ class RubiksGame:
         self.env.total_steps = 10000
         self.env.reset(fixed_extra_scrambles=-1)
 
-        self.correct_state = self.env._solved_obs
+        self.correct_state = copy.copy(self.env._solved_obs)
 
         print("correct state:", self.correct_state)
 
     def get_init_board(self, step=None, total_steps=None):
         if not step:
-            self.env.reset(fixed_extra_scrambles=2)
             self.env._load_obs(self.correct_state)
+            self.env.reset(fixed_extra_scrambles=2)
 
         else:
             self.env._load_obs(self.correct_state)
             self.env.steps = step
             self.env.total_steps = total_steps
-            self.env.reset()
+            self.env.reset(fixed_extra_scrambles=1)
             if self.env._extra_scramble_moves > 0:
                 print("extra_scrambles:", self.env._extra_scramble_moves)
             self.env._load_obs(self.correct_state)
