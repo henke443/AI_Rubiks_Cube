@@ -40,7 +40,7 @@ class Trainer:
 
                 action_probs = [0 for _ in range(self.game.get_action_size())]
                 for k, v in node.children.items():
-                    action_probs[k] = v.visit_count
+                    action_probs[k] = v.visit_count if v.visit_count > 0 and v.visit_count is not None
 
                 action_probs = action_probs / np.sum(action_probs)
                 train_examples.append((state, action_probs))
