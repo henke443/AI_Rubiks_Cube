@@ -23,10 +23,10 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
-        state = self.game \
-            .get_init_board(step=None, total_steps=None)  # self.args['numIters']
-
         while True:
+
+            state = self.game \
+                .get_init_board(step=None, total_steps=None)  # self.args['numIters']
 
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
