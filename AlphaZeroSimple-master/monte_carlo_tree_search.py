@@ -95,7 +95,7 @@ class MCTS:
         self.game = game
         self.model = model
         self.args = args
-        self.max_depth = 4
+        self.max_depth = 3
 
     def run(self, model, state):
 
@@ -159,7 +159,7 @@ class MCTS:
                     value = value[0]
                 # print("Value was none and after thing:", value)
 
-                if len(search_path)+1 < self.max_depth:
+                if len(search_path) < self.max_depth:
                     valid_moves = self.game.get_valid_moves(next_state)
                     action_probs = action_probs * valid_moves  # mask invalid moves
                     action_probs /= np.sum(action_probs)
