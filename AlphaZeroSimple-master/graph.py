@@ -67,11 +67,36 @@ class RubiksExample:
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
         org_state = node.state
 
-        # state = org_state
-        # for i in range(0, 100):
-        #    state = self.cube.get_next_state(state, action)
-        #    action_probs, value = self.model.predict(org_state)
+        terminated = False
+        actions = []
+        action_states = []
+        state = org_state
+        for i in range(0, 20):
+            action_probs, value = self.model.predict(state)
+            action = action_probs[np.argmax(action_probs)]
+            state = self.cube.get_next_state(state, action)
 
+            action_states.append(state)
+            actions.append(action)
+
+            if state_equals(state, self.cube.correct_state):
+                terminated = True
+                break
+
+        for i, action in enumerate(actions):
+            for p in path:
+                if state_equals(p.state, action_states[i]):
+                    cur_node = node
+                    for x in range(0, i):
+                        new_node = Node(
+                            action_states[i], distance=len(actions))
+
+                        cur_node.connect_to(actions[i], new_node)
+                        cur_node = new_node
+                        path.append(new_node)
+                    node.connect_to()
+
+        """
         for action in range(0, 12):
 
             state = self.cube.get_next_state(org_state, action)
@@ -98,6 +123,7 @@ class RubiksExample:
                 # If there's no best reducer then this action made the state solved
                 # Old node is the root node
                 #    node.connect_to(action, best_reducer)
+        """
 
     def _build(self, depth):
         state = self.target_state
@@ -159,7 +185,7 @@ class RubiksExample:
                     example_action_probs = np.zeros((12,), dtype=np.float32)
                     example_action_probs[best_reducer_i] = 1.
                     examples.append(
-                        (node.state, example_action_probs, node.distance/depth))
+                        (node.state, example_action_probs, 1-node.distance/depth))
                     node = node.connections_reducing[best_reducer_i]
                 lens.append(thelen)
                 # print(node)
