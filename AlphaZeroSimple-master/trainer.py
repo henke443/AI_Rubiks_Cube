@@ -23,12 +23,13 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
+        state = self.game \
+            .get_init_board(self.step, self.args['numIters'])  # added
+
         while True:
-            state = self.game \
-                .get_init_board(self.step, self.args['numIters'])  # added
 
             self.mcts = MCTS(self.game, self.model, self.args)
-            root = self.mcts.run(self.model, copy.copy(state))
+            root = self.mcts.run(self.model, state)
 
             # state = self.game \
             #    .get_init_board(self.step, self.args['numIters'])  # added
@@ -43,8 +44,6 @@ class Trainer:
             action = root.select_action(temperature=0)
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
-
-            print("reward:", reward)
 
             if reward is not None:
                 print("reward is not none, should end episode")
