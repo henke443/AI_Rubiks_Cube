@@ -7,7 +7,7 @@ class RubiksGame:
 
     def __init__(self):
         self.env = env.RubiksEnv(
-            moves_per_step=2, n_scramble_moves=1, obs_dim="flat")
+            moves_per_step=1, n_scramble_moves=1, obs_dim="flat")
         self.env.steps = 1
         self.env.total_steps = 10000
         self.env.reset(fixed_extra_scrambles=-1)

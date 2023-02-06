@@ -169,16 +169,16 @@ class RubiksEnv(gym.Env):
         # score = speed * 0.1 + (1-distance) * 0.9
         # score = 1-distance  # score of 1 when distance is 0 = solved
 
-        if hasattr(self, "_scramble_distance"):
-            pass
-            # Remove scramble_distance from score
-            # if scramble is solved (scramble_distance = 0)
-            # and score is 1, then remove 1 and score is 0
-            # score = score - (1-self._scramble_distance)
-            # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
-            # score = max(0, min(1, score))
+        # if hasattr(self, "_scramble_distance"):
+        #    pass
+        # Remove scramble_distance from score
+        # if scramble is solved (scramble_distance = 0)
+        # and score is 1, then remove 1 and score is 0
+        # score = score - (1-self._scramble_distance)
+        # Clip it between -1 and 1 (should already be the case but I tried before with 0 <= x <= 1)
+        # score = max(0, min(1, score))
 
-        score = 0
+        score = -1
         if distance == -1337:
             # score = 1
             scramble_moves = 1+self._extra_scramble_moves
