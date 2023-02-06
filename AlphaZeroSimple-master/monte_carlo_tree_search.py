@@ -132,7 +132,7 @@ class MCTS:
             # The value of the new state from the perspective of the other player
             value = self.game.get_reward(next_state)
 
-            if value is None and depth < self.max_depth:
+            if value is None:
                 # If the game has not ended:
                 # EXPAND
                 action_probs, value = model.predict(next_state)
