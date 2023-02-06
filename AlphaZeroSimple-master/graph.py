@@ -67,8 +67,9 @@ class RubiksExample:
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
         org_state = node.state
 
-        # action_probs, value = model.predict(state)
-
+        state = org_state
+        for i in range(0, 100):
+            state = self.cube.get_next_state(state, action)
         for action in range(0, 12):
 
             state = self.cube.get_next_state(org_state, action)
