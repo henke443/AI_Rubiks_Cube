@@ -112,6 +112,8 @@ class MCTS:
 
         for _ in range(self.args['num_simulations']):
 
+            value = None
+
             node = root
             search_path = [node]
 
