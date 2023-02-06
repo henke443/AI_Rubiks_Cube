@@ -42,8 +42,8 @@ class Trainer:
 
                 # print("state, action_probs", state, action_probs)
                 if len(node.children) == 0:
-                    print(
-                        "Reached a node with no children before we got a reward, so breaked.")
+                    # print(
+                    #    "Reached a node with no children before we got a reward, so breaked.")
                     break
 
                 action_probs = [0 for _ in range(self.game.get_action_size())]
@@ -53,7 +53,7 @@ class Trainer:
 
                 action_probs = action_probs / np.sum(action_probs)
 
-                print("actprobs and sum", action_probs, np.sum(action_probs))
+                # print("actprobs and sum", action_probs, np.sum(action_probs))
                 train_examples.append((state, action_probs))
 
                 action = node.select_action(temperature=0)
