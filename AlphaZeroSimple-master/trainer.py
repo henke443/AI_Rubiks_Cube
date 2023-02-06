@@ -64,8 +64,8 @@ class Trainer:
                 # print("state now:", state)
                 reward = self.game.get_reward(next_state)
                 if reward is None and len(node.children) == 0:
-                    print(
-                        "Didn't get a reward and no children on current node, breaked")
+                    # print(
+                    #    "Didn't get a reward and no children on current node, breaked")
                     break
 
                     # print("action, next state, reward", action, state, reward)
