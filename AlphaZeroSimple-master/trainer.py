@@ -44,6 +44,9 @@ class Trainer:
             train_examples.append((state, action_probs))
 
             print("state, action_probs", state, action_probs)
+            if len(node.children) == 0:
+                print("Reached a node with no children before we got a reward so fail.")
+                continue
             action = node.select_action(temperature=0)
             node = node.children[action]
             state = self.game.get_next_state(state, action)
