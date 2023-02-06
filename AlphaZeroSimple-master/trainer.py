@@ -5,6 +5,7 @@ from random import shuffle
 import torch
 import torch.optim as optim
 import copy
+import graph
 
 from monte_carlo_tree_search import MCTS
 
@@ -16,69 +17,11 @@ class Trainer:
         self.model = model
         self.args = args
         self.mcts = MCTS(self.game, self.model, self.args)
+        self.graph = graph.RubiksExample()
         self.step = 0
 
     def execute_episode(self):
-
-        train_examples = []
-        # state = self.game.get_init_board()
-
-        # state = self.game.env.reset(fixed_scramble_moves=-1)
-        # state = self.game.env._get_obs()
-        while True:
-            root_state = self.game \
-                .get_init_board()  # self.step, self.args['numIters'])  # added
-            # print("New init gameboard", root_state)
-
-            state = root_state
-            self.mcts = MCTS(self.game, self.model, self.args)
-            root = self.mcts.run(self.model, state)
-            node = root
-
-            for n in range(0, 20):
-
-                # print("state, action_probs", state, action_probs)
-                if len(node.children) == 0:
-                    # print(
-                    #    "Reached a node with no children before we got a reward, so breaked.")
-                    break
-
-                action_probs = [0 for _ in range(self.game.get_action_size())]
-
-                for k, v in node.children.items():
-                    action_probs[k] = v.visit_count
-
-                action_probs = action_probs / np.sum(action_probs)
-
-                # print("actprobs and sum", action_probs, np.sum(action_probs))
-                train_examples.append((state, action_probs))
-
-                action = node.select_action(temperature=0)
-                node = node.children[action]
-                # print("state b4 action:", action, state)
-                # print(n, "node", node)
-                # print(n, "a", action)
-                # print(n, "s1", state)
-
-                next_state = self.game.get_next_state(state, action)
-                # print("state now:", state)
-                reward = self.game.get_reward(next_state)
-                if reward is None and len(node.children) == 0:
-                    # print(
-                    #    "Didn't get a reward and no children on current node, breaked")
-                    break
-
-                    # print("action, next state, reward", action, state, reward)
-                    # print(n, "s2", state)
-                if reward is not None:
-                    print(
-                        f"end episode: total_moves({self.game.env.cube.total_moves}) action({action}) reward({reward})")
-                    ret = []
-                    for hist_state, hist_action_probs in train_examples:
-                        # [Board, actionProbabilities, Reward]
-                        ret.append((hist_state, hist_action_probs, reward))
-
-                    return ret
+        return self.graph.generate()
 
     def learn(self):
         for i in range(1, self.args['numIters'] + 1):
