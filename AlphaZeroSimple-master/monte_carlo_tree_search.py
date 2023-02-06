@@ -133,11 +133,15 @@ class MCTS:
             if value is None:
                 # If the game has not ended:
                 # EXPAND
+                old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
-                valid_moves = self.game.get_valid_moves(next_state)
-                action_probs = action_probs * valid_moves  # mask invalid moves
-                action_probs /= np.sum(action_probs)
-                node.expand(next_state, action_probs)
+                if len(search_path) < self.max_depth:
+                    valid_moves = self.game.get_valid_moves(next_state)
+                    action_probs = action_probs * valid_moves  # mask invalid moves
+                    action_probs /= np.sum(action_probs)
+                    node.expand(next_state, action_probs)
+                else:
+                    action_probs = old_action_probs
 
             self.backpropagate(search_path, value)
 
