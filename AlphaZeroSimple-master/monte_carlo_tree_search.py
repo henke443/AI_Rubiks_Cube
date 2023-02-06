@@ -136,6 +136,7 @@ class MCTS:
             value = self.game.get_reward(next_state)
             # nextcopy = copy.copy(next_state)
 
+            """
             if value is not None:
                 print("Value:", value)
                 print("Solved once, parent state, action:", parent.state, action)
@@ -146,6 +147,8 @@ class MCTS:
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
                 print("resulting state:", next_state, "\n")
+
+            """
 
             if value is None:
                 # If the game has not ended:
