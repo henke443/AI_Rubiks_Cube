@@ -143,8 +143,8 @@ class MCTS:
                 else:
                     action_probs = old_action_probs
                     value = 0
-            # else:
-                # print("1")
+            else:
+                print("1")
 
             self.backpropagate(search_path, value)
 
