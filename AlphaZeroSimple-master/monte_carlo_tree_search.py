@@ -136,17 +136,16 @@ class MCTS:
             value = self.game.get_reward(next_state)
             # nextcopy = copy.copy(next_state)
 
-            # if value is not None:
-            # print("Value:", value)
-            #    print("Solved once, parent state, action:", parent.state, action)
+            if value is not None:
+                print("Value:", value)
+                print("Solved once, parent state, action:", parent.state, action)
 
-            #    actions = [[ac, child.visit_count, child.prior, child.value_sum]
-            #               for ac, child in parent.children.items()]
-            #    print("Parent probs:\n", actions)
-            #    print("Parent would choose:",
-            #          parent.select_action(temperature=0))
-            #    print("resulting state:", next_state, "\n")
-            # print("copy of resulting state:", nextcopy, "\n")
+                actions = [[ac, child.visit_count, child.prior, child.value_sum]
+                           for ac, child in parent.children.items()]
+                print("Parent probs:\n", actions)
+                print("Parent would choose:",
+                      parent.select_action(temperature=0))
+                print("resulting state:", next_state, "\n")
 
             if value is None:
                 # If the game has not ended:
