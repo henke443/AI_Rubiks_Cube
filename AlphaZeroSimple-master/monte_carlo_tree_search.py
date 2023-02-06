@@ -94,7 +94,7 @@ class MCTS:
         self.game = game
         self.model = model
         self.args = args
-        self.max_depth = 20
+        self.max_depth = 10
 
     def run(self, model, state):
 
@@ -109,6 +109,7 @@ class MCTS:
 
         # print("MCTS simulation started, root:", root)
 
+        depth = 0
         for _ in range(self.args['num_simulations']):
 
             node = root
@@ -134,14 +135,16 @@ class MCTS:
                 # If the game has not ended:
                 # EXPAND
                 action_probs, value = model.predict(next_state)
+                valid_moves = self.game.get_valid_moves(next_state)
+                action_probs = action_probs * valid_moves  # mask invalid moves
+                action_probs /= np.sum(action_probs)
+                node.expand(next_state, action_probs)
+            else:
+                if depth >= self.max_depth:
+                    value = 0
 
-                if len(search_path) < self.max_depth:
-                    valid_moves = self.game.get_valid_moves(next_state)
-                    action_probs = action_probs * valid_moves  # mask invalid moves
-                    action_probs /= np.sum(action_probs)
-                    node.expand(next_state, action_probs)
-
-        self.backpropagate(search_path, value)
+            self.backpropagate(search_path, value)
+            self.depth += 1
 
         # print("mcts run ended")
         return root
