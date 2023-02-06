@@ -109,14 +109,15 @@ class MCTS:
 
         # print("MCTS simulation started, root:", root)
 
-        depth = 0
         for _ in range(self.args['num_simulations']):
 
             node = root
             search_path = [node]
 
+            depth = 0
             # SELECT
-            while node.expanded():
+            while node.expanded() and depth < self.max_depth:
+                depth += 1
                 action, node = node.select_child()
                 search_path.append(node)
 
@@ -141,7 +142,6 @@ class MCTS:
                 node.expand(next_state, action_probs)
             elif value is not None:
                 self.backpropagate(search_path, value)
-            depth += 1
 
         # print("mcts run ended")
         return root
