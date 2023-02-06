@@ -31,29 +31,21 @@ class Trainer:
         state = self.game \
             .get_init_board(self.step, self.args['numIters'])  # added
 
-        while True:
-            tries += 1
+        self.mcts = MCTS(self.game, self.model, self.args)
+        node = self.mcts.run(self.model, state)
 
-            if tries > max_tries:
-                state = self.game \
-                    .get_init_board(self.step, self.args['numIters'])  # added
-                print("resetted state:", state)
-                # print("should be same as:", self.game.env.cube._data)
-
-                tries = 0
-
-            self.mcts = MCTS(self.game, self.model, self.args)
-            root = self.mcts.run(self.model, state)
+        for n in range(0, 20):
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
-            for k, v in root.children.items():
+            for k, v in node.children.items():
                 action_probs[k] = v.visit_count
 
             action_probs = action_probs / np.sum(action_probs)
             train_examples.append((state, action_probs))
 
             print("state, action_probs", state, action_probs)
-            action = root.select_action(temperature=0)
+            action = node.select_action(temperature=0)
+            node = node.children[action]
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
             print("action, next state, reward", action, state, reward)
