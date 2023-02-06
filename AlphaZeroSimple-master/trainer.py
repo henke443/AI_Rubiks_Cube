@@ -40,6 +40,8 @@ class Trainer:
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
 
+            print("reward:", reward)
+
             if reward is not None:
                 print("reward is not none, should end episode")
                 ret = []
