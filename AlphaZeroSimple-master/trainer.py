@@ -26,6 +26,8 @@ class Trainer:
         max_tries = 2
         tries = 0
 
+        # state = self.game.env.reset(fixed_scramble_moves=-1)
+        # state = self.game.env._get_obs()
         state = self.game \
             .get_init_board(self.step, self.args['numIters'])  # added
 
@@ -39,9 +41,10 @@ class Trainer:
                 print("should be same as:", self.game.env.cube._data)
 
                 tries = 0
-
+            print("state b4:", state)
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
+            print("state after:", state)
 
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in root.children.items():
