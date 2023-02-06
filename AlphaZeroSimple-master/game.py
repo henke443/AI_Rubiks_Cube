@@ -17,6 +17,7 @@ class RubiksGame:
         print("correct state:", self.correct_state)
 
     def get_init_board(self, step=None, total_steps=None):
+        self.env.cube.total_moves = 0
         if not step:
             self.env._load_obs(self.correct_state)
             self.env.reset(fixed_extra_scrambles=0)
