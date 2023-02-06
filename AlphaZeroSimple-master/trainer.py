@@ -40,7 +40,11 @@ class Trainer:
 
                 action_probs = [0 for _ in range(self.game.get_action_size())]
                 for k, v in node.children.items():
-                    action_probs[k] = v.visit_count if v.visit_count > 0 and v.visit_count is not None else 0
+                    action_probs[k] = v.visit_count \
+                        if v.visit_count > 0 \
+                        and v.visit_count is not None \
+                        and not np.isnan(v.visit_count) \
+                        else 0
 
                 if np.isnan(np.sum(action_probs)):
                     print("isnan had NaNs so skip?")
