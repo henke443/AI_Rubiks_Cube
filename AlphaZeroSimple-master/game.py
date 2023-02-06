@@ -42,9 +42,10 @@ class RubiksGame:
     def get_action_size(self):
         return self.env.action_space.n
 
-    def get_next_state(self, state, action):
+    def get_next_state(self, state, action, total_moves=0):
         before_data = self.env._get_obs()
         self.env._load_obs(state)
+        self.env.cube.total_moves = 0
         self.env.cube.moves(self.env._discrete_action_to_action(action))
         to_return = self.env._get_obs()
         self.env._load_obs(before_data)
