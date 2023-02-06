@@ -95,7 +95,7 @@ class MCTS:
         self.game = game
         self.model = model
         self.args = args
-        self.max_depth = 5
+        self.max_depth = 2
 
     def run(self, model, state):
 
