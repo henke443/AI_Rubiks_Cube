@@ -140,8 +140,7 @@ class MCTS:
 
                 actions = [[ac, child.visit_count, child.prior, child.value_sum]
                            for ac, child in parent.children.items()]
-                print("Parent probs:\n", "Action",
-                      actions[0], "visits", actions[1], "prior", actions[2], "value sum", actions[3])
+                print("Parent probs:\n", actions)
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
                 # print("resulting state:", next_state, "\n")
