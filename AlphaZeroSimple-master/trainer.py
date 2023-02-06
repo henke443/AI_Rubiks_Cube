@@ -52,11 +52,15 @@ class Trainer:
                 action = node.select_action(temperature=0)
                 node = node.children[action]
                 # print("state b4 action:", action, state)
+                print("node", node)
+                print("a", action)
+                print("s1", state)
+
                 state = self.game.get_next_state(state, action)
                 # print("state now:", state)
                 reward = self.game.get_reward(state)
                 # print("action, next state, reward", action, state, reward)
-
+                print("s2", state)
                 if reward is not None:
                     print("reward is not none, or i == max_depth, should end episode")
                     ret = []
