@@ -59,6 +59,9 @@ class RubiksGame:
         before_data = self.env._get_obs()
         self.env._load_obs(state)
         score = self.env._get_info()["score"]
+        if score > 0:
+            print("s1, s2\n", state, "\n", self.env.cube._data)
+            print("score", score)
         self.env._load_obs(before_data)
         return score if score > 0 else None
 
