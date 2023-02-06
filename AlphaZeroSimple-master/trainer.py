@@ -28,9 +28,7 @@ class Trainer:
 
         # state = self.game.env.reset(fixed_scramble_moves=-1)
         # state = self.game.env._get_obs()
-        steps_with_no_completion = 0
         while True:
-
             print("New init gameboard")
             state = self.game \
                 .get_init_board()  # self.step, self.args['numIters'])  # added
