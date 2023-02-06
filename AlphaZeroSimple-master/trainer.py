@@ -50,7 +50,7 @@ class Trainer:
 
                 action_probs = action_probs / np.sum(action_probs)
 
-                print("actprobs and sum", action_probs, np.sum(action_probs))
+                # print("actprobs and sum", action_probs, np.sum(action_probs))
                 train_examples.append((state, action_probs))
 
                 action = node.select_action(temperature=0)
@@ -60,9 +60,9 @@ class Trainer:
                 # print(n, "a", action)
                 # print(n, "s1", state)
 
-                state = self.game.get_next_state(state, action)
+                next_state = self.game.get_next_state(state, action)
                 # print("state now:", state)
-                reward = self.game.get_reward(state)
+                reward = self.game.get_reward(next_state)
                 if reward is None and len(node.children) == 0:
                     print(
                         "Didn't get a reward and no children on current node, breaked")
