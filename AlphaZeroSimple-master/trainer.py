@@ -35,6 +35,8 @@ class Trainer:
             if tries > max_tries:
                 state = self.game \
                     .get_init_board(self.step, self.args['numIters'])  # added
+                print("resetted state:", state)
+
                 tries = 0
 
             self.mcts = MCTS(self.game, self.model, self.args)
