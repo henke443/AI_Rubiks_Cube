@@ -20,7 +20,7 @@ class RubiksGame:
         self.env.cube.total_moves = 0
         if not step:
             self.env._load_obs(self.correct_state)
-            self.env.reset(fixed_extra_scrambles=0)
+            self.env.reset(fixed_extra_scrambles=1)
         else:
             self.env._load_obs(self.correct_state)
             self.env.steps = step
