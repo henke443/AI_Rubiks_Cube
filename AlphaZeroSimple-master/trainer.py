@@ -42,7 +42,7 @@ class Trainer:
                 for k, v in node.children.items():
                     action_probs[k] = v.visit_count if v.visit_count > 0 and v.visit_count is not None else 0
 
-                if np.isnan(action_probs) or action_probs.any(np.isnan):
+                if np.isnan(np.sum(action_probs)):
                     print("isnan had NaNs so skip?")
                     break
 
