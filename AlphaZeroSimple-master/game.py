@@ -66,7 +66,7 @@ class RubiksGame:
             print("reward state\n", state)
             print("score", score)
         self.env._load_obs(before_data)
-        return score if score > 0 else None
+        return None if score <= 0 else 1
 
 
 if __name__ == "__main__":
