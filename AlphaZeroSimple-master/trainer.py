@@ -28,39 +28,41 @@ class Trainer:
 
         # state = self.game.env.reset(fixed_scramble_moves=-1)
         # state = self.game.env._get_obs()
-        state = self.game \
-            .get_init_board(self.step, self.args['numIters'])  # added
+        while True:
+            state = self.game \
+                .get_init_board(self.step, self.args['numIters'])  # added
 
-        self.mcts = MCTS(self.game, self.model, self.args)
-        node = self.mcts.run(self.model, state)
+            self.mcts = MCTS(self.game, self.model, self.args)
+            node = self.mcts.run(self.model, state)
 
-        for n in range(0, 20):
+            for n in range(0, 20):
 
-            action_probs = [0 for _ in range(self.game.get_action_size())]
-            for k, v in node.children.items():
-                action_probs[k] = v.visit_count
+                action_probs = [0 for _ in range(self.game.get_action_size())]
+                for k, v in node.children.items():
+                    action_probs[k] = v.visit_count
 
-            action_probs = action_probs / np.sum(action_probs)
-            train_examples.append((state, action_probs))
+                action_probs = action_probs / np.sum(action_probs)
+                train_examples.append((state, action_probs))
 
-            print("state, action_probs", state, action_probs)
-            if len(node.children) == 0:
-                print("Reached a node with no children before we got a reward so fail.")
-                continue
-            action = node.select_action(temperature=0)
-            node = node.children[action]
-            state = self.game.get_next_state(state, action)
-            reward = self.game.get_reward(state)
-            print("action, next state, reward", action, state, reward)
+                print("state, action_probs", state, action_probs)
+                if len(node.children) == 0:
+                    print(
+                        "Reached a node with no children before we got a reward so fail.")
+                    break
+                action = node.select_action(temperature=0)
+                node = node.children[action]
+                state = self.game.get_next_state(state, action)
+                reward = self.game.get_reward(state)
+                print("action, next state, reward", action, state, reward)
 
-            if reward is not None:
-                print("reward is not none, or i == max_depth, should end episode")
-                ret = []
-                for hist_state, hist_action_probs in train_examples:
-                    # [Board, actionProbabilities, Reward]
-                    ret.append((hist_state, hist_action_probs, reward))
+                if reward is not None:
+                    print("reward is not none, or i == max_depth, should end episode")
+                    ret = []
+                    for hist_state, hist_action_probs in train_examples:
+                        # [Board, actionProbabilities, Reward]
+                        ret.append((hist_state, hist_action_probs, reward))
 
-                return ret
+                    return ret
 
     def learn(self):
         for i in range(1, self.args['numIters'] + 1):
