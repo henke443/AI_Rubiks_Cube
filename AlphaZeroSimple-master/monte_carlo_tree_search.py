@@ -145,7 +145,7 @@ class MCTS:
                     value = 0
 
             self.backpropagate(search_path, value)
-            if value is not None:
+            if value > 0:
                 print("Solved once, parent state, action:", parent.state, action)
                 print("Parent would choose:",
                       parent.select_action(temperature=0))
