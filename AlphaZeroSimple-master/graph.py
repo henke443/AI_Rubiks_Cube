@@ -135,7 +135,7 @@ class RubiksExample:
 
         return path
 
-    def generate(self, depth=20, n=10):
+    def generate(self, depth=10, n=3):
         depth = depth + 1
 
         # Examples are a tuple of (state, action)
