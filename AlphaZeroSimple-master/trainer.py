@@ -29,6 +29,9 @@ class Trainer:
             self.mcts = MCTS(self.game, self.model, self.args)
             root = self.mcts.run(self.model, state)
 
+            state = self.game \
+                .get_init_board(self.step, self.args['numIters'])  # added
+
             action_probs = [0 for _ in range(self.game.get_action_size())]
             for k, v in root.children.items():
                 action_probs[k] = v.visit_count
