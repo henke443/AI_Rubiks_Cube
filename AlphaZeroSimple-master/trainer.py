@@ -72,7 +72,7 @@ class Trainer:
                     # print(n, "s2", state)
                 if reward is not None:
                     print(
-                        f"reward is not none ({reward}) or i == max_depth, should end episode")
+                        f"end episode: total_moves({self.game.env.cube.total_movesaction}) action({action}) reward({reward})")
                     ret = []
                     for hist_state, hist_action_probs in train_examples:
                         # [Board, actionProbabilities, Reward]
