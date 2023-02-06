@@ -116,7 +116,7 @@ class MCTS:
 
             # SELECT
             search_path_i = 0
-            while node.expanded() and search_path_i <= self.max_depth:
+            while node.expanded() and search_path_i < self.max_depth:
                 action, node = node.select_child()
                 search_path.append(node)
                 search_path_i += 1
@@ -137,7 +137,7 @@ class MCTS:
                 # EXPAND
                 old_action_probs = action_probs
                 action_probs, value = model.predict(next_state)
-                if len(search_path) < self.max_depth:
+                if len(search_path) < self.max_depth-1:
                     valid_moves = self.game.get_valid_moves(next_state)
                     action_probs = action_probs * valid_moves  # mask invalid moves
                     action_probs /= np.sum(action_probs)
