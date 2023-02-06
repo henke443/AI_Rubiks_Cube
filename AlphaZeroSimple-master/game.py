@@ -26,6 +26,7 @@ class RubiksGame:
             self.env.reset(fixed_extra_scrambles=1)
             if self.env._extra_scramble_moves > 0:
                 print("extra_scrambles:", self.env._extra_scramble_moves)
+        print("init board:", self.env.cube._data)
 
         return self.env._get_obs()
 

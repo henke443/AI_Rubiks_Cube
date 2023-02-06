@@ -38,7 +38,7 @@ class Trainer:
                 state = self.game \
                     .get_init_board(self.step, self.args['numIters'])  # added
                 print("resetted state:", state)
-                print("should be same as:", self.game.env.cube._data)
+                # print("should be same as:", self.game.env.cube._data)
 
                 tries = 0
 
