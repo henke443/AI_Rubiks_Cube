@@ -114,10 +114,8 @@ class MCTS:
             node = root
             search_path = [node]
 
-            depth = 0
             # SELECT
-            while node.expanded() and depth < self.max_depth:
-                depth += 1
+            while node.expanded():
                 action, node = node.select_child()
                 search_path.append(node)
 
@@ -136,12 +134,12 @@ class MCTS:
                 # If the game has not ended:
                 # EXPAND
                 action_probs, value = model.predict(next_state)
-                valid_moves = self.game.get_valid_moves(next_state)
-                action_probs = action_probs * valid_moves  # mask invalid moves
-                action_probs /= np.sum(action_probs)
-                node.expand(next_state, action_probs)
-            elif value is not None:
-                print(value)
+
+                if len(search_path) < self.max_depth:
+                    valid_moves = self.game.get_valid_moves(next_state)
+                    action_probs = action_probs * valid_moves  # mask invalid moves
+                    action_probs /= np.sum(action_probs)
+                    node.expand(next_state, action_probs)
 
         self.backpropagate(search_path, value)
 
