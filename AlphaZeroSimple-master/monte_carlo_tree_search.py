@@ -134,7 +134,7 @@ class MCTS:
             value = self.game.get_reward(next_state)
             # nextcopy = copy.copy(next_state)
 
-            if value > 0:
+            if value is not None:
                 print("Value:", value)
                 print("Solved once, parent state, action:", parent.state, action)
                 print("Parent would choose:",
