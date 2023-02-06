@@ -23,7 +23,9 @@ class Trainer:
         train_examples = []
         # state = self.game.get_init_board()
 
-        while True:
+        max_depth = 20
+
+        for i in range(0, max_depth+1):
 
             state = self.game \
                 .get_init_board(step=None, total_steps=None)  # self.args['numIters']
@@ -45,8 +47,8 @@ class Trainer:
             state = self.game.get_next_state(state, action)
             reward = self.game.get_reward(state)
 
-            if reward is not None:
-                print("reward is not none, should end episode")
+            if reward is not None or i == max_depth:
+                print("reward is not none, or i == max_depth, should end episode")
                 ret = []
                 for hist_state, hist_action_probs in train_examples:
                     # [Board, actionProbabilities, Reward]
