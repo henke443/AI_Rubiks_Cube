@@ -63,6 +63,8 @@ class RubiksExample:
         self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
+        self.depth = 40
+        self.depth += 1
 
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
         org_state = node.state
@@ -71,7 +73,7 @@ class RubiksExample:
         actions = []
         action_states = []
         state = org_state
-        for i in range(0, 20):
+        for i in range(0, self.depth):
             action_probs, value = self.model.predict(state)
             print("value", value)
             if value < 0.1:
@@ -171,8 +173,7 @@ class RubiksExample:
 
         return path
 
-    def generate(self, depth=40, n=5):
-        depth = depth + 1
+    def generate(self, n=5):
 
         # Examples are a tuple of (state, action)
         examples = []
@@ -180,9 +181,9 @@ class RubiksExample:
 
         for j in range(0, n):
 
-            path = self._build(depth)
+            path = self._build(self.depth)
 
-            for i in reversed(range(1, depth)):
+            for i in reversed(range(1, self.depth)):
                 # print("\n===================================\nAnd i:",
                 #      i, "=======================================")
                 node = path[i]
@@ -195,7 +196,7 @@ class RubiksExample:
                     example_action_probs = np.zeros((12,), dtype=np.float32)
                     example_action_probs[best_reducer_i] = 1.
                     examples.append(
-                        (node.state, example_action_probs, 1-node.distance/depth))
+                        (node.state, example_action_probs, 1-node.distance/self.depth))
                     node = node.connections_reducing[best_reducer_i]
                 lens.append(thelen)
                 # print(node)
