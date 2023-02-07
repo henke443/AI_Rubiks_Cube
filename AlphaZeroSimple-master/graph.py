@@ -76,7 +76,7 @@ class RubiksExample:
         for i in range(0, self.depth):
             action_probs, value = self.model.predict(state)
             # print("value", value)
-            if value < -0.3:
+            if value[0] < -0.3:
                 return
             # best_action = i
             # best_action_val = 0
