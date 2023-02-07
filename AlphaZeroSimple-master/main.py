@@ -14,7 +14,7 @@ def main():
 
         # Total number of training iterations
         # (outer loop of episodes, aka number of batches of numEps episodes)
-        'numIters': 500,
+        'numIters': 100,
 
         # Number of full games (episodes) to run during each iteration
         # (outer loop of MCTS, aka number of batches of num_simulations MCTS simulations)
@@ -24,6 +24,7 @@ def main():
         'num_simulations': 100,
 
         'numItersForTrainExamplesHistory': 20,
+
         # Number of epochs of training per iteration
         'epochs': 2,
         # location to save latest set of weights
