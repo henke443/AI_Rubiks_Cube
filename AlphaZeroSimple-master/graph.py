@@ -6,7 +6,11 @@ import numpy as np
 import binascii
 import copy
 
-import multiprocessing
+from torch.multiprocessing import Pool, Process, set_start_method
+try:
+    set_start_method('spawn')
+except RuntimeError:
+    pass
 
 
 def state_equals(s1, s2):
@@ -31,7 +35,7 @@ def generate(model, depth, n):
 
     instances = [RubiksExample(model, depth, 1) for _ in range(0, n)]
 
-    with multiprocessing.get_context('spawn').Pool(processes=8) as p:
+    with Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
 
         ret = []
