@@ -230,7 +230,7 @@ class RubiksExample:
         examples = []
         lens = []
 
-        for i in range(0, self.n_iters):
+        for iter in range(0, self.n_iters):
 
             path = self._build(self.depth)
 
@@ -254,7 +254,7 @@ class RubiksExample:
 
         # print("examples actions:", [x[1] for x in examples])
         # print("num examples:", len(examples))
-        if i % 20 == 0:
+        if iter % 20 == 0:
             print("episode doneness:", str((i/self.n_iters)*100)+"%")
             print("lens:", lens)
             print("vals:", [x[2] for x in examples])
