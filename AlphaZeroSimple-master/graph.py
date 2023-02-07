@@ -95,13 +95,13 @@ class RubiksExample:
                 break
 
         if terminated:
-            print("We actually managed to generate a terminal path:",
-                  len(actions), "instead of", node.distance)
 
             if len(actions) > node.distance:
                 return
-
-            print("And it was actually shorter!!!")
+            elif len(actions) < node.distance:
+                print("We actually managed to generate a terminal path:",
+                      len(actions), "instead of", node.distance)
+                print("And it was actually shorter!!!")
             p_len = len(path)
             for i, action in enumerate(actions):
 
