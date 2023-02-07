@@ -105,14 +105,18 @@ class RubiksExample:
 
             # rand_actions = np.random.permutation(12)[:3]
 
-            for i in range(0, 12):
-                # for i in rand_actions:
-                throw_away_state = state
-                throw_away_state = self.cube.get_next_state(state, i)
-                _, value = self.model.predict(throw_away_state)
-                if value[0] > best_action_val:
-                    action = i
-                    best_action_val = value[0]
+            if np.random.choice([True, False]):
+                action_probs, value = self.model.predict(state)
+                action = np.argmax(action_probs)
+            else:
+                for i in range(0, 12):
+                    # for i in rand_actions:
+                    throw_away_state = state
+                    throw_away_state = self.cube.get_next_state(state, i)
+                    _, value = self.model.predict(throw_away_state)
+                    if value[0] > best_action_val:
+                        action = i
+                        best_action_val = value[0]
 
             state = self.cube.get_next_state(state, action)
 
