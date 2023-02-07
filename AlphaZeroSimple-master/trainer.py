@@ -24,7 +24,8 @@ class Trainer:
 
     def execute_episode(self):
         pool = multiprocessing.get_context('spawn').Pool(
-            processes=3)
+            processes=8)
+
         ret_vals = pool.map(self.graph.generate, range(5))
         ret = []
         for ret_val in ret_vals:
