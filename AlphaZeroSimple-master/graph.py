@@ -121,12 +121,14 @@ class RubiksExample:
                 # If there's no best reducer then this action made the state solved
                 # Old node is the root node
                 #    node.reduces_into(action, best_reducer)
-        return
+        if self.step < 10:
+            return
+
         terminated = False
         actions = []
         action_states = []
         state = org_state
-        for i in range(0, self.depth):
+        for i in range(0, 20):
             # action_probs, value = self.model.predict(state)
             best_action_val = -1
             action = None  # np.argmax(action_probs)
@@ -134,8 +136,6 @@ class RubiksExample:
             #
 
             rand_actions = range(0, 12)
-            if self.step < 50:
-                return
             # if self.step < 30:
             #    rand_actions = np.random.permutation(12)[:4]
 
