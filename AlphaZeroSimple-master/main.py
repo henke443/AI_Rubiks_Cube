@@ -10,7 +10,7 @@ def main():
 
     args = {
         # batch_size of mcts simulations when training neural nets
-        'batch_size': 64,
+        'batch_size': 16,
 
         # Total number of training iterations
         # (outer loop of episodes, aka number of batches of numEps episodes)
