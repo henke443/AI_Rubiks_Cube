@@ -100,7 +100,7 @@ class RubiksExample:
             state = self.cube.get_next_state(org_state, action)
 
             best_reducer = None
-            best_reducer_distance = 1000
+            best_reducer_distance = node.distance
 
             for prev_node in reversed(self.path):
                 if prev_node.id != node.id:
