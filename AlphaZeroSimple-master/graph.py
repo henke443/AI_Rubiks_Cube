@@ -89,18 +89,19 @@ class RubiksExample:
                 terminated = True
                 break
 
-        for i, action in enumerate(actions):
-            for p in path:
-                if state_equals(p.state, action_states[i]):
-                    cur_node = node
-                    for x in range(0, i):
-                        new_node = Node(
-                            action_states[i], distance=len(actions))
+        if terminated:
+            for i, action in enumerate(actions):
+                for p in path:
+                    if state_equals(p.state, action_states[i]):
+                        cur_node = node
+                        for x in range(0, i):
+                            new_node = Node(
+                                action_states[i], distance=len(actions))
 
-                        cur_node.connect_to(actions[i], new_node)
-                        cur_node = new_node
-                        path.append(new_node)
-                    # node.connect_to()
+                            cur_node.connect_to(actions[i], new_node)
+                            cur_node = new_node
+                            path.append(new_node)
+                        # node.connect_to()
 
         """
         for action in range(0, 12):
