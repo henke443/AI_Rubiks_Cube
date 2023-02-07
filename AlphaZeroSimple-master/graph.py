@@ -31,9 +31,9 @@ def job(instance):
     return res
 
 
-def generate(model, depth, n):
+def generate(model, depth, n, step):
 
-    instances = [RubiksExample(model, depth, 1) for _ in range(0, n)]
+    instances = [RubiksExample(model, depth, 1, step) for _ in range(0, n)]
 
     with Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
@@ -84,12 +84,13 @@ class Node:
 
 
 class RubiksExample:
-    def __init__(self, model=None, depth=20, n_iters=1):
+    def __init__(self, model=None, depth=20, n_iters=1, step=0):
         self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
         self.depth = depth + 1
         self.n_iters = n_iters
+        self.step = step
 
     def connect_to_best_reducer(self, node: Node):
         org_state = node.state
@@ -103,13 +104,19 @@ class RubiksExample:
             best_action_val = -1
             action = None  # np.argmax(action_probs)
 
-            # rand_actions = np.random.permutation(12)[:3]
+            #
+
+            rand_actions = range(0, 12)
+            if self.step < 5:
+                return
+            if self.step < 10:
+                rand_actions = np.random.permutation(12)[:6]
 
             # if np.random.choice([True, False]):
             #    action_probs, value = self.model.predict(state)
             #    action = np.argmax(action_probs)
             # else:
-            for i in range(0, 12):
+            for i in rand_actions:
                 # for i in rand_actions:
                 throw_away_state = state
                 throw_away_state = self.cube.get_next_state(state, i)
