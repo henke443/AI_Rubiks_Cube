@@ -18,6 +18,8 @@ class RubiksModel(nn.Module):
         # self.fc0 = nn.Flatten(start_dim=observation_size)
         self.fc1 = nn.Linear(in_features=observation_size, out_features=1024)
         self.fc2 = nn.Linear(in_features=1024, out_features=1024)
+        self.fc3 = nn.Linear(in_features=1024, out_features=1024)
+        self.fc4 = nn.Linear(in_features=1024, out_features=1024)
 
         self.value_head = nn.Linear(in_features=1024, out_features=1)
 
@@ -26,6 +28,8 @@ class RubiksModel(nn.Module):
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        x = F.relu(self.fc4(x))
 
         value_logit = self.value_head(x)
 
