@@ -34,12 +34,12 @@ def generate(model, depth, n):
     with multiprocessing.get_context('spawn').Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
 
-    ret = []
-    for ret_val in ret_vals:
-        print("ret_val", ret_val)
-        ret.extend(ret_val)
+        ret = []
+        for ret_val in ret_vals:
+            print("ret_val", ret_val)
+            ret.extend(ret_val)
 
-    return ret
+        return ret
 
 
 def get_cancel_move(action):
