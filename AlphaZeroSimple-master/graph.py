@@ -27,8 +27,8 @@ def get_best_reducer_i(node: Node):
 
 
 def job(instance):
-    instance.generate()
-    return instance
+    res = instance.generate()
+    return res
 
 
 def generate(model, depth, n):
