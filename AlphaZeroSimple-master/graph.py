@@ -230,7 +230,7 @@ class RubiksExample:
         examples = []
         lens = []
 
-        for _ in range(0, self.n_iters):
+        for i in range(0, self.n_iters):
 
             path = self._build(self.depth)
 
@@ -254,9 +254,11 @@ class RubiksExample:
 
         # print("examples actions:", [x[1] for x in examples])
         # print("num examples:", len(examples))
-        # print("lens:", lens)
-        # print("vals:", [x[2] for x in examples])
-        # print("avg length:", sum(lens)/len(lens))
+        if i % 20 == 0:
+            print("episode doneness:", str((i/self.n_iters)*100)+"%")
+            print("lens:", lens)
+            print("vals:", [x[2] for x in examples])
+            print("avg length:", sum(lens)/len(lens))
 
         return examples
 
