@@ -234,7 +234,7 @@ class RubiksExample:
 
         path_copy = copy.copy(self.path)
         for n in path_copy:
-            self.connect_to_best_reducer(n, self.path)
+            self.connect_to_best_reducer(n)
 
         return self.path
 
