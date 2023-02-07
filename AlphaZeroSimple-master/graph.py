@@ -33,7 +33,8 @@ def job(instance):
 
 def generate(model, depth, n, step):
 
-    instances = [RubiksExample(model, depth, 1, step) for _ in range(0, n)]
+    instances = [RubiksExample(model, depth, np.floor(n/2), step)
+                 for _ in range(0, np.floor(n/2))]
 
     with Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
