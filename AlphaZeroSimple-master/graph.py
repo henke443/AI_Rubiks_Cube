@@ -33,8 +33,8 @@ def job(instance):
 
 def generate(model, depth, n, step):
 
-    instances = [RubiksExample(model, depth, int(np.floor(n/2)), step)
-                 for _ in range(0, int(np.floor(n/2)))]
+    instances = [RubiksExample(model, depth, 1, step)
+                 for _ in range(0, n)]
 
     with Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
@@ -255,11 +255,11 @@ class RubiksExample:
 
             # print("examples actions:", [x[1] for x in examples])
             # print("num examples:", len(examples))
-            if iter % 50 == 0:
-                print("episode doneness:", str((i/self.n_iters)*100)+"%")
-                print("lens:", lens)
-                print("vals:", [x[2] for x in examples])
-                print("avg length:", sum(lens)/len(lens))
+            # if iter % 50 == 0:
+            #    print("episode doneness:", str((i/self.n_iters)*100)+"%")
+            #    print("lens:", lens)
+            #    print("vals:", [x[2] for x in examples])
+            #    print("avg length:", sum(lens)/len(lens))
 
         return examples
 
