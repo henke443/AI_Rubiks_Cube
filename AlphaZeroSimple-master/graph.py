@@ -122,8 +122,6 @@ class RubiksExample:
                 # Old node is the root node
                 #    node.reduces_into(action, best_reducer)
 
-        return
-
         terminated = False
         actions = []
         action_states = []
