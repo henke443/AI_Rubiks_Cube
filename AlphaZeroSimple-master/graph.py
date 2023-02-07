@@ -147,7 +147,7 @@ class RubiksExample:
 
             for i, action in enumerate(actions):
                 new_node = Node(
-                    action_states[i], distance=len(actions))
+                    action_states[i], distance=len(actions)-i)
 
                 cur_node.reduces_into(actions[i], new_node)
                 cur_node = new_node
