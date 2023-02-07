@@ -107,10 +107,10 @@ class RubiksExample:
             #
 
             rand_actions = range(0, 12)
-            if self.step < 20:
-                return
             if self.step < 30:
-                rand_actions = np.random.permutation(12)[:4]
+                return
+            # if self.step < 30:
+            #    rand_actions = np.random.permutation(12)[:4]
 
             # if np.random.choice([True, False]):
             #    action_probs, value = self.model.predict(state)
