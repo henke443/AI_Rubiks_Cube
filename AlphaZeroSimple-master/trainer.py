@@ -47,7 +47,7 @@ class Trainer:
         pi_losses = []
         v_losses = []
 
-        print("Train started, examples:", examples)
+        print("Train started, examples len:", len(examples))
 
         for epoch in range(self.args['epochs']):
             self.model.train()
