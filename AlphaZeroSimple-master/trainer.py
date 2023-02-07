@@ -9,8 +9,6 @@ import graph
 
 from monte_carlo_tree_search import MCTS
 
-import multiprocessing
-
 
 class Trainer:
 
@@ -23,14 +21,7 @@ class Trainer:
         self.step = 0
 
     def execute_episode(self):
-        pool = multiprocessing.get_context('spawn').Pool(
-            processes=8)
-
-        ret_vals = pool.map(self.graph.generate, range(5))
-        ret = []
-        for ret_val in ret_vals:
-            ret.extend(ret_val)
-        return ret
+        return self.graph.generate()
 
     def learn(self):
         for i in range(1, self.args['numIters'] + 1):

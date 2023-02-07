@@ -6,6 +6,8 @@ import numpy as np
 import binascii
 import copy
 
+import multiprocessing
+
 
 def state_equals(s1, s2):
     return np.array_equal(s1, s2)
@@ -209,9 +211,20 @@ class RubiksExample:
 
         return path
 
-    def generate(self, seed=0):
+    def generate(self):
 
-        np.random.seed(np.random()+seed)
+        pool = multiprocessing.get_context('spawn').Pool(
+            processes=8)
+
+        ret_vals = pool.map(self._generate, range(5))
+        ret = []
+        for ret_val in ret_vals:
+            ret.extend(ret_val)
+
+    def _generate(self, seed=0):
+
+        np.random.seed(seed+np.random())
+
         # Examples are a tuple of (state, action)
         examples = []
         lens = []
