@@ -59,7 +59,7 @@ class Node:
 
 
 class RubiksExample:
-    def __init__(self, model=None, depth=25, n_iters=3):
+    def __init__(self, model=None, depth=25, n_iters=2):
         self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
