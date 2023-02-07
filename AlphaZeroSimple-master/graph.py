@@ -95,6 +95,35 @@ class RubiksExample:
     def connect_to_best_reducer(self, node: Node):
         org_state = node.state
 
+        for action in range(0, 12):
+
+            state = self.cube.get_next_state(org_state, action)
+
+            best_reducer = None
+            best_reducer_distance = 1000
+
+            for prev_node in reversed(self.path):
+                if prev_node.id != node.id:
+                    if state_equals(state, prev_node.state):
+                        if prev_node.distance < best_reducer_distance:
+                            best_reducer = prev_node
+
+            if best_reducer is not None and best_reducer.id != node.id:
+                node.reduces_into(action, best_reducer)
+                # reducers = best_reducer.connections_reducing
+                # best_reducer_i = get_best_reducer_i(best_reducer)
+
+                # if best_reducer_i > 0:
+                #    if reducers[best_reducer_i].id != node.id:
+                #        node.reduces_into(
+                #            best_reducer_i, reducers[best_reducer_i])
+                # else:
+                # If there's no best reducer then this action made the state solved
+                # Old node is the root node
+                #    node.reduces_into(action, best_reducer)
+
+        return
+
         terminated = False
         actions = []
         action_states = []
@@ -107,7 +136,7 @@ class RubiksExample:
             #
 
             rand_actions = range(0, 12)
-            if self.step < 30:
+            if self.step < 50:
                 return
             # if self.step < 30:
             #    rand_actions = np.random.permutation(12)[:4]
@@ -159,54 +188,6 @@ class RubiksExample:
                 cur_node.reduces_into(actions[i], new_node)
                 cur_node = new_node
                 self.path.append(new_node)
-
-            return
-            p_len = len(path)
-            for i, action in enumerate(actions):
-
-                for pi in range(0, p_len):
-                    p = path[pi]
-
-                    if state_equals(p.state, action_states[i]):
-                        # print("Yep it should work")
-                        cur_node = node
-                        for x in range(0, i):
-                            new_node = Node(
-                                action_states[i], distance=len(actions))
-
-                            cur_node.reduces_into(actions[i], new_node)
-                            cur_node = new_node
-                            path.append(new_node)
-                        # node.reduces_into()
-
-        """
-        for action in range(0, 12):
-
-            state = self.cube.get_next_state(org_state, action)
-
-            best_reducer = None
-            best_reducer_distance = 1000
-
-            for prev_node in reversed(path):
-                if prev_node.id != node.id:
-                    if state_equals(state, prev_node.state):
-                        if prev_node.distance < best_reducer_distance:
-                            best_reducer = prev_node
-
-            if best_reducer is not None and best_reducer.id != node.id:
-                node.reduces_into(action, best_reducer)
-                # reducers = best_reducer.connections_reducing
-                # best_reducer_i = get_best_reducer_i(best_reducer)
-
-                # if best_reducer_i > 0:
-                #    if reducers[best_reducer_i].id != node.id:
-                #        node.reduces_into(
-                #            best_reducer_i, reducers[best_reducer_i])
-                # else:
-                # If there's no best reducer then this action made the state solved
-                # Old node is the root node
-                #    node.reduces_into(action, best_reducer)
-        """
 
     def _build(self, depth):
         state = self.target_state
