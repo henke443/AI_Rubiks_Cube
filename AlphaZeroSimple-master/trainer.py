@@ -83,7 +83,7 @@ class Trainer:
 
             print()
             # print("Policy Loss", np.mean(pi_losses))
-            print("Value Loss", np.mean(v_losses))
+            print("Epoch", epoch, "Value Loss", np.mean(v_losses))
             # print("Examples:")
             # print(out_pi[0].detach())
            # print(target_pis[0])
