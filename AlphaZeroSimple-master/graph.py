@@ -99,9 +99,9 @@ class RubiksExample:
         action_states = []
         state = org_state
         for i in range(0, self.depth):
-            action_probs, value = self.model.predict(state)
-            best_action_val = value
-            action = np.argmax(action_probs)
+            # action_probs, value = self.model.predict(state)
+            best_action_val = 0
+            action = None  # np.argmax(action_probs)
 
             # rand_actions = np.random.permutation(12)[:3]
 
