@@ -95,9 +95,12 @@ class RubiksExample:
                 break
 
         if terminated:
+            print("We actually managed to generate a shorter path:",
+                  len(actions), "instead of", node.distance)
             for i, action in enumerate(actions):
                 for p in path:
                     if state_equals(p.state, action_states[i]):
+                        print("Yep it should work")
                         cur_node = node
                         for x in range(0, i):
                             new_node = Node(
