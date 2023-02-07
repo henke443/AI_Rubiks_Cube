@@ -67,6 +67,7 @@ class RubiksExample:
         self.n_iters = n_iters
 
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
+        return
         org_state = node.state
 
         terminated = False
