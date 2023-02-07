@@ -79,7 +79,7 @@ class RubiksExample:
             #    _, value = self.model.predict(state)
             #    best_action_val = value
 
-            action = action_probs[np.argmax(action_probs)]
+            action = np.argmax(action_probs)
             state = self.cube.get_next_state(state, action)
 
             action_states.append(state)
