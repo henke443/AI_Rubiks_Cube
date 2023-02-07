@@ -45,4 +45,4 @@ class RubiksModel(nn.Module):
         with torch.no_grad():
             pi, v = self.forward(observation)
 
-        return pi.data.cuda().numpy()[0], v.data.cuda().numpy()[0]
+        return pi.data.cpu().numpy()[0], v.data.cpu().numpy()[0]
