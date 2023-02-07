@@ -17,14 +17,14 @@ class RubiksModel(nn.Module):
         self.action_size = action_size
 
         # self.fc0 = nn.Flatten(start_dim=observation_size)
-        self.fc1 = nn.Linear(in_features=observation_size, out_features=512)
-        self.fc2 = nn.Linear(in_features=512, out_features=512)
+        self.fc1 = nn.Linear(in_features=observation_size, out_features=256)
+        self.fc2 = nn.Linear(in_features=256, out_features=256)
 
         # Two heads on our network
         self.action_head = nn.Linear(
-            in_features=512, out_features=self.action_size)
+            in_features=256, out_features=self.action_size)
 
-        self.value_head = nn.Linear(in_features=512, out_features=1)
+        self.value_head = nn.Linear(in_features=256, out_features=1)
 
         self.to(device)
 
