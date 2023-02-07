@@ -59,7 +59,7 @@ class Node:
 
 
 class RubiksExample:
-    def __init__(self, model=None, depth=20, n_iters=10):
+    def __init__(self, model=None, depth=20, n_iters=30):
         self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
@@ -105,8 +105,8 @@ class RubiksExample:
 
             if len(actions) < node.distance:
                 print("And it was actually shorter!!!")
-            # else:
-            #    return
+            else:
+                return
 
             p_len = len(path)
             for i, action in enumerate(actions):
