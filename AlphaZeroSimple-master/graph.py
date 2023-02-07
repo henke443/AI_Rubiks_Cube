@@ -59,12 +59,12 @@ class Node:
 
 
 class RubiksExample:
-    def __init__(self, model=None):
+    def __init__(self, model=None, depth=25, n_iters=3):
         self.model = model
         self.cube = game.RubiksGame()
         self.target_state = self.cube.correct_state
-        self.depth = 40
-        self.depth += 1
+        self.depth = depth + 1
+        self.n_iters = n_iters
 
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
         org_state = node.state
@@ -181,13 +181,13 @@ class RubiksExample:
 
         return path
 
-    def generate(self, n=5):
+    def generate(self):
 
         # Examples are a tuple of (state, action)
         examples = []
         lens = []
 
-        for j in range(0, n):
+        for _ in range(0, self.n_iters):
 
             path = self._build(self.depth)
 
