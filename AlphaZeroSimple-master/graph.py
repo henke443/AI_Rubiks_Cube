@@ -209,8 +209,9 @@ class RubiksExample:
 
         return path
 
-    def generate(self):
+    def generate(self, seed=0):
 
+        np.random.seed(np.random()+seed)
         # Examples are a tuple of (state, action)
         examples = []
         lens = []
