@@ -67,7 +67,6 @@ class RubiksExample:
         self.n_iters = n_iters
 
     def connect_to_best_reducer(self, node: Node, path: List[Node]):
-        return
         org_state = node.state
 
         terminated = False
@@ -81,7 +80,7 @@ class RubiksExample:
 
             # rand_actions = np.random.permutation(12)[:3]
 
-            for i in range(0, 12):
+            for i in range(0, 1):
                 # for i in rand_actions:
                 throw_away_state = state
                 throw_away_state = self.cube.get_next_state(state, i)
@@ -95,9 +94,10 @@ class RubiksExample:
             action_states.append(state)
             actions.append(action)
 
-            if state_equals(state, self.cube.correct_state):
-                terminated = True
-                break
+            if state[0] == self.cube.correct_state[0]:
+                if state_equals(state, self.cube.correct_state):
+                    terminated = True
+                    break
 
         if terminated:
 
