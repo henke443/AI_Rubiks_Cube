@@ -121,7 +121,7 @@ class RubiksExample:
                 # If there's no best reducer then this action made the state solved
                 # Old node is the root node
                 #    node.reduces_into(action, best_reducer)
-        if self.step < 10:
+        if self.step < 20:
             return
 
         terminated = False
