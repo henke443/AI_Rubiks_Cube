@@ -104,6 +104,8 @@ class RubiksExample:
 
             if len(actions) < node.distance:
                 print("And it was actually shorter!!!")
+            else:
+                return
 
             p_len = len(path)
             for i, action in enumerate(actions):
