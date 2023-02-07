@@ -39,6 +39,8 @@ def generate(model, depth, n):
         print("ret_val", ret_val)
         ret.extend(ret_val)
 
+    return ret
+
 
 def get_cancel_move(action):
     cancel_action = -1
