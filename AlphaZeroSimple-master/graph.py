@@ -75,16 +75,17 @@ class RubiksExample:
         state = org_state
         for i in range(0, self.depth):
             action_probs, value = self.model.predict(state)
-            # print("value", value)
-            if value[0] < -0.8:
-                return
-            # best_action = i
-            # best_action_val = 0
-            # for act in range(0, 12):
-            #    _, value = self.model.predict(state)
-            #    best_action_val = value
-
+            best_action_val = value
             action = np.argmax(action_probs)
+
+            for i in range(0, 12):
+                throw_away_state = state
+                throw_away_state = self.cube.get_next_state(state, i)
+                _, value = self.model.predict(throw_away_state)
+                if value[0] > best_action_val:
+                    action = i
+                    best_action_val = value[0]
+
             state = self.cube.get_next_state(state, action)
 
             action_states.append(state)
