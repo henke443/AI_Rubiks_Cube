@@ -23,10 +23,10 @@ def main():
         # Total number of MCTS simulations to run when deciding on a move to play
         'num_simulations': 100,
 
-        'numItersForTrainExamplesHistory': 10,
+        'numItersForTrainExamplesHistory': 20,
 
         # Number of epochs of training per iteration
-        'epochs': 30,
+        'epochs': 10,
         # location to save latest set of weights
         'checkpoint_path': 'latest.pth'
     }
