@@ -80,7 +80,7 @@ class RubiksExample:
 
             # rand_actions = np.random.permutation(12)[:3]
 
-            for i in range(0, 1):
+            for i in range(0, 12):
                 # for i in rand_actions:
                 throw_away_state = state
                 throw_away_state = self.cube.get_next_state(state, i)
