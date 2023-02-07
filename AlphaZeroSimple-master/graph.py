@@ -128,7 +128,7 @@ class RubiksExample:
         actions = []
         action_states = []
         state = org_state
-        for i in range(0, 20):
+        for i in range(0, self.depth):
             # action_probs, value = self.model.predict(state)
             best_action_val = -1
             action = None  # np.argmax(action_probs)
