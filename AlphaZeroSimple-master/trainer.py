@@ -17,7 +17,7 @@ class Trainer:
         self.model = model
         self.args = args
         self.mcts = MCTS(self.game, self.model, self.args)
-        self.graph = graph.RubiksExample()
+        self.graph = graph.RubiksExample(model=self.model)
         self.step = 0
 
     def execute_episode(self):
