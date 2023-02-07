@@ -4,6 +4,7 @@ from typing import List
 import game
 import numpy as np
 import binascii
+import copy
 
 
 def state_equals(s1, s2):
@@ -39,14 +40,13 @@ class Node:
         # self.value = 0
         self.distance = distance
 
-    def connect_to(self, action, node: Node):
-        if node.distance > self.distance:
-            # self.connections_expanding[action] = node
-            node.connections_reducing[get_cancel_move(action)] = self
-            node.distance = self.distance + 1
-        else:
+    def reduces_into(self, action, node: Node):
+        if node.distance < self.distance:
             self.connections_reducing[action] = node
             self.distance = node.distance + 1
+        else:
+            print("reduces into got called with node.distance > self.distance")
+            exit(1)
         # node.connections_expanding[get_cancel_move(action)] = self
 
     def __str__(self):
@@ -115,10 +115,10 @@ class RubiksExample:
                             new_node = Node(
                                 action_states[i], distance=len(actions))
 
-                            cur_node.connect_to(actions[i], new_node)
+                            cur_node.reduces_into(actions[i], new_node)
                             cur_node = new_node
                             path.append(new_node)
-                        # node.connect_to()
+                        # node.reduces_into()
 
         """
         for action in range(0, 12):
@@ -135,18 +135,18 @@ class RubiksExample:
                             best_reducer = prev_node
 
             if best_reducer is not None and best_reducer.id != node.id:
-                node.connect_to(action, best_reducer)
+                node.reduces_into(action, best_reducer)
                 # reducers = best_reducer.connections_reducing
                 # best_reducer_i = get_best_reducer_i(best_reducer)
 
                 # if best_reducer_i > 0:
                 #    if reducers[best_reducer_i].id != node.id:
-                #        node.connect_to(
+                #        node.reduces_into(
                 #            best_reducer_i, reducers[best_reducer_i])
                 # else:
                 # If there's no best reducer then this action made the state solved
                 # Old node is the root node
-                #    node.connect_to(action, best_reducer)
+                #    node.reduces_into(action, best_reducer)
         """
 
     def _build(self, depth):
@@ -172,7 +172,7 @@ class RubiksExample:
 
             new_node = Node(state, distance=i)
 
-            node.connect_to(action, new_node)
+            new_node.reduces_into(action, node)
 
             # Get's the best old reducing path from this state
             # connect_to_best_reducer(new_node, path, state, action)
@@ -180,7 +180,8 @@ class RubiksExample:
             node = new_node
             path.append(new_node)
 
-        for n in path:
+        org_path = copy.deepcopy(path)
+        for n in org_path:
             self.connect_to_best_reducer(n, path)
 
         return path
