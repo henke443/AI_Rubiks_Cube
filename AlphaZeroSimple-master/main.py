@@ -26,7 +26,7 @@ def main():
         'numItersForTrainExamplesHistory': 20,
 
         # Number of epochs of training per iteration
-        'epochs': 10,
+        'epochs': 30,
         # location to save latest set of weights
         'checkpoint_path': 'latest.pth'
     }
