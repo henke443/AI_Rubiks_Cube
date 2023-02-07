@@ -14,7 +14,7 @@ class RubiksGame:
 
         self.correct_state = copy.copy(self.env._solved_obs)
 
-        print("correct state:", self.correct_state)
+        # print("correct state:", self.correct_state)
 
     def get_init_board(self, step=None, total_steps=None):
         self.env.cube.total_moves = 0
