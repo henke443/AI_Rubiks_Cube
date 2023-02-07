@@ -36,7 +36,7 @@ def main():
     board_size = game.get_board_size()
     action_size = game.get_action_size()
 
-    model = RubiksModel(board_size, action_size, device)
+    model = RubiksModel(board_size, device)
 
     trainer = Trainer(game, model, args)
     trainer.learn()
