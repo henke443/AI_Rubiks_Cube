@@ -72,7 +72,9 @@ class RubiksExample:
         action_states = []
         state = org_state
         for i in range(0, 20):
-            action_probs, _ = self.model.predict(state)
+            action_probs, value = self.model.predict(state)
+            if value < 0.1:
+                return
             # best_action = i
             # best_action_val = 0
             # for act in range(0, 12):
