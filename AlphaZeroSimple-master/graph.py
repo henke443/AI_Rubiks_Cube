@@ -108,8 +108,8 @@ class RubiksExample:
 
             if len(actions) < node.distance:
                 print("And it was actually shorter!!!")
-            else:
-                return
+            # else:
+            #    return
 
             # p_lean = len(path)
 
