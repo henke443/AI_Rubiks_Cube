@@ -254,11 +254,11 @@ class RubiksExample:
 
             # print("examples actions:", [x[1] for x in examples])
             # print("num examples:", len(examples))
-            if iter % 20 == 0:
-                print("episode doneness:", str((i/self.n_iters)*100)+"%")
-                print("lens:", lens)
-                print("vals:", [x[2] for x in examples])
-                print("avg length:", sum(lens)/len(lens))
+            # if iter % 50 == 0:
+
+                # print("lens:", lens)
+                # print("vals:", [x[2] for x in examples])
+                # print("avg length:", sum(lens)/len(lens))
 
         return examples
 
