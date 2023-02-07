@@ -24,8 +24,11 @@ class Trainer:
 
     def execute_episode(self):
         pool = multiprocessing.Pool(processes=3)
-
-        return np.array(pool.map(self.graph.generate, range(5))).reshape((-1, 3))
+        ret_vals = pool.map(self.graph.generate, range(5))
+        ret = []
+        for ret_val in ret_vals:
+            ret.extend(ret_val)
+        return ret
 
     def learn(self):
         for i in range(1, self.args['numIters'] + 1):
