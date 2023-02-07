@@ -23,7 +23,7 @@ class Trainer:
         self.step = 0
 
     def execute_episode(self):
-        pool = multiprocessing.Pool(processes=3)
+        pool = multiprocessing.pool.ThreadPool(processes=8)
         ret_vals = pool.map(self.graph.generate, range(5))
         ret = []
         for ret_val in ret_vals:
