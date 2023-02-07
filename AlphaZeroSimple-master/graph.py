@@ -40,7 +40,6 @@ def generate(model, depth, n):
 
         ret = []
         for ret_val in ret_vals:
-            print("ret_val", ret_val)
             ret.extend(ret_val)
 
         return ret
