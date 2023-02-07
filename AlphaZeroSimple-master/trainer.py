@@ -21,7 +21,7 @@ class Trainer:
         self.step = 0
 
     def execute_episode(self):
-        return graph.generate(self.model, 30, 30)
+        return graph.generate(self.model, 25, 30)
 
     def learn(self):
         for i in range(1, self.args['numIters'] + 1):

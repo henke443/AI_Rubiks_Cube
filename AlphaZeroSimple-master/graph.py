@@ -268,7 +268,7 @@ class RubiksExample:
 
         # print("examples actions:", [x[1] for x in examples])
         print("num examples:", len(examples))
-        # print("lens:", lens)
+        print("lens:", lens)
         print("avg length:", sum(lens)/len(lens))
 
         return examples
