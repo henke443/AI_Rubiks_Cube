@@ -98,7 +98,9 @@ class RubiksExample:
             print("We actually managed to generate a shorter path:",
                   len(actions), "instead of", node.distance)
             for i, action in enumerate(actions):
-                for p in path:
+                p_len = len(path)
+                for pi in range(0, p_len):
+                    p = path[pi]
                     if state_equals(p.state, action_states[i]):
                         # print("Yep it should work")
                         cur_node = node
