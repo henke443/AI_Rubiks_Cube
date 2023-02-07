@@ -22,6 +22,24 @@ def get_best_reducer_i(node: Node):
     return -1
 
 
+def job(instance):
+    instance.generate()
+    return instance
+
+
+def generate(model, depth, n):
+
+    instances = [RubiksExample(model, depth, 1) for x in range(0, n)]
+
+    with multiprocessing.get_context('spawn').Pool(processes=8) as p:
+        ret_vals = p.map(job, instances)
+
+    ret = []
+    for ret_val in ret_vals:
+        print("ret_val", ret_val)
+        ret.extend(ret_val)
+
+
 def get_cancel_move(action):
     cancel_action = -1
     if action % 2 == 0:
@@ -211,18 +229,7 @@ class RubiksExample:
 
         return path
 
-    def generate(self):
-
-        pool = multiprocessing.get_context('spawn').Pool(
-            processes=8)
-
-        ret_vals = pool.map(self._generate, range(5))
-        ret = []
-        for ret_val in ret_vals:
-            print("ret_val", ret_val)
-            ret.extend(ret_val)
-
-    def _generate(self, seed=0):
+    def generate(self, seed=0):
 
         np.random.seed(seed+np.random())
 
@@ -261,6 +268,6 @@ class RubiksExample:
 
 
 if __name__ == "__main__":
-    r = RubiksExample()
-
-    r.generate()
+    depth = 25
+    n = 10
+    generate(depth, n)
