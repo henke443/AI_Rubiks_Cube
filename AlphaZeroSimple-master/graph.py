@@ -97,10 +97,13 @@ class RubiksExample:
         if terminated:
             print("We actually managed to generate a terminal path:",
                   len(actions), "instead of", node.distance)
+
+            p_len = len(path)
             for i, action in enumerate(actions):
-                p_len = len(path)
+
                 for pi in range(0, p_len):
                     p = path[pi]
+
                     if state_equals(p.state, action_states[i]):
                         # print("Yep it should work")
                         cur_node = node
