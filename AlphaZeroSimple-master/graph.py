@@ -29,7 +29,7 @@ def job(instance):
 
 def generate(model, depth, n):
 
-    instances = [RubiksExample(model, depth, 1) for x in range(0, n)]
+    instances = [RubiksExample(model, depth, 1) for _ in range(0, n)]
 
     with multiprocessing.get_context('spawn').Pool(processes=8) as p:
         ret_vals = p.map(job, instances)
@@ -230,8 +230,6 @@ class RubiksExample:
         return path
 
     def generate(self, seed=0):
-
-        np.random.seed(seed+np.random())
 
         # Examples are a tuple of (state, action)
         examples = []
