@@ -219,6 +219,7 @@ class RubiksExample:
         ret_vals = pool.map(self._generate, range(5))
         ret = []
         for ret_val in ret_vals:
+            print("ret_val", ret_val)
             ret.extend(ret_val)
 
     def _generate(self, seed=0):
