@@ -76,7 +76,7 @@ class RubiksExample:
         for i in range(0, self.depth):
             action_probs, value = self.model.predict(state)
             print("value", value)
-            if value < 0.1:
+            if value < -0.3:
                 return
             # best_action = i
             # best_action_val = 0
@@ -196,7 +196,7 @@ class RubiksExample:
                     example_action_probs = np.zeros((12,), dtype=np.float32)
                     example_action_probs[best_reducer_i] = 1.
                     examples.append(
-                        (node.state, example_action_probs, 1-node.distance/self.depth))
+                        (node.state, example_action_probs, 1-(node.distance/self.depth)*2))
                     node = node.connections_reducing[best_reducer_i]
                 lens.append(thelen)
                 # print(node)
