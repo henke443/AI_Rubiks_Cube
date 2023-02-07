@@ -100,7 +100,7 @@ class RubiksExample:
                         cur_node.connect_to(actions[i], new_node)
                         cur_node = new_node
                         path.append(new_node)
-                    node.connect_to()
+                    # node.connect_to()
 
         """
         for action in range(0, 12):
