@@ -41,7 +41,7 @@ class Node:
         self.distance = distance
 
     def reduces_into(self, action, node: Node):
-        if node.distance < self.distance:
+        if node.distance <= self.distance:
             self.connections_reducing[action] = node
             self.distance = node.distance + 1
         else:
