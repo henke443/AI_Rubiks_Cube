@@ -111,6 +111,19 @@ class RubiksExample:
             else:
                 return
 
+            # p_lean = len(path)
+
+            cur_node = node
+
+            for i, action in enumerate(actions):
+                new_node = Node(
+                    action_states[i], distance=len(actions))
+
+                cur_node.reduces_into(actions[i], new_node)
+                cur_node = new_node
+                path.append(new_node)
+
+            return
             p_len = len(path)
             for i, action in enumerate(actions):
 
