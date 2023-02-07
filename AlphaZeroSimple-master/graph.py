@@ -91,7 +91,7 @@ class RubiksExample:
         self.depth = depth + 1
         self.n_iters = n_iters
 
-    def connect_to_best_reducer(self, node: Node, path: List[Node]):
+    def connect_to_best_reducer(self, node: Node):
         org_state = node.state
 
         terminated = False
@@ -151,7 +151,7 @@ class RubiksExample:
 
                 cur_node.reduces_into(actions[i], new_node)
                 cur_node = new_node
-                path.append(new_node)
+                self.path.append(new_node)
 
             return
             p_len = len(path)
@@ -207,7 +207,7 @@ class RubiksExample:
 
         node = root
 
-        path = [node]
+        self.path = [node]
 
         for i in range(1, depth):
 
@@ -230,13 +230,13 @@ class RubiksExample:
             # connect_to_best_reducer(new_node, path, state, action)
 
             node = new_node
-            path.append(new_node)
+            self.path.append(new_node)
 
-        org_path = copy.deepcopy(path)
-        for n in org_path:
-            self.connect_to_best_reducer(n, path)
+        path_copy = copy.copy(self.path)
+        for n in path_copy:
+            self.connect_to_best_reducer(n, self.path)
 
-        return path
+        return self.path
 
     def generate(self, seed=0):
 
