@@ -44,7 +44,6 @@ class Trainer:
 
     def train(self, examples):
         optimizer = optim.Adam(self.model.parameters(), lr=5e-4)
-        pi_losses = []
         v_losses = []
 
         print("Train started, examples len:", len(examples))
@@ -59,21 +58,21 @@ class Trainer:
                     len(examples), size=self.args['batch_size'])
                 boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
                 boards = torch.FloatTensor(np.array(boards).astype(np.float64))
-                target_pis = torch.FloatTensor(np.array(pis))
+                # target_pis = torch.FloatTensor(np.array(pis))
                 target_vs = torch.FloatTensor(np.array(vs).astype(np.float64))
 
                 # predict
                 boards = boards.contiguous().cuda()
-                target_pis = target_pis.contiguous().cuda()
+                # target_pis = target_pis.contiguous().cuda()
                 target_vs = target_vs.contiguous().cuda()
 
                 # compute output
-                out_pi, out_v = self.model(boards)
-                l_pi = self.loss_pi(target_pis, out_pi)
+                out_v = self.model(boards)
+                # l_pi = self.loss_pi(target_pis, out_pi)
                 l_v = self.loss_v(target_vs, out_v)
-                total_loss = l_pi + l_v
+                total_loss = l_v
 
-                pi_losses.append(float(l_pi))
+                # pi_losses.append(float(l_pi))
                 v_losses.append(float(l_v))
 
                 optimizer.zero_grad()
@@ -83,11 +82,11 @@ class Trainer:
                 batch_idx += 1
 
             print()
-            print("Policy Loss", np.mean(pi_losses))
+            # print("Policy Loss", np.mean(pi_losses))
             print("Value Loss", np.mean(v_losses))
-            print("Examples:")
-            print(out_pi[0].detach())
-            print(target_pis[0])
+            # print("Examples:")
+            # print(out_pi[0].detach())
+           # print(target_pis[0])
 
     def loss_pi(self, targets, outputs):
         loss = -(targets * torch.log(outputs)).sum(dim=1)

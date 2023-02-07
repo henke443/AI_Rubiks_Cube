@@ -113,7 +113,7 @@ class RubiksExample:
                 # for i in rand_actions:
                 throw_away_state = state
                 throw_away_state = self.cube.get_next_state(state, i)
-                _, value = self.model.predict(throw_away_state)
+                value = self.model.predict(throw_away_state)
                 if value[0] > best_action_val:
                     action = i
                     best_action_val = value[0]
@@ -153,23 +153,23 @@ class RubiksExample:
                 cur_node = new_node
                 self.path.append(new_node)
 
-        return
-        p_len = len(path)
-        for i, action in enumerate(actions):
+            return
+            p_len = len(path)
+            for i, action in enumerate(actions):
 
-            for pi in range(0, p_len):
-                p = path[pi]
+                for pi in range(0, p_len):
+                    p = path[pi]
 
-                if state_equals(p.state, action_states[i]):
-                    # print("Yep it should work")
-                    cur_node = node
-                    for x in range(0, i):
-                        new_node = Node(
-                            action_states[i], distance=len(actions))
+                    if state_equals(p.state, action_states[i]):
+                        # print("Yep it should work")
+                        cur_node = node
+                        for x in range(0, i):
+                            new_node = Node(
+                                action_states[i], distance=len(actions))
 
-                        cur_node.reduces_into(actions[i], new_node)
-                        cur_node = new_node
-                        path.append(new_node)
+                            cur_node.reduces_into(actions[i], new_node)
+                            cur_node = new_node
+                            path.append(new_node)
                         # node.reduces_into()
 
         """
