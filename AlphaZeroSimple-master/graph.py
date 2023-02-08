@@ -105,10 +105,9 @@ class RubiksExample:
 
             for prev_node_i in range(0, n):
                 prev_node = self.path[prev_node_i]
-                if prev_node.id != node.id:
-                    if state_equals(state, prev_node.state):
-                        if prev_node.distance < best_reducer_distance:
-                            best_reducer = prev_node
+                if state_equals(state, prev_node.state):
+                    if prev_node.distance < best_reducer_distance:
+                        best_reducer = prev_node
 
             if best_reducer is not None and best_reducer.id != node.id:
                 node.reduces_into(action, best_reducer)
