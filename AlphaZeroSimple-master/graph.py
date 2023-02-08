@@ -93,7 +93,7 @@ class RubiksExample:
         self.n_iters = n_iters
         self.step = step
 
-    def connect_to_best_reducer(self, node: Node):
+    def connect_to_best_reducer(self, node: Node, n: int):
         org_state = node.state
 
         for action in range(0, 12):
@@ -103,7 +103,8 @@ class RubiksExample:
             best_reducer = None
             best_reducer_distance = node.distance
 
-            for prev_node in reversed(self.path):
+            for prev_node_i in range(0, n):
+                prev_node = self.path[prev_node_i]
                 if prev_node.id != node.id:
                     if state_equals(state, prev_node.state):
                         if prev_node.distance < best_reducer_distance:
@@ -111,19 +112,8 @@ class RubiksExample:
 
             if best_reducer is not None and best_reducer.id != node.id:
                 node.reduces_into(action, best_reducer)
-                # reducers = best_reducer.connections_reducing
-                # best_reducer_i = get_best_reducer_i(best_reducer)
 
-                # if best_reducer_i > 0:
-                #    if reducers[best_reducer_i].id != node.id:
-                #        node.reduces_into(
-                #            best_reducer_i, reducers[best_reducer_i])
-                # else:
-                # If there's no best reducer then this action made the state solved
-                # Old node is the root node
-                #    node.reduces_into(action, best_reducer)
-        if self.step < 20:
-            return
+        return
 
         terminated = False
         actions = []
@@ -220,8 +210,8 @@ class RubiksExample:
             self.path.append(new_node)
 
         path_copy = copy.copy(self.path)
-        for n in path_copy:
-            self.connect_to_best_reducer(n)
+        for i, n in reversed(enumerate(path_copy)):
+            self.connect_to_best_reducer(n, i)
 
         return self.path
 
