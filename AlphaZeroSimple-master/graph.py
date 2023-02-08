@@ -209,7 +209,7 @@ class RubiksExample:
             self.path.append(new_node)
 
         path_copy = copy.copy(self.path)
-        for i in enumerate(path_copy):
+        for i in range(0, len(path_copy)):
             self.connect_to_best_reducer(self.path[i], i)
 
         return self.path
